@@ -62,3 +62,9 @@
 .combat-number.miss{color:#eee1c8;font-size:20px;letter-spacing:2px}
 .unit-exit-ghost .unit-heal-sweep,.unit-exit-ghost .unit-shield-gain{display:none}
 @media(prefers-reduced-motion:reduce){.unit .unit-heal-sweep,.unit .unit-shield-gain{opacity:0!important}.combat-number.miss{transform:translateX(-50%)!important;opacity:1!important}#cast{scale:1!important;filter:none!important}}
+/* Direct pre-battle arrangement; click still opens details. */
+.unit.prebattle-draggable{cursor:grab;user-select:none;-webkit-user-select:none}
+.unit.battle-dragging{opacity:.35;cursor:grabbing}
+.unit.battle-drag-ghost{position:fixed;inset:auto;margin:0;padding:0;box-sizing:border-box;z-index:1000;pointer-events:none;min-width:0;max-width:none;min-height:0;max-height:none;grid-column:auto!important;grid-row:auto!important;transform:none!important;transition:none!important;animation:none!important;opacity:.92;cursor:grabbing;box-shadow:0 12px 28px #0008}
+.battle-drag-ghost::backdrop{background:transparent;pointer-events:none}
+.battle-drop-target{outline:2px solid #c6ac7d;outline-offset:-3px}

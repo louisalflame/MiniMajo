@@ -1,6 +1,6 @@
 # 正式遊戲素材
 
-目前共 186 張圖片：62 張角色卡／詳情圖、124 張 UI 圖。固定設定仍以角色檔名或圖案相對路徑引用。
+目前共 218 張圖片：62 張角色卡／詳情圖、156 張 UI 圖。固定設定仍以角色檔名或圖案相對路徑引用。
 
 | 目錄 | 用途 |
 |---|---|
@@ -17,6 +17,7 @@
 | ui/map/ | 地板、場景與事件立板 |
 | ui/status-icons/v1/ | 狀態圖案；manifest.json 保存 ID、檔名與採用雜湊供驗證 |
 | ui/ultimate-icons/v1/ | 16 枚已授權極式圖案；manifest.json 可查圖案檔名 |
+| ui/law-icons/v1/ | 32 枚 B 風格法則符文，01-law.png～32-law.png；manifest.json 記錄法則 ID、來源裁切及雜湊 |
 
 執行 node tools/audit-assets.cjs 更新 [素材清單](manifest.json) 與 [盤點](../docs/maintenance/asset-audit.json)，檢查固定資料與 CSS 圖片引用。動態引用需以瀏覽器補驗證，不以「找不到字面引用」自動刪圖。
 

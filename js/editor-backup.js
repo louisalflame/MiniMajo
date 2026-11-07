@@ -10,7 +10,7 @@
   for(const k of Object.keys(keys))if(!Object.hasOwn(d,k))warnings.push(k+'：備份缺少此區，使用此區的預設值。');
   try{
    const statuses=R.statuses(d.statuses??{version:1,statuses:T.defaults},warnings);T.configure(statuses);
-   const characters=R.characters(d.characters,warnings),skills=R.skills(d.skills,warnings),laws=R.laws(d.laws,warnings),enemies=R.enemies(d.enemies,warnings,characters.items),map=R.map(d.map,warnings),capacity=R.capacity(d.capacity,warnings),config=R.config(d.config,warnings,characters.items),echo=R.echo(d.echo,warnings);
+   const characters=R.characters(d.characters,warnings),skills=R.skills(d.skills,warnings),laws=R.laws(d.laws,warnings),enemies=R.enemies(d.enemies,warnings,characters.items,skills.skills),map=R.map(d.map,warnings),capacity=R.capacity(d.capacity,warnings),config=R.config(d.config,warnings,characters.items),echo=R.echo(d.echo,warnings);
    enemies.teams.forEach(t=>E.formation(t,characters.items));H.generate(map.radius,map.seed,map.rules);
    return {file:{format:'minimajo-editor',version:1,schema,data:{config,characters,skills,statuses,laws,enemies,map,capacity,echo}},warnings};
   }finally{T.configure(previous);}

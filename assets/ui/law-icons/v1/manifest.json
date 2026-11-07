@@ -1,0 +1,912 @@
+{
+  "status": "adopted 2026-11-07; formally applied to saved law imagePath",
+  "method": "Built-in image_gen background removal; equal 4x4 cell crop, alpha>=24 bounds plus 3px guard, preserve all pixels within bounds, fit to 208px on transparent 256px canvas.",
+  "sources": [
+    {
+      "file": "b-runes-batch1-alpha-v1.png",
+      "sha256": "c1b5d583822222aa2db71b5ffc5d708d48875e7e17fc1fdb7f05bdf71a2f7544"
+    },
+    {
+      "file": "b-runes-batch2-alpha-v1.png",
+      "sha256": "c0b0cacdb26677f70936a482a90b981c065939c5552df123dda3e1e3893e526c"
+    }
+  ],
+  "files": [
+    {
+      "lawId": "law-1792605160339-8otlr",
+      "name": "傷害法則",
+      "batch": 1,
+      "row": 1,
+      "column": 1,
+      "file": "01-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 0,
+        "top": 0,
+        "width": 314,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 65,
+        "top": 65,
+        "width": 205,
+        "height": 233
+      },
+      "sha256": "3d9c5e7892aca7d597b4d7383d77d82f9e534834548181faf18a7643b06cc74b",
+      "formalPath": "assets/ui/law-icons/v1/01-law.png",
+      "extractedFromFile": "01-law-1792605160339-8otlr.png"
+    },
+    {
+      "lawId": "law-1792605268896-nbulh",
+      "name": "治癒法則",
+      "batch": 1,
+      "row": 1,
+      "column": 2,
+      "file": "02-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 314,
+        "top": 0,
+        "width": 313,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 383,
+        "top": 59,
+        "width": 177,
+        "height": 240
+      },
+      "sha256": "b3e76c2d4a35666a2d66bf0ce17deeaa214e368a1bc19c2cb057e651ace6a147",
+      "formalPath": "assets/ui/law-icons/v1/02-law.png",
+      "extractedFromFile": "02-law-1792605268896-nbulh.png"
+    },
+    {
+      "lawId": "law-1792605320068-ynu11",
+      "name": "守護法則",
+      "batch": 1,
+      "row": 1,
+      "column": 3,
+      "file": "03-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 627,
+        "top": 0,
+        "width": 314,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 690,
+        "top": 64,
+        "width": 182,
+        "height": 230
+      },
+      "sha256": "81fe200954ffd1edb40fc5780d5b3b0b1ef0b722d2571a8f9c3e7d48966a0324",
+      "formalPath": "assets/ui/law-icons/v1/03-law.png",
+      "extractedFromFile": "03-law-1792605320068-ynu11.png"
+    },
+    {
+      "lawId": "law-1793209746957-7czl4",
+      "name": "急速法則",
+      "batch": 1,
+      "row": 1,
+      "column": 4,
+      "file": "04-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 941,
+        "top": 0,
+        "width": 313,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 975,
+        "top": 67,
+        "width": 222,
+        "height": 213
+      },
+      "sha256": "c26380f0fb310636fca91b45d187a2922ae81e0b1b9c463cd5094ca289b2d834",
+      "formalPath": "assets/ui/law-icons/v1/04-law.png",
+      "extractedFromFile": "04-law-1793209746957-7czl4.png"
+    },
+    {
+      "lawId": "law-1793209790067-4u0r6",
+      "name": "生命法則",
+      "batch": 1,
+      "row": 2,
+      "column": 1,
+      "file": "05-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 0,
+        "top": 314,
+        "width": 314,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 58,
+        "top": 351,
+        "width": 219,
+        "height": 249
+      },
+      "sha256": "9387cd4de7f4d88a289c58d2878758e9d5151b7dd8303bc84289c7ed02b74871",
+      "formalPath": "assets/ui/law-icons/v1/05-law.png",
+      "extractedFromFile": "05-law-1793209790067-4u0r6.png"
+    },
+    {
+      "lawId": "law-1793209849204-w8fsr",
+      "name": "均衡法則",
+      "batch": 1,
+      "row": 2,
+      "column": 2,
+      "file": "06-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 314,
+        "top": 314,
+        "width": 313,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 362,
+        "top": 357,
+        "width": 220,
+        "height": 244
+      },
+      "sha256": "e3079f95fa263de7a0913e4519fb7ec2e70d4f7762ee3aa657ac6848f9049b86",
+      "formalPath": "assets/ui/law-icons/v1/06-law.png",
+      "extractedFromFile": "06-law-1793209849204-w8fsr.png"
+    },
+    {
+      "lawId": "law-1793209903171-qrqct",
+      "name": "威壓法則",
+      "batch": 1,
+      "row": 2,
+      "column": 3,
+      "file": "07-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 627,
+        "top": 314,
+        "width": 314,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 682,
+        "top": 370,
+        "width": 203,
+        "height": 237
+      },
+      "sha256": "e4fa7ad38475d3848e1f39befa4dd6dfdb646de0bb29b0d07ebe17a80c6f88b7",
+      "formalPath": "assets/ui/law-icons/v1/07-law.png",
+      "extractedFromFile": "07-law-1793209903171-qrqct.png"
+    },
+    {
+      "lawId": "law-1793210142643-a2kfl",
+      "name": "矢量法則",
+      "batch": 1,
+      "row": 2,
+      "column": 4,
+      "file": "08-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 941,
+        "top": 314,
+        "width": 313,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 984,
+        "top": 358,
+        "width": 232,
+        "height": 242
+      },
+      "sha256": "1fb63fe595e1b25fc6996b38e56cafb937c6a88afb1e51b451b7d31f0e0ec6e1",
+      "formalPath": "assets/ui/law-icons/v1/08-law.png",
+      "extractedFromFile": "08-law-1793210142643-a2kfl.png"
+    },
+    {
+      "lawId": "law-1793210198184-z3fam",
+      "name": "空間法則",
+      "batch": 1,
+      "row": 3,
+      "column": 1,
+      "file": "09-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 0,
+        "top": 627,
+        "width": 314,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 58,
+        "top": 678,
+        "width": 205,
+        "height": 214
+      },
+      "sha256": "1305b6b72b0b2615ead18ed7d7b2d35e5ca56c8c4ad12137d4cf004f8d642f53",
+      "formalPath": "assets/ui/law-icons/v1/09-law.png",
+      "extractedFromFile": "09-law-1793210198184-z3fam.png"
+    },
+    {
+      "lawId": "law-1793210229826-qrc53",
+      "name": "甦醒法則",
+      "batch": 1,
+      "row": 3,
+      "column": 2,
+      "file": "10-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 314,
+        "top": 627,
+        "width": 313,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 369,
+        "top": 658,
+        "width": 207,
+        "height": 246
+      },
+      "sha256": "2581b3cd56952f4421608bc2c16bb32cbbfd45e45bd5906d6b860b8dd25e8f8e",
+      "formalPath": "assets/ui/law-icons/v1/10-law.png",
+      "extractedFromFile": "10-law-1793210229826-qrc53.png"
+    },
+    {
+      "lawId": "law-1793210253481-2cxxr",
+      "name": "復仇法則",
+      "batch": 1,
+      "row": 3,
+      "column": 3,
+      "file": "11-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 627,
+        "top": 627,
+        "width": 314,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 672,
+        "top": 659,
+        "width": 196,
+        "height": 243
+      },
+      "sha256": "6d340dd16ba14b74eec8b2287f48dd7ec0810547509292c6e5021f92f7390a78",
+      "formalPath": "assets/ui/law-icons/v1/11-law.png",
+      "extractedFromFile": "11-law-1793210253481-2cxxr.png"
+    },
+    {
+      "lawId": "law-1793211857850-efqh4",
+      "name": "寧靜法則",
+      "batch": 1,
+      "row": 3,
+      "column": 4,
+      "file": "12-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 941,
+        "top": 627,
+        "width": 313,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 971,
+        "top": 666,
+        "width": 239,
+        "height": 232
+      },
+      "sha256": "bbd3b5fd102e7dc99edce32129aa9f7aae8ede6afeb2cada8b090b0f8f8692b5",
+      "formalPath": "assets/ui/law-icons/v1/12-law.png",
+      "extractedFromFile": "12-law-1793211857850-efqh4.png"
+    },
+    {
+      "lawId": "law-1793973928671-bwttm",
+      "name": "遠攻法則",
+      "batch": 1,
+      "row": 4,
+      "column": 1,
+      "file": "13-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 0,
+        "top": 941,
+        "width": 314,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 48,
+        "top": 964,
+        "width": 224,
+        "height": 248
+      },
+      "sha256": "92c17e34c6c58995c5f98d0a06bb9bfef1d9947f84a1fc6b363eda55fae56efd",
+      "formalPath": "assets/ui/law-icons/v1/13-law.png",
+      "extractedFromFile": "13-law-1793973928671-bwttm.png"
+    },
+    {
+      "lawId": "law-1793974021791-ijj2r",
+      "name": "盾強法則",
+      "batch": 1,
+      "row": 4,
+      "column": 2,
+      "file": "14-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 314,
+        "top": 941,
+        "width": 313,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 373,
+        "top": 960,
+        "width": 200,
+        "height": 253
+      },
+      "sha256": "76116b15fbb028ebc78b03902d8a5bc1f50e34dea1d746784e956d079c339cf3",
+      "formalPath": "assets/ui/law-icons/v1/14-law.png",
+      "extractedFromFile": "14-law-1793974021791-ijj2r.png"
+    },
+    {
+      "lawId": "law-1793974167128-ce326",
+      "name": "返控法則",
+      "batch": 1,
+      "row": 4,
+      "column": 3,
+      "file": "15-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 627,
+        "top": 941,
+        "width": 314,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 680,
+        "top": 982,
+        "width": 185,
+        "height": 217
+      },
+      "sha256": "7f5ba2489a227a3f4c6c448323010a646232f164d6f22713aad77c7268b3e0c1",
+      "formalPath": "assets/ui/law-icons/v1/15-law.png",
+      "extractedFromFile": "15-law-1793974167128-ce326.png"
+    },
+    {
+      "lawId": "law-1793974554825-78uj3",
+      "name": "常返法則",
+      "batch": 1,
+      "row": 4,
+      "column": 4,
+      "file": "16-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch1-alpha-v1.png",
+      "sourceCell": {
+        "left": 941,
+        "top": 941,
+        "width": 313,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 981,
+        "top": 974,
+        "width": 219,
+        "height": 232
+      },
+      "sha256": "e4031f87cccd8784a28f3eeefd9e7fa23471f9c952353fbf8fa2561b6893eed6",
+      "formalPath": "assets/ui/law-icons/v1/16-law.png",
+      "extractedFromFile": "16-law-1793974554825-78uj3.png"
+    },
+    {
+      "lawId": "law-1793975363168-zk85e",
+      "name": "負生法則",
+      "batch": 2,
+      "row": 1,
+      "column": 1,
+      "file": "17-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 0,
+        "top": 0,
+        "width": 314,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 78,
+        "top": 75,
+        "width": 185,
+        "height": 218
+      },
+      "sha256": "f65b0f516abcab13c3a66de7bb418bfd6d53a4288033099a49e6e570b705fe31",
+      "formalPath": "assets/ui/law-icons/v1/17-law.png",
+      "extractedFromFile": "17-law-1793975363168-zk85e.png"
+    },
+    {
+      "lawId": "law-1793975481843-trl63",
+      "name": "閃現法則",
+      "batch": 2,
+      "row": 1,
+      "column": 2,
+      "file": "18-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 314,
+        "top": 0,
+        "width": 313,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 373,
+        "top": 73,
+        "width": 209,
+        "height": 213
+      },
+      "sha256": "b552f3e936c4dd8c3e226ae590588892058b13b262f7292040308e6e141b44c6",
+      "formalPath": "assets/ui/law-icons/v1/18-law.png",
+      "extractedFromFile": "18-law-1793975481843-trl63.png"
+    },
+    {
+      "lawId": "law-1793975539491-ki6c2",
+      "name": "療毒法則",
+      "batch": 2,
+      "row": 1,
+      "column": 3,
+      "file": "19-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 627,
+        "top": 0,
+        "width": 314,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 696,
+        "top": 72,
+        "width": 175,
+        "height": 223
+      },
+      "sha256": "e55cf33846f3d39132a9dbc21c258fb33a40ccca581f2c3db231a5d03ae241bf",
+      "formalPath": "assets/ui/law-icons/v1/19-law.png",
+      "extractedFromFile": "19-law-1793975539491-ki6c2.png"
+    },
+    {
+      "lawId": "law-1793975706402-9wzyz",
+      "name": "左進法則",
+      "batch": 2,
+      "row": 1,
+      "column": 4,
+      "file": "20-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 941,
+        "top": 0,
+        "width": 313,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 966,
+        "top": 92,
+        "width": 232,
+        "height": 184
+      },
+      "sha256": "f26e513de07c10e8336b15aaabe5935543e8d1d12da04efe5434bf3eba31abab",
+      "formalPath": "assets/ui/law-icons/v1/20-law.png",
+      "extractedFromFile": "20-law-1793975706402-9wzyz.png"
+    },
+    {
+      "lawId": "law-1793975797533-gou8k",
+      "name": "左閃法則",
+      "batch": 2,
+      "row": 2,
+      "column": 1,
+      "file": "21-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 0,
+        "top": 314,
+        "width": 314,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 68,
+        "top": 374,
+        "width": 202,
+        "height": 213
+      },
+      "sha256": "96bb5f9faad56be5525963f1015c9760352d9e0e939d49ced4d1fd6bf309de4d",
+      "formalPath": "assets/ui/law-icons/v1/21-law.png",
+      "extractedFromFile": "21-law-1793975797533-gou8k.png"
+    },
+    {
+      "lawId": "law-1793976743049-eu8ht",
+      "name": "左反法則",
+      "batch": 2,
+      "row": 2,
+      "column": 2,
+      "file": "22-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 314,
+        "top": 314,
+        "width": 313,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 346,
+        "top": 362,
+        "width": 214,
+        "height": 226
+      },
+      "sha256": "ce309dd567f2508b6068fa41891f4e9d13dd609a5e221e8b7ff4e806219e0b09",
+      "formalPath": "assets/ui/law-icons/v1/22-law.png",
+      "extractedFromFile": "22-law-1793976743049-eu8ht.png"
+    },
+    {
+      "lawId": "law-1793976855023-in84m",
+      "name": "右靜法則",
+      "batch": 2,
+      "row": 2,
+      "column": 3,
+      "file": "23-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 627,
+        "top": 314,
+        "width": 314,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 656,
+        "top": 380,
+        "width": 251,
+        "height": 192
+      },
+      "sha256": "4b46a30202157537f947ce4caa6ea84ae7b47daf476b87484333f48b4a329856",
+      "formalPath": "assets/ui/law-icons/v1/23-law.png",
+      "extractedFromFile": "23-law-1793976855023-in84m.png"
+    },
+    {
+      "lawId": "law-1793977020332-jkn0h",
+      "name": "右強法則",
+      "batch": 2,
+      "row": 2,
+      "column": 4,
+      "file": "24-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 941,
+        "top": 314,
+        "width": 313,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 981,
+        "top": 362,
+        "width": 218,
+        "height": 226
+      },
+      "sha256": "28a24f8f0a14684c940203b4dd5f9a7ac23b3926fd59e5740b473556e4b61bd4",
+      "formalPath": "assets/ui/law-icons/v1/24-law.png",
+      "extractedFromFile": "24-law-1793977020332-jkn0h.png"
+    },
+    {
+      "lawId": "law-1793977151744-pu0nc",
+      "name": "閃虛法則",
+      "batch": 2,
+      "row": 3,
+      "column": 1,
+      "file": "25-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 0,
+        "top": 627,
+        "width": 314,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 62,
+        "top": 672,
+        "width": 209,
+        "height": 214
+      },
+      "sha256": "3c8c3ac7d97a88617d794b48f7c109a2e5ee59c9729eb15eb7ffe68ec9226459",
+      "formalPath": "assets/ui/law-icons/v1/25-law.png",
+      "extractedFromFile": "25-law-1793977151744-pu0nc.png"
+    },
+    {
+      "lawId": "law-1793977420882-wcqpg",
+      "name": "右換法則",
+      "batch": 2,
+      "row": 3,
+      "column": 2,
+      "file": "26-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 314,
+        "top": 627,
+        "width": 313,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 342,
+        "top": 687,
+        "width": 249,
+        "height": 177
+      },
+      "sha256": "4bdde8ceeb65f1e014a87dc1abd4cacd1003791190c1ffca7c0ea6d3e582b547",
+      "formalPath": "assets/ui/law-icons/v1/26-law.png",
+      "extractedFromFile": "26-law-1793977420882-wcqpg.png"
+    },
+    {
+      "lawId": "law-1793977559868-douh3",
+      "name": "互混法則",
+      "batch": 2,
+      "row": 3,
+      "column": 3,
+      "file": "27-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 627,
+        "top": 627,
+        "width": 314,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 669,
+        "top": 664,
+        "width": 219,
+        "height": 209
+      },
+      "sha256": "2ed32289c06272cc22c6471b985aaf9c6d9354009a293bd2fe18b4183cb92a73",
+      "formalPath": "assets/ui/law-icons/v1/27-law.png",
+      "extractedFromFile": "27-law-1793977559868-douh3.png"
+    },
+    {
+      "lawId": "law-1793977676737-43n6q",
+      "name": "左換法則",
+      "batch": 2,
+      "row": 3,
+      "column": 4,
+      "file": "28-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 941,
+        "top": 627,
+        "width": 313,
+        "height": 314
+      },
+      "inkBounds": {
+        "left": 985,
+        "top": 667,
+        "width": 206,
+        "height": 215
+      },
+      "sha256": "3a8cf5b9529177aed78ed00cba9b5801a1e2ecbd6f73638e7585a29c6682bc45",
+      "formalPath": "assets/ui/law-icons/v1/28-law.png",
+      "extractedFromFile": "28-law-1793977676737-43n6q.png"
+    },
+    {
+      "lawId": "law-1793977849848-7zs1r",
+      "name": "長時法則",
+      "batch": 2,
+      "row": 4,
+      "column": 1,
+      "file": "29-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 0,
+        "top": 941,
+        "width": 314,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 94,
+        "top": 947,
+        "width": 145,
+        "height": 253
+      },
+      "sha256": "ccd00f0988eccef9ec8b0d54a19abecd04bdf3fd5a9b6d25fc5d0ec0eaf6ffa7",
+      "formalPath": "assets/ui/law-icons/v1/29-law.png",
+      "extractedFromFile": "29-law-1793977849848-7zs1r.png"
+    },
+    {
+      "lawId": "law-1793977883361-xe0g8",
+      "name": "層疊法則",
+      "batch": 2,
+      "row": 4,
+      "column": 2,
+      "file": "30-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 314,
+        "top": 941,
+        "width": 313,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 367,
+        "top": 976,
+        "width": 205,
+        "height": 205
+      },
+      "sha256": "fe120b45b450f8cadd8ee2749c6d9ee9f253e209aaaba4e4b2ca791bc61df08b",
+      "formalPath": "assets/ui/law-icons/v1/30-law.png",
+      "extractedFromFile": "30-law-1793977883361-xe0g8.png"
+    },
+    {
+      "lawId": "law-1793978292800-8zoiq",
+      "name": "混換法則",
+      "batch": 2,
+      "row": 4,
+      "column": 3,
+      "file": "31-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 627,
+        "top": 941,
+        "width": 314,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 661,
+        "top": 966,
+        "width": 222,
+        "height": 228
+      },
+      "sha256": "b54acc42bc9afe3ff043ecdb3c25b128f1e1d2ae9c2dd13e215b76e682bfc073",
+      "formalPath": "assets/ui/law-icons/v1/31-law.png",
+      "extractedFromFile": "31-law-1793978292800-8zoiq.png"
+    },
+    {
+      "lawId": "law-1793978517006-9jeg2",
+      "name": "亂時法則",
+      "batch": 2,
+      "row": 4,
+      "column": 4,
+      "file": "32-law.png",
+      "size": [
+        256,
+        256
+      ],
+      "source": "b-runes-batch2-alpha-v1.png",
+      "sourceCell": {
+        "left": 941,
+        "top": 941,
+        "width": 313,
+        "height": 313
+      },
+      "inkBounds": {
+        "left": 1003,
+        "top": 949,
+        "width": 170,
+        "height": 248
+      },
+      "sha256": "ce44fec7782c34afe603b5bca298898e14c3cc7a4555916f83a61d841917b13a",
+      "formalPath": "assets/ui/law-icons/v1/32-law.png",
+      "extractedFromFile": "32-law-1793978517006-9jeg2.png"
+    }
+  ]
+}

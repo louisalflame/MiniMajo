@@ -40,6 +40,14 @@ dialog.character-detail::before{content:"";position:absolute;inset:-8px;border:3
 .character-detail .detail-status-entry>.status-art-icon,.character-detail .detail-status-entry>.ui-icon{flex:none;width:32px;height:32px;padding:2px;box-sizing:border-box;background:#10202de8;border-radius:3px;color:#e8d4ae}
 .character-detail .detail-status-entry>span:last-child{min-width:0;overflow-wrap:anywhere}
 .character-detail #detail-statuses li+li::before,.character-detail #detail-laws li+li::before{content:"";position:absolute;left:0;right:0;top:-5px;height:5px;border:0 solid transparent;border-inline-width:8px;border-image:url("../assets/ui/character-details/v1/horizontal-divider-v1.png") 0 80 fill /0 8px stretch;opacity:.45;pointer-events:none}
+.character-detail .detail-law-heading{display:flex;align-items:center;gap:8px}
+.character-detail .detail-law-heading strong{min-width:0;font-weight:700;overflow-wrap:anywhere}
+.character-detail .detail-law-icon{display:grid;place-items:center;flex:none;width:32px;height:32px;font-size:24px;line-height:1}
+.character-detail .detail-law-icon img{display:block;width:100%;height:100%;object-fit:contain}
+.character-detail #detail-laws .detail-law-effects{margin:3px 0 0;padding:0 0 0 40px;font-size:13px;line-height:1.8;white-space:normal}
+.character-detail #detail-laws .detail-law-effects>li{position:relative;margin:0;padding:0 0 0 12px}
+.character-detail #detail-laws .detail-law-effects>li::before{content:"－";position:absolute;left:0;right:auto;top:0;width:auto;height:auto;border:0;background:none;opacity:1}
+.character-detail #detail-laws>.detail-law-entry+li{margin-top:8px}
 .detail-content:has(#detail-state-section[hidden]) #detail-law-section{grid-column:1/-1}
 @media(max-width:900px){.detail-layout{gap:20px}.detail-content{grid-template-columns:1fr;gap:18px}.detail-nameplate{gap:6px;padding-inline:19px}#detail-name{font-size:19px}#detail-stars{font-size:12px}.character-detail .detail-content h3{font-size:17px}}
 @media(max-width:560px){dialog.character-detail,body.preview-mode dialog.character-detail{width:94vw;padding:40px 20px 20px;max-height:90dvh}dialog.character-detail::before{border-width:28px;border-image-width:28px;inset:-3px}.character-detail h2.detail-dialog-title{width:270px;height:54px;top:-26px;font-size:22px}.detail-layout{display:flex;flex-direction:column;align-items:stretch;gap:15px;max-height:calc(90dvh - 60px)}.detail-card{flex:none;width:min(200px,45vw,calc((90dvh - 260px)*.8));margin:0 auto}.detail-nameplate{min-height:39px;padding:7px 20px;gap:5px}.detail-nameplate::before{border-image-width:11px 27px}.detail-portrait::after{border-image-width:15px}#detail-name{font-size:18px}#detail-stars{font-size:11px}.detail-content{flex:1;min-height:80px;max-height:none;padding-left:8px}.character-detail .detail-content h3{font-size:17px}.character-detail .detail-stats{font-size:13px}}

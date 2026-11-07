@@ -31,7 +31,7 @@
     return slots;
   }
   let skills = SkillDB.validate({version:1,skills:[{id:'moon-pact',name:'月蝕之契',cooldown:8,mode:'all',conditions:[],effects:[{type:'damage',amount:32,range:3},{type:'posture',amount:20,range:3},{type:'heal',amount:12}]}]}).skills;
-  let config=GameConfig.validate(GameConfig.defaults),configuredLoadouts=null, limits=[slotCount,slotCount], activeSkillsEnabled=true;
+  let config=GameConfig.validate(GameConfig.defaults),configuredLoadouts=null, limits=[slotCount,slotCount], activeSkillsEnabled=true,allySkillsEnabled=true,enemySkill=null,repositionTeams=[0];
   const preview=typeof location!=='undefined'&&new URLSearchParams(location.search).has('preview');
   if(!preview)try{if(globalThis.publicDataError)throw Error(globalThis.publicDataError);config=GameConfig.read(globalThis.MiniMajoPublicData?.storage??globalThis.localStorage);}catch(error){$('battle-message').textContent='Config 設定無效：'+error.message;$('play').disabled=true;$('cast').disabled=true;return;}
   let previewReady=!preview,campaign=null,resultSent=false,preparing=false,resultAcknowledged=false;
@@ -39,6 +39,7 @@
   let state, running=false, speed=1, autoCast=false, bank=0, last=0;
   const audio=globalThis.BattleAudio?.create();
   if(audio&&!audio.enabled){$('battle-sound-label').textContent='靜音';$('battle-sound').setAttribute('aria-pressed','false');$('battle-sound').setAttribute('aria-label','音效已關閉，點擊開啟');}
+  let battleDrag=null,repositionPending=null,repositionSerial=0,suppressInspectUntil=0;
   let cards=new Map(), floatLayers=[],statsMode=false, emptySlots=[[],[]];
   const statusResizeObserver=typeof ResizeObserver==='function'?new ResizeObserver(()=>{for(const c of cards.values())if(c.root.isConnected)fitStatusIcons(c);}):null;
   let overtimeShown=false;const overtimeMotions=new Map();
@@ -58,7 +59,8 @@
   function card(unit){
     const root=node('article','unit');root.setAttribute('aria-label',unit.name);root.setAttribute('data-battle-id',unit.battleId);
     root.tabIndex=0;root.setAttribute('role','button');root.setAttribute('aria-controls','character-detail');root.setAttribute('aria-expanded','false');
-    root.addEventListener('click',()=>inspect(unit));
+    root.addEventListener('click',()=>{if(Date.now()>=suppressInspectUntil)inspect(unit);});
+    root.addEventListener('pointerdown',event=>beginBattleDrag(event,root,unit));
     root.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();inspect(unit);}});
     const portrait=node('div','portrait image-slot');
     portrait.append(node('span','image-mark','＋'),node('span','image-label','角色圖片'),node('small','image-size',unit.space+' 格'));
@@ -88,15 +90,16 @@
     return {root,portrait,position,hp,stagger,action,status,hud,headingArea,totals,attack,halo,flash,healSweep,shieldGlow,motions};
   }
   function reset(){
+    clearBattleDrag();repositionPending=null;
     for(const [el,animation]of missMotions){animation.cancel();el.remove();}missMotions.clear();readyMotion?.cancel();readyMotion=null;readyAnnounced=false;readySkillId='';
     resultAcknowledged=false;if($('battle-result').open)$('battle-result').close();$('battle-result').hidden=true;
     clearExits();
     statusResizeObserver?.disconnect();
     audio?.stop();
-    closeDetail(false);hideSkill();
+    closeDetail(false);hideSkill();hideEnemySkill();
     for(const c of cards.values())for(const animation of c.motions.values())animation.cancel();
     for(const animation of overtimeMotions.values())animation.cancel();overtimeMotions.clear();overtimeShown=false;
-    state=Battle.create(configuredLoadouts||[formation(characters.slice(0,6)),formation(characters.slice(6))],skills,limits,{config,footprints:true,activeSkillsEnabled});
+    state=Battle.create(configuredLoadouts||[formation(characters.slice(0,6)),formation(characters.slice(6))],skills,limits,{config,footprints:true,activeSkillsEnabled,allySkillsEnabled,enemySkill});
     audio?.setVolume?.(state.config.battleVolume);
     resultSent=false;
     running=false;preparing=false;bank=0;last=performance.now();cards=new Map();floatLayers=[],statsMode=false;
@@ -181,6 +184,8 @@
       (statsMode?team.units:team.items).forEach(unit=>{if(unit&&(statsMode||unit.hp>0)){
         const slot=statsMode?unit.startSlot:unit.slot;
         const c=cards.get(unit);c.root.style.gridColumn=(slot+1)+' / span '+unit.space;c.root.style.gridRow='1';
+        c.root.classList.toggle('prebattle-draggable',!state.started&&!state.done&&repositionTeams.includes(i)&&!repositionPending&&!preparing);
+        c.root.style.touchAction=!state.started&&repositionTeams.includes(i)?'none':'';
         c.position.textContent=String(slot+1).padStart(2,'0')+(unit.space>1?' — '+String(slot+unit.space).padStart(2,'0'):'');
         tiles.push(c.root);for(let n=slot;n<slot+unit.space;n++)occupied.add(n);
       }});
@@ -221,13 +226,14 @@
     $('battle-stats').hidden=!state.done||![0,'draw'].includes(state.winner);$('battle-stats-label').textContent=statsMode?'返回戰鬥結果':'戰鬥統計';$('battle-stats').setAttribute('aria-pressed',String(statsMode));
     const elapsed=Math.floor(state.tick/10),overtime=state.tick>=state.config.battleSeconds*10,seconds=Math.abs(state.config.battleSeconds-elapsed);$('timer').textContent=(overtime?'+':'')+String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
     $('phase').textContent=state.done?'試煉結束':running?(overtime?'超時耗損':'交鋒之中'):state.started?'已暫停':'等待開戰';
-    $('play').textContent=state.done?(campaign?'返回地圖':'試煉結束'):running?'暫停':state.started?'繼續戰鬥 ▷':'開始戰鬥 ▷';$('play').disabled=(state.done&&!campaign)||state.blocked||!previewReady||!!inspected||preparing;
+    $('play').textContent=state.done?(campaign?'返回地圖':'試煉結束'):running?'暫停':state.started?'繼續戰鬥 ▷':'開始戰鬥 ▷';$('play').disabled=(state.done&&!campaign)||state.blocked||!previewReady||!!inspected||preparing||!!repositionPending||!!battleDrag;
     $('battle-gear').hidden=!campaign||state.started||state.done;
+    renderEnemySkill();
     const skill=state.teams[0].skill;renderSkillArt(skill);const remaining=Math.max(0,(state.teams[0].skillReady-state.tick)/10);
     $('skill-name').textContent=campaign&&!skill.enabled?'':skill.name;$('skill-description').textContent=skill.description??(skill.effects.map(describeEffect).join('\n')||'目前隊伍沒有符合條件的極式。');$('skill-tooltip-title').textContent=skill.name+' · 冷卻 '+skill.cooldown+' 秒 · 不限射程';$('cast').setAttribute('aria-label','施放'+skill.name);
     $('cast').disabled=!running||!Battle.canCast(state,0);if(campaign&&!skill.enabled){$('skill-description').textContent='';$('skill-tooltip-title').textContent='';$('cast').setAttribute('aria-label','無極式');hideSkill();}
     $('cast-label').textContent=remaining>0?'契約恢復中':'施放契約';
-    $('cast-state').textContent=!state.activeSkillsEnabled?'極式已關閉（雙方）':state.done?'試煉已結束':!state.started?'開戰後開始充能':remaining>0?remaining.toFixed(1)+' 秒後就緒':!running?'繼續戰鬥後可施放':'極式就緒 · 點擊施放';
+    $('cast-state').textContent=!state.activeSkillsEnabled?'極式已關閉（雙方）':!state.allySkillsEnabled?'我方極式已關閉':state.done?'試煉已結束':!state.started?'開戰後開始充能':remaining>0?remaining.toFixed(1)+' 秒後就緒':!running?'繼續戰鬥後可施放':'極式就緒 · 點擊施放';
     if(campaign){$('cast-state').textContent=skill.enabled&&remaining>0?remaining.toFixed(1)+' 秒':'';$('phase').textContent='';if(!state.done&&!state.blocked&&previewReady)$('battle-message').textContent='';}
     $('skill-progress').style.strokeDashoffset=String(skill.cooldown?100*Math.min(1,remaining/skill.cooldown):100);
     if(state.blocked)$('battle-message').textContent='無法開戰：角色重疊、超出十格或超出空間上限，請調整編隊。';
@@ -404,6 +410,30 @@
     if(restore&&detailTrigger){detailTrigger.focus({preventScroll:true});if(!state.done)$('battle-message').textContent=state.started?'戰鬥已暫停 · 按右上角繼續':'準備就緒 · 按右上角開始戰鬥';draw();}
     detailTrigger=null;
   }
+  function renderEnemySkill(){
+    const current=state.teams[1].skill,skill=current?.enabled?current:state.enemySkillDefinition,control=$('enemy-skill-control');
+    control.hidden=!state.activeSkillsEnabled||!skill;
+    if(control.hidden){hideEnemySkill();return;}
+    const available=current?.enabled===true;
+    $('enemy-cast').classList.toggle('skill-unavailable',!available);
+    const remaining=Math.max(0,(state.teams[1].skillReady-state.tick)/10);
+    $('enemy-skill-title').textContent=skill.name+' · 冷卻 '+skill.cooldown+' 秒';
+    $('enemy-skill-description').textContent=skill.description||skill.effects.map(describeEffect).join('\n');
+    $('enemy-skill-state').textContent=!state.teams[1].units.some(u=>u.hp>0)?'敵方沒有存活的出戰角色，無法施放':!available?'不符合目前敵方編隊條件，無法施放':state.done?'戰鬥已結束':!state.started?'開戰後開始充能':remaining>0?remaining.toFixed(1)+' 秒後就緒':'就緒後自動施放';
+    $('enemy-cast').setAttribute('aria-label','查看敵方極式：'+skill.name);
+    $('enemy-skill-progress').style.strokeDashoffset=String(!available?100:skill.cooldown?100*Math.min(1,remaining/skill.cooldown):100);
+    const art=$('enemy-skill-art'),url=skill.imagePath||'';
+    if(art.getAttribute('data-path')!==url){art.setAttribute('data-path',url);art.hidden=true;$('enemy-skill-fallback').hidden=false;art.onload=()=>{art.hidden=false;$('enemy-skill-fallback').hidden=true;};art.onerror=()=>{art.hidden=true;$('enemy-skill-fallback').hidden=false;};if(url)art.src=url;else art.removeAttribute('src');}
+  }
+  function showEnemySkill(){if(!$('enemy-skill-control').hidden){$('enemy-skill-tooltip').hidden=false;$('enemy-cast').setAttribute('aria-expanded','true');}}
+  function hideEnemySkill(){$('enemy-skill-tooltip').hidden=true;$('enemy-cast').setAttribute('aria-expanded','false');}
+  $('enemy-cast').addEventListener('pointerenter',showEnemySkill);
+  $('enemy-skill-control').addEventListener('pointerleave',hideEnemySkill);
+  $('enemy-cast').addEventListener('focus',showEnemySkill);
+  $('enemy-cast').addEventListener('blur',hideEnemySkill);
+  $('enemy-cast').addEventListener('click',showEnemySkill);
+  document.addEventListener('pointerdown',e=>{if(!$('enemy-skill-control').contains(e.target))hideEnemySkill();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')hideEnemySkill();});
   function showSkill(){if(campaign&&!state.teams[0].skill.enabled)return; $('skill-tooltip').hidden=false;$('skill-help').setAttribute('aria-expanded','true'); }
   function hideSkill(){skillPinned=false;$('skill-tooltip').hidden=true;$('skill-help').setAttribute('aria-expanded','false');}
   $('character-detail').addEventListener('cancel',event=>{event.preventDefault();closeDetail();});
@@ -419,7 +449,7 @@
     audio?.unlock();
     if(state.done&&!resultAcknowledged)return;
     if(state.done&&campaign){parent.postMessage({type:'minimajo-journey-return',token:campaign},'*');return;}
-    if(state.done||state.blocked||!previewReady||inspected||preparing)return;running=!running;state.started=true;last=performance.now();notifyPreview();
+    if(state.done||state.blocked||!previewReady||inspected||preparing||repositionPending||battleDrag)return;running=!running;state.started=true;last=performance.now();notifyPreview();
     $('battle-message').textContent=running?'命運流轉。選擇施放契約的時機。':'戰鬥已暫停。';draw();
   });
   $('battle-stats').addEventListener('click',()=>{if(!state.done||!resultAcknowledged||![0,'draw'].includes(state.winner))return;closeDetail(false);statsMode=!statsMode;draw();});
@@ -463,9 +493,11 @@
     if(running&&!document.hidden){
       bank+=Math.min(now-last,100)*speed;
       let advanced=autoCast&&castSkill();
+      if(Battle.cast(state,1))advanced=true;
       while(bank>=100&&running){
         bank-=100;Battle.step(state);advanced=true;
         if(autoCast&&!state.done)castSkill();
+        if(!state.done)Battle.cast(state,1);
         if(state.done)running=false;
       }
       if(advanced)draw(true);
@@ -480,6 +512,61 @@
     if(path)image.src=path.split('/').map(encodeURIComponent).join('/');
   }
   function describeEffect(effect){return Effects.describe(effect);}
+  function clearBattleDrag(){
+    const drag=battleDrag;battleDrag=null;
+    if(drag){if(drag.moved)suppressInspectUntil=Date.now()+400;drag.ghost?.remove();drag.root.classList.remove('battle-dragging');try{if(drag.root.hasPointerCapture?.(drag.pointer))drag.root.releasePointerCapture(drag.pointer);}catch{}}
+    for(const el of document.querySelectorAll('.battle-drop-target'))el.classList.remove('battle-drop-target');
+  }
+  function dropSlot(drag,x,y){
+    const board=$(drag.team?'enemy-units':'ally-units'),rect=board.getBoundingClientRect();
+    if(x<rect.left||x>=rect.right||y<rect.top||y>rect.bottom)return null;
+    const raw=Math.floor((x-rect.left)/rect.width*10),slot=raw-drag.offset;
+    return slot>=0&&slot<10?slot:null;
+  }
+  function beginBattleDrag(event,root,unit){
+    if(event.button!==0||state.started||state.done||preparing||repositionPending||inspected||!previewReady)return;
+    const team=state.teams.findIndex(t=>t.units.includes(unit));if(!repositionTeams.includes(team))return;
+    clearBattleDrag();const rect=root.getBoundingClientRect(),offset=Math.max(0,Math.min(unit.space-1,Math.floor((event.clientX-rect.left)/rect.width*unit.space)));
+    battleDrag={root,team,from:unit.slot,offset,pointer:event.pointerId,x:event.clientX,y:event.clientY,offsetX:event.clientX-rect.left,offsetY:event.clientY-rect.top,width:rect.width,height:rect.height,moved:false};
+    root.setPointerCapture?.(event.pointerId);$('play').disabled=true;
+  }
+  document.addEventListener('pointermove',event=>{
+    const drag=battleDrag;if(!drag||event.pointerId!==drag.pointer)return;
+    if(Math.hypot(event.clientX-drag.x,event.clientY-drag.y)<8&&!drag.moved)return;
+    drag.moved=true;event.preventDefault();drag.root.classList.add('battle-dragging');
+    if(!drag.ghost){
+      const ghost=drag.root.cloneNode(true);ghost.classList.remove('battle-dragging','prebattle-draggable','battle-drop-target');ghost.classList.add('battle-drag-ghost');
+      ghost.removeAttribute('data-battle-id');ghost.removeAttribute('id');ghost.removeAttribute('role');ghost.removeAttribute('tabindex');ghost.removeAttribute('aria-controls');ghost.removeAttribute('aria-expanded');
+      ghost.setAttribute('aria-hidden','true');ghost.setAttribute('popover','manual');ghost.inert=true;
+      for(const child of ghost.querySelectorAll('[id],[tabindex]')){child.removeAttribute('id');child.removeAttribute('tabindex');}
+      // Match inherited board scale/skin while escaping the scrolling viewport.
+      const style=getComputedStyle(drag.root);for(const key of style)if(key.startsWith('--'))ghost.style.setProperty(key,style.getPropertyValue(key));
+      ghost.style.width=drag.width+'px';ghost.style.height=drag.height+'px';
+      ghost.style.left=(event.clientX-drag.offsetX)+'px';ghost.style.top=(event.clientY-drag.offsetY)+'px';
+      document.body.append(ghost);drag.ghost=ghost;ghost.showPopover?.();
+    }
+    drag.ghost.style.left=(event.clientX-drag.offsetX)+'px';drag.ghost.style.top=(event.clientY-drag.offsetY)+'px';
+    for(const el of document.querySelectorAll('.battle-drop-target'))el.classList.remove('battle-drop-target');
+    const slot=dropSlot(drag,event.clientX,event.clientY);if(slot===null)return;
+    const board=$(drag.team?'enemy-units':'ally-units');for(const el of board.children){const start=Number(el.style.gridColumn.split(' ')[0])-1,span=Number(el.style.gridColumn.match(/span (\d+)/)?.[1]??1);if(slot>=start&&slot<start+span)el.classList.add('battle-drop-target');}
+  },{passive:false});
+  document.addEventListener('pointerup',event=>{
+    const drag=battleDrag;if(!drag||event.pointerId!==drag.pointer)return;
+    const slot=dropSlot(drag,event.clientX,event.clientY),moved=drag.moved;clearBattleDrag();
+    if(!moved){draw();return;}suppressInspectUntil=Date.now()+400;
+    if(slot===null||slot===drag.from||state.started||state.done){draw();return;}
+    if(!preview||parent===globalThis){
+      try{const boards=(configuredLoadouts??state.teams.map(t=>t.items)).map(a=>a.slice());boards[drag.team]=Expedition.reposition(boards[drag.team],drag.from,slot);configuredLoadouts=boards;reset();}catch(error){draw();$('battle-message').textContent=error.message;}return;
+    }
+    const id=++repositionSerial;repositionPending={id,token:campaign};draw();
+    parent.postMessage({type:'minimajo-reposition',requestId:id,token:campaign,team:drag.team,from:drag.from,to:slot},'*');
+    setTimeout(()=>{if(repositionPending?.id===id){repositionPending=null;draw();$('battle-message').textContent='站位更新逾時，請重新進入戰鬥。';}},5000);
+  });
+  document.addEventListener('pointercancel',()=>{if(battleDrag){clearBattleDrag();draw();}});
+  document.addEventListener('lostpointercapture',()=>{if(battleDrag){clearBattleDrag();draw();}});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&battleDrag){const moved=battleDrag.moved;clearBattleDrag();if(moved)suppressInspectUntil=Date.now()+400;draw();}});
+  globalThis.addEventListener('resize',()=>{if(battleDrag){clearBattleDrag();draw();}});
+  globalThis.addEventListener('blur',()=>{if(battleDrag){clearBattleDrag();draw();}});
   function requestPreparation(){
     if(!campaign)return;
     const allowed=!state.started&&!state.done;
@@ -498,6 +585,9 @@
        if(!campaign||event.data.token!==campaign)return;
        requestPreparation();return;
       }
+      if(event.data?.type==='minimajo-reposition-error'){
+        if(repositionPending?.id===event.data.requestId&&repositionPending.token===event.data.token){repositionPending=null;draw();$('battle-message').textContent=event.data.message||'站位調整失敗。';}return;
+      }
       if(event.data?.type!=='minimajo-preview')return;
       try{
         const data=event.data;if(data.statusLibrary)Statuses.configure(data.statusLibrary);
@@ -505,13 +595,17 @@
         const clean=data.loadouts.map(a=>a.map(u=>u?{...ItemDB.runtime(u),laws:Laws.validate(u.laws??[],{allowDuplicates:true})}:null));
         const cleanConfig=GameConfig.load(data.config??GameConfig.defaults,[]);
         const cleanSkills=SkillDB.validate({version:1,skills:data.skills}).skills;
+        const cleanEnemySkill=data.enemySkill==null?null:SkillDB.validate({version:1,skills:[data.enemySkill]}).skills[0];
         if(!Array.isArray(data.limits)||data.limits.length!==2||data.limits.some(n=>!Number.isInteger(n)||n<1||n>10))throw Error('空間上限需為 1～10');
         if(data.activeSkillsEnabled!==undefined&&typeof data.activeSkillsEnabled!=='boolean')throw Error('極式開關無效');
+        if(data.allySkillsEnabled!==undefined&&typeof data.allySkillsEnabled!=='boolean')throw Error('我方極式開關無效');
+        const editable=data.repositionTeams??(data.campaign?[0]:[0,1]);
+        if(!Array.isArray(editable)||editable.some(i=>i!==0&&i!==1))throw Error('戰前可編輯陣營無效');
         if(data.campaign){
           if(typeof data.token!=='string')throw Error('探索戰鬥資料無效');
         }
         campaign=data.campaign?data.token:null;$('reset').hidden=!!campaign;
-        config=cleanConfig;configuredLoadouts=clean;skills=cleanSkills;limits=data.limits;activeSkillsEnabled=data.activeSkillsEnabled!==false;previewReady=true;reset();
+        config=cleanConfig;configuredLoadouts=clean;skills=cleanSkills;enemySkill=cleanEnemySkill;limits=data.limits;activeSkillsEnabled=data.activeSkillsEnabled!==false;allySkillsEnabled=data.allySkillsEnabled!==false;repositionTeams=editable;previewReady=true;reset();
       }catch(error){running=false;previewReady=false;draw();$('battle-message').textContent='編隊資料無效：'+error.message;}
     });
   }

@@ -1,7 +1,7 @@
 (function(root){
  const D=typeof module!=='undefined'?require('./database.js'):root.ItemDB,E=typeof module!=='undefined'?require('./effects.js'):root.Effects,Status=typeof module!=='undefined'?require('./statuses.js'):root.Statuses;
  const timings=['action','attacked','heal','healed','shield','shielded','down','death','move','swapInitiated','swapReceived','playerSkill','dodged','normalDown','normalKill','normalHit','statusGained','swapped','allySkillResolved'];
- const labels=['角色行動時','被攻擊時','發動治療時','被治療時','發動疊盾時','被疊盾時','倒地時','死亡時','移動位置時','自身主動互換位置時','自身被互換位置時','玩家使用極式時','角色閃避成功時','自身普通行動使敵人倒地時','自身普通行動擊殺敵人時','普通攻擊命中敵人時','獲得狀態時','互換位置時','我方極式結算後'];
+ const labels=['角色行動時','被攻擊時','發動治療時','被治療時','發動疊盾時','被疊盾時','倒地時','死亡時','移動位置時','自身主動互換位置時','自身被互換位置時','我方使用極式時','角色閃避成功時','自身普通行動使敵人倒地時','自身普通行動擊殺敵人時','普通攻擊命中敵人時','獲得狀態時','互換位置時','我方極式結算後'];
  const statusModes={any:'不限',positive:'正面',negative:'負面',specified:'指定狀態'};
  function statusCondition(value={mode:'any'}){
   if(!value||!Object.hasOwn(statusModes,value.mode))throw Error('狀態條件無效。');

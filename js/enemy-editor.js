@@ -15,10 +15,11 @@
   data.teams.filter(team=>team.name.includes(query)&&(level===''||team.category!=='boss'&&team.matchLevel===Number(level))).forEach(team=>{const b=node('button',team.name+' · '+EnemyTeams.categories[team.category]+' · '+(team.category==='boss'?'不適配等級':'適配 Lv.'+(team.matchLevel??1))+' · 權重 '+team.weight+(pending.has(team.id)?' · 未儲存':''));b.type='button';b.className='item-choice';b.setAttribute('aria-pressed',String(team.id===selected));b.onclick=()=>{if(team.id===selected)return;if(dirty){if(!confirm('捨棄此隊未儲存的修改？'))return;discard();}selected=data.teams.some(t=>t.id===team.id)?team.id:data.teams[0]?.id;dirty=pending.has(selected);render();};$('enemy-list').append(b);});
   if(!$('enemy-list').children.length)$('enemy-list').append(node('p','沒有符合的敵方隊伍。'));
  }
- function syncLevel(){$('enemy-match-level').disabled=$('enemy-category').value==='boss';}
+ function syncLevel(){$('enemy-match-level').disabled=$('enemy-category').value==='boss';$('enemy-skill').disabled=$('enemy-category').value==='normal';}
+ function renderSkills(t){const picker=$('enemy-skill');picker.replaceChildren();const none=node('option','無極式');none.value='';picker.append(none);const skills=SkillDB.read(localStorage).skills;for(const skill of skills){const option=node('option',skill.name);option.value=skill.id;picker.append(option);}if(t.skillId&&!skills.some(s=>s.id===t.skillId)){const missing=node('option','缺少極式：'+t.skillId);missing.value=t.skillId;picker.append(missing);}picker.value=t.skillId??'';}
  $('enemy-search').addEventListener('input',renderList);$('enemy-level-filter').addEventListener('input',renderList);$('enemy-category').addEventListener('change',syncLevel);
  function render(){
-  const t=current();renderList();
+  const t=current();renderList();if(t)renderSkills(t);
   $('enemy-form').hidden=!t;if(!t)return;$('enemy-name').value=t.name;$('enemy-category').value=t.category;$('enemy-weight').value=t.weight;$('enemy-match-level').value=t.matchLevel??1;syncLevel();
   const cells=t.slots.map((id,i)=>{const label=node('label','第 '+(i+1)+' 格'),select=node('select');select.setAttribute('aria-label','敵隊第 '+(i+1)+' 格');
    const empty=node('option','空位');empty.value='';select.append(empty);items.forEach(u=>{const option=node('option',u.name+'（'+u.space+' 格）');option.value=u.id;select.append(option);});
@@ -44,7 +45,7 @@
  }
 
  window.addEventListener('config-changed',()=>{if(current())updateLayout(read());});
- function read(){return {...current(),laws:[...$('enemy-slots').children].map(c=>c.children[0].value?c.children[3].read():[]),name:$('enemy-name').value,category:$('enemy-category').value,matchLevel:$('enemy-category').value==='boss'?(current()?.matchLevel??1):$('enemy-match-level').value===''?NaN:Number($('enemy-match-level').value),weight:Number($('enemy-weight').value),slots:[...$('enemy-slots').children].map(label=>label.children[0].value||null),stars:[...$('enemy-slots').children].map(label=>label.children[0].value&&label.children[1].value!==''?Number(label.children[1].value):null)};}
+ function read(){return {...current(),skillId:$('enemy-skill').value||null,laws:[...$('enemy-slots').children].map(c=>c.children[0].value?c.children[3].read():[]),name:$('enemy-name').value,category:$('enemy-category').value,matchLevel:$('enemy-category').value==='boss'?(current()?.matchLevel??1):$('enemy-match-level').value===''?NaN:Number($('enemy-match-level').value),weight:Number($('enemy-weight').value),slots:[...$('enemy-slots').children].map(label=>label.children[0].value||null),stars:[...$('enemy-slots').children].map(label=>label.children[0].value&&label.children[1].value!==''?Number(label.children[1].value):null)};}
  const generatorFields={count:'enemy-roll-count',lawCount:'enemy-roll-laws',SR:'enemy-roll-sr',SSR:'enemy-roll-ssr',UR:'enemy-roll-ur'};
  function generatorInput(){return Object.fromEntries(Object.entries(generatorFields).map(([field,id])=>[field,$(id).value.trim()===''?NaN:Number($(id).value)]));}
  function describeGenerator(){
@@ -58,7 +59,7 @@
    if(data.teams.length>=300)throw Error('敵隊最多 300 隊，請先刪除不需要的隊伍。');
    const settings=EnemyGenerator.validate(generatorInput());
    const generated=EnemyGenerator.generate(items,typeof LawLibrary!=='undefined'?LawLibrary.get():[],settings);
-   const {slots,stars,laws}=generated,id=newId(),draft={id,name:'隨機敵隊 '+(data.teams.length+1),category:'normal',matchLevel:1,weight:100,slots,stars,laws};
+   const {slots,stars,laws}=generated,id=newId(),draft={id,name:'隨機敵隊 '+(data.teams.length+1),category:'normal',skillId:null,matchLevel:1,weight:100,slots,stars,laws};
    EnemyTeams.formation(draft,items,GameConfig.read(localStorage));
    if(current()&&dirty){const previous=read();data.teams=data.teams.map(t=>t.id===selected?previous:t);pending.add(selected);}
    data.teams.push(draft);selected=id;pending.add(id);dirty=true;$('enemy-search').value='';$('enemy-level-filter').value='';render();
@@ -66,10 +67,11 @@
   }catch(e){say('生成失敗：'+e.message);}
  });
  $('enemy-form').addEventListener('input',()=>{dirty=true;say('尚未儲存。多格角色請將其佔用的後續格保留空位。');});
- $('enemy-form').addEventListener('submit',e=>{e.preventDefault();try{const draft=read();EnemyTeams.formation(draft,items,GameConfig.read(localStorage));const teams=savedData.teams.some(t=>t.id===selected)?savedData.teams.map(t=>t.id===selected?draft:t):[...savedData.teams,draft];const next=EnemyTeams.validate({version:1,teams});localStorage.setItem(key,JSON.stringify(next));savedData=structuredClone(next);data.teams=data.teams.map(t=>t.id===selected?next.teams.find(x=>x.id===selected):t);pending.delete(selected);dirty=false;render();say('已儲存敵隊；下次開始遊戲會套用。');}catch(error){say(error.message);}});
- $('enemy-new').addEventListener('click',()=>{if(data.teams.length>=300){say('敵隊最多 300 隊，請先刪除不需要的隊伍。');return;}if(dirty){if(!confirm('捨棄未儲存修改？'))return;discard();}selected=newId();data.teams.push({id:selected,name:'新敵方隊伍',category:'normal',matchLevel:1,weight:100,slots:[items.find(u=>u.space<=10)?.id||null,...Array(9).fill(null)]});pending.add(selected);dirty=true;render();say('新隊伍尚未儲存。');});
+ $('enemy-form').addEventListener('submit',e=>{e.preventDefault();try{const draft=read();const board=EnemyTeams.formation(draft,items,GameConfig.read(localStorage));if(draft.skillId){const skill=SkillDB.read(localStorage).skills.find(s=>s.id===draft.skillId);if(!skill)throw Error('指定極式已不存在。');if(!SkillDB.choose(board,[skill]).enabled)throw Error('指定極式不符合敵隊條件。');}const teams=savedData.teams.some(t=>t.id===selected)?savedData.teams.map(t=>t.id===selected?draft:t):[...savedData.teams,draft];const next=EnemyTeams.validate({version:1,teams});localStorage.setItem(key,JSON.stringify(next));savedData=structuredClone(next);data.teams=data.teams.map(t=>t.id===selected?next.teams.find(x=>x.id===selected):t);pending.delete(selected);dirty=false;render();say('已儲存敵隊；下次開始遊戲會套用。');}catch(error){say(error.message);}});
+ $('enemy-new').addEventListener('click',()=>{if(data.teams.length>=300){say('敵隊最多 300 隊，請先刪除不需要的隊伍。');return;}if(dirty){if(!confirm('捨棄未儲存修改？'))return;discard();}selected=newId();data.teams.push({id:selected,name:'新敵方隊伍',category:'normal',skillId:null,matchLevel:1,weight:100,slots:[items.find(u=>u.space<=10)?.id||null,...Array(9).fill(null)]});pending.add(selected);dirty=true;render();say('新隊伍尚未儲存。');});
  $('enemy-delete').addEventListener('click',()=>{if(!current()||!confirm('刪除「'+current().name+'」？'))return;try{const next={version:1,teams:savedData.teams.filter(t=>t.id!==selected)};localStorage.setItem(key,JSON.stringify(next));savedData=structuredClone(next);data.teams=data.teams.filter(t=>t.id!==selected);pending.delete(selected);selected=data.teams[0]?.id;dirty=pending.has(selected);render();say('已刪除；某分類若無正權重隊伍，遊戲會提示設定錯誤。');}catch(e){say('儲存失敗：'+e.message);}});
  window.addEventListener('characters-changed',e=>{if(current()&&dirty){const draft=read();data.teams=data.teams.map(t=>t.id===selected?draft:t);}items=e.detail;render();});
+ window.addEventListener('skills-changed',()=>{if(current()){const draft=read();data.teams=data.teams.map(t=>t.id===selected?draft:t);}render();});
  window.addEventListener('laws-changed',()=>{if(current()){const draft=read();data.teams=data.teams.map(t=>t.id===selected?draft:t);}render();});
  window.addEventListener('beforeunload',e=>{if(dirty||pending.size){e.preventDefault();e.returnValue='';}});
  selected=data.teams[0]?.id;render();

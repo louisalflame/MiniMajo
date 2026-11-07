@@ -1,4 +1,5 @@
 (() => {
+ function startJourneyUI(){
  'use strict';
  const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
  const svg=(tag,attrs={})=>{const el=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));return el;};
@@ -156,6 +157,7 @@
   describeEffect:EffectEditor.describe,
   getReward:()=>run.rewardChoice,
   claim:(token,index)=>Journey.claim(run,token,index),
+  skip:token=>Journey.skipReward(run,token),
   openPreparation:()=>ExpeditionUI.open('gear'),
   onComplete(){redraw();focusBattleReturn();},
   onClaim(result){
@@ -216,6 +218,12 @@
  });
  globalThis.addEventListener('message',event=>{
   if(event.source!==$('journey-frame').contentWindow)return;
+  if(event.data?.type==='minimajo-reposition'){
+   const data=event.data;
+   try{if(!battleOpen||data.token!==run.encounter?.token||run.encounter.started||data.team!==0||preparing)throw Error('只能在開戰前調整我方站位。');payload=Journey.reposition(run,data.from,data.to);sendBattle();}
+   catch(error){$('journey-frame').contentWindow.postMessage({type:'minimajo-reposition-error',requestId:data.requestId,token:data.token,message:error.message},'*');}
+   return;
+  }
   if(event.data?.type==='minimajo-preview-ready'){frameReady=true;sendBattle();return;}
   if(event.data?.type==='minimajo-journey-return'){
    if(battleOpen&&!run.encounter&&completedBattleToken!==null&&event.data.token===completedBattleToken)$('journey-return').click();
@@ -226,7 +234,7 @@
    if(event.data.type==='minimajo-prepare-ready'&&event.data.allowed===true&&!run.encounter.started){preparing=true;ExpeditionUI.open('gear');return;}
   }
   if(!battleOpen||event.data?.type!=='minimajo-journey-result')return;
-  try{const result=Journey.settle(run,event.data);if(!result)return;completedBattleToken=event.data.token;payload=null;const text=result.winner===0?'':result.winner==='draw'?'平手':'戰鬥敗北，可返回整備後重試。';$('journey-battle-status').textContent=text;$('journey-return').textContent='返回地圖';$('journey-return').hidden=false;$('journey-battle-gear').hidden=true;redraw();if(result.winner===0)rewardUI.show();else if(result.winner===1){selected=state.current;cameraOrigin=JourneyView.world(state.map.cells[state.current]);$('journey-return').click();}}catch(e){$('journey-battle-status').textContent=e.message;}
+  try{const result=Journey.settle(run,event.data);if(!result)return;completedBattleToken=event.data.token;payload=null;const text=result.winner===0?'':result.winner==='draw'?'平手':'戰鬥敗北，可返回整備後重試。';$('journey-battle-status').textContent=text;$('journey-return').textContent='返回地圖';$('journey-return').hidden=false;$('journey-battle-gear').hidden=true;redraw();if(result.winner===0&&state.complete){location.assign('index.html');return;}if(result.winner===0)rewardUI.show();else if(result.winner===1){selected=state.current;cameraOrigin=JourneyView.world(state.map.cells[state.current]);$('journey-return').click();}}catch(e){$('journey-battle-status').textContent=e.message;}
  });
  $('journey-new').addEventListener('click',()=>{if(!state.complete||rewardUI.pending())return;run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(dataStorage),Laws.read(dataStorage).laws,EchoLevels.read(dataStorage));state=run.map;selected=state.current;angle=0;cameraOrigin=JourneyView.world(state.map.cells[state.current]);ExpeditionUI.bind(run.roster);redraw();});
  const requestReady=()=>$('journey-frame').contentWindow.postMessage({type:'minimajo-request-ready'},'*');
@@ -234,4 +242,7 @@
  $('journey-frame').addEventListener('load',requestReady);
  requestReady();
  redraw();
+ }
+ if(globalThis.MiniMajoAssetsReady)globalThis.MiniMajoAssetsReady.then(startJourneyUI);
+ else startJourneyUI();
 })();

@@ -13,11 +13,11 @@ class Element{
 }
 
 function setup(reward,options={}){
- const ids=['journey-reward','reward-options','reward-warning','reward-empty','reward-continue','reward-gear','reward-hub','reward-money','reward-characters','reward-money-dialog','reward-money-amount','reward-money-close','reward-back','reward-hub-close','reward-confirm','reward-inspect','reward-description-scroll','reward-selected','reward-effects','reward-laws'];
+ const ids=['journey-reward','reward-options','reward-warning','reward-empty','reward-continue','reward-gear','reward-hub','reward-money','reward-characters','reward-money-dialog','reward-money-amount','reward-money-close','reward-back','reward-hub-close','reward-confirm','reward-skip','reward-inspect','reward-description-scroll','reward-selected','reward-effects','reward-laws'];
  const nodes=new Map(ids.map(id=>[id,new Element()]));
  const context=vm.createContext({DialogDismiss:require('../js/dialog-dismiss.js'),CharacterArt:require('../js/character-art.js')});
  vm.runInContext(fs.readFileSync('js/journey-reward-ui.js','utf8'),context);
- const calls={preparation:0,claims:[],finished:[]};
+ const calls={preparation:0,claims:[],skips:[],finished:[]};
  let full=true;
  const ui=context.JourneyRewardUI.create({
   document:{getElementById:id=>nodes.get(id),createElement:()=>new Element()},
@@ -31,6 +31,7 @@ function setup(reward,options={}){
    reward=null;
    return result;
   },
+  skip(token){calls.skips.push(token);if(options.skipError)throw Error('放棄失敗');reward=null;return {skipped:true,gold:10};},
   openPreparation(){calls.preparation++;full=false;},
   onClaim:result=>calls.finished.push(result)
  });
@@ -52,6 +53,19 @@ test('empty reward acknowledgement closes once and does not invent a character',
  assert.equal(n.get('reward-options').children.length,0);assert.equal(n.get('reward-empty').hidden,false);assert.equal(n.get('reward-continue').hidden,false);
  n.get('reward-continue').click();n.get('reward-continue').click();
  assert.deepEqual(calls.claims,[['empty',null]]);assert.deepEqual(calls.finished,[null]);assert.equal(n.get('journey-reward').open,false);ui.show();assert.equal(n.get('journey-reward').open,false);
+});
+
+test('skip works without choosing a card and still requires base money acknowledgement',()=>{
+ const unit={name:'角色',stars:1,rarity:'SR',job:'守護',space:1,race:'人類',affinity:'物理',maxHp:10,effects:[]};
+ const {ui,nodes:n,calls}=setup({token:'skip',choices:[unit],gold:40});ui.show();n.get('reward-characters').click();assert.equal(n.get('reward-skip').hidden,false);
+ n.get('reward-skip').click();n.get('reward-skip').click();assert.deepEqual(calls.skips,['skip']);assert.equal(calls.claims.length,0);assert.equal(n.get('journey-reward').open,false);assert.equal(ui.pending(),true);assert.equal(n.get('reward-characters').disabled,true);
+ n.get('reward-money').click();assert.equal(n.get('reward-money-amount').textContent,'40');n.get('reward-money-close').click();assert.equal(ui.pending(),false);
+});
+
+test('skip failure preserves options for retry; empty rewards cannot produce skip bonus',()=>{
+ const unit={name:'角色',stars:1,rarity:'SR',job:'守護',space:1,race:'人類',affinity:'物理',maxHp:10,effects:[]},options={skipError:true};
+ const {ui,nodes:n,calls}=setup({token:'retry-skip',choices:[unit],gold:40},options);ui.show();n.get('reward-characters').click();n.get('reward-skip').click();assert.equal(n.get('journey-reward').open,true);assert.match(n.get('reward-warning').textContent,/放棄失敗/);assert.equal(n.get('reward-options').children.length,1);options.skipError=false;n.get('reward-skip').click();assert.equal(n.get('journey-reward').open,false);assert.equal(calls.finished.length,1);
+ const empty=setup({token:'empty-skip',choices:[]});empty.ui.show();empty.nodes.get('reward-characters').click();assert.equal(empty.nodes.get('reward-skip').hidden,true);empty.nodes.get('reward-skip').click();assert.equal(empty.calls.skips.length,0);
 });
 
 test('approved icons are production defaults; candidate overrides and SVG fallback stay explicit',()=>{

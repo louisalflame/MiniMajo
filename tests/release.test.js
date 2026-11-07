@@ -8,10 +8,13 @@ test('release is independent, preserves source settings, and failed builds prese
  assert.doesNotMatch(fs.readFileSync(path.join(dir,'index.html'),'utf8'),/editor\.html/);
  const manifest=JSON.parse(fs.readFileSync(path.join(dir,'release.json')));
  const html=fs.readFileSync(path.join(dir,'play.html'),'utf8');
+ assert.match(html,/data-assets-loading/);assert.match(html,/iframe[^>]+data-src=/);assert.match(html,/js\/asset-preloader.js/);
  assert.ok(html.includes(manifest.data));assert.ok(html.indexOf(manifest.data)<html.indexOf('js/storage.js'));assert.ok(html.indexOf('js/public-data.js')<html.indexOf('js/status-loader.js'));
  const store={getItem(){throw Error('must not read editor/browser cache');},setItem(){throw Error('must not write browser cache');}};
  const context=vm.createContext({console,structuredClone,localStorage:store,document:{documentElement:{hasAttribute:()=>true}},window:null});context.window=context;
  for(const name of [manifest.data,'js/storage.js','js/saved-data.js','js/public-data.js','js/config.js','js/statuses.js','js/effects.js','js/status-loader.js','js/enums.js','js/character-art.js','js/database.js','js/skills.js','js/hex-map.js','js/laws.js','js/echo-levels.js','js/expedition.js','js/enemy-teams.js','js/journey.js'])vm.runInContext(fs.readFileSync(path.join(dir,name),'utf8'),context,{filename:name});
+ function imageFiles(folder){return fs.readdirSync(path.join(dir,folder),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?imageFiles(folder+'/'+entry.name):/\.(png|jpe?g|webp|svg|gif|avif)$/i.test(entry.name)?[folder+'/'+entry.name]:[]);}
+ assert.deepEqual([...context.MiniMajoRelease.images],imageFiles('assets').sort());
  const run=vm.runInContext(`(()=>{const s=MiniMajoPublicData.storage;return Journey.create(ItemDB.read(s).items,SkillDB.read(s).skills,'release-test',HexMap.read(s),EnemyTeams.read(s),GameConfig.read(s),Laws.read(s).laws,EchoLevels.read(s));})()`,context);
  assert.equal(context.publicDataError,undefined);assert.equal(context.statusLibraryError,undefined);
  assert.equal(run.roster.active.length,10);assert.ok(run.roster.active.some(Boolean));assert.equal(run.roster.gold,JSON.parse(before).data.config.startingGold);

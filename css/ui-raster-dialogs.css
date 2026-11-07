@@ -16,6 +16,8 @@ body dialog.ui-panel.reward-hub .reward-categories button{min-height:64px;font-s
 body dialog.ui-panel.reward-money-dialog{width:min(560px,92vw)}
 body dialog.ui-panel.reward-money-dialog #reward-money-close{width:220px;max-width:90%}
 body dialog.ui-panel.reward-dialog .reward-actions button{min-width:170px}
+body dialog.ui-panel.reward-dialog .reward-actions{flex-wrap:wrap;align-items:center}
+.reward-skip-crystal{vertical-align:middle;margin-left:8px}
 @media(max-width:650px){body dialog.ui-panel.reward-dialog{padding:42px 22px 24px}body dialog.ui-panel.reward-dialog::before{border-width:28px;border-image-width:28px}body dialog.ui-panel.reward-dialog>.ui-panel-title{width:280px;height:56px;top:-28px;font-size:23px;padding:11px 30px}body dialog.ui-panel.reward-dialog>.ui-panel-body{max-height:calc(90dvh - 66px);padding:3px}body dialog.ui-panel.reward-hub .reward-categories{gap:12px;margin:36px 0 20px}body dialog.ui-panel.reward-hub .reward-categories button{font-size:19px!important;padding-inline:20px;min-height:54px}body dialog.ui-panel.reward-dialog .reward-actions{flex-wrap:wrap}}
 
 /* Fit choices themselves; the whole dialog body owns any vertical scrolling. */

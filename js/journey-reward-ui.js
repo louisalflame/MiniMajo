@@ -3,7 +3,7 @@
 
  // The journey owns reward generation and claiming. This controller only renders
  // the saved choices and reports player actions; opening preparation never rerolls.
- function create({document,describeEffect,getReward,claim,openPreparation,onClaim,onComplete=()=>{},iconAssetBase='assets/ui/card-icons/approved-v1/'}){
+ function create({document,describeEffect,getReward,claim,skip,openPreparation,onClaim,onComplete=()=>{},iconAssetBase='assets/ui/card-icons/approved-v1/'}){
   const $=id=>document.getElementById(id),dialog=$('journey-reward'),hub=$('reward-hub');
   let receipt=null,selection=null;
   const description=$('reward-description-scroll');
@@ -23,9 +23,9 @@
    $('reward-money').disabled=receipt.viewed;$('reward-money').textContent='水晶';$('reward-characters').disabled=!reward;$('reward-characters').textContent='魔女';if(!hub.open)hub.showModal();
   }
 
-  function finish(token,index){
+  function finish(token,index,skipped=false){
    try{
-    const result=claim(token,index);
+    const result=skipped?skip(token):claim(token,index);
     dialog.close();
     onClaim(result);showHub();
    }catch(error){
@@ -107,10 +107,12 @@
    $('reward-warning').hidden=true;
    $('reward-empty').hidden=reward.choices.length>0;
    $('reward-continue').hidden=reward.choices.length>0;
+   $('reward-skip').hidden=!skip||reward.choices.length===0;
    inspect(reward);
    if(!dialog.open)dialog.showModal();
   }
   $('reward-confirm').addEventListener('click',()=>{const reward=getReward();if(!reward||selection?.token!==reward.token||!reward.choices[selection.index])return;finish(reward.token,selection.index);});
+  $('reward-skip').addEventListener('click',()=>{const reward=getReward();if(!skip||!reward?.choices.length)return;finish(reward.token,null,true);});
 
   dialog.addEventListener('cancel',event=>{event.preventDefault();dialog.close();showHub();});
   DialogDismiss.bind(dialog,()=>{dialog.close();showHub();});

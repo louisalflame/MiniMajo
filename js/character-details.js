@@ -28,6 +28,7 @@
   }));
  }
  function render(document,unit,{stats,statuses=[]}={}){
+  const Laws=typeof module!=='undefined'?require('./laws.js'):root.Laws;
   const $=id=>document.getElementById(id),node=(tag,text)=>{const n=document.createElement(tag);n.textContent=text;return n;};
   $('detail-name').textContent=unit.name;
   $('detail-name').title=unit.name;
@@ -45,7 +46,23 @@
    row.append(node('span',status.label??''));return row;
   }));
   $('detail-state-section').hidden=!statuses.length;
-  $('detail-laws').replaceChildren(...(unit.laws??[]).map(law=>node('li',law.name)));
+  $('detail-laws').replaceChildren(...(unit.laws??[]).map(law=>{
+   const row=node('li','');row.className='detail-law-entry';
+   const heading=node('div','');heading.className='detail-law-heading';
+   const icon=node('span','');icon.className='detail-law-icon';icon.setAttribute('aria-hidden','true');
+   const fallback=node('span','✧');icon.append(fallback);
+   if(law.imagePath&&Laws.validImagePath(law.imagePath)){
+    const image=node('img','');image.alt='';image.hidden=true;
+    image.addEventListener('load',()=>{image.hidden=false;fallback.hidden=true;});
+    image.addEventListener('error',()=>{image.hidden=true;fallback.hidden=false;});
+    image.src=law.imagePath.split('/').map(encodeURIComponent).join('/');icon.append(image);
+   }
+   heading.append(icon,node('strong',law.name));
+   const effects=node('ul','');effects.className='detail-law-effects';
+   const lines=(law.description??'').split(/\r?\n/).map(text=>text.trim()).filter(Boolean);
+   effects.append(...(lines.length?lines:['尚未填寫效果說明。']).map(text=>node('li',text)));
+   row.append(heading,effects);return row;
+  }));
   $('detail-law-section').hidden=!(unit.laws?.length);
   const content=document.querySelector?.('.character-detail .detail-content');
   if(content)content.scrollTop=0;
