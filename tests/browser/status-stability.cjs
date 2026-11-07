@@ -4,10 +4,12 @@ const {chromium}=require(process.env.MINIMAJO_PLAYWRIGHT_MODULE||'playwright');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'../..'),server=require('../../editor-server.cjs').createEditorServer({root});
 const before=fs.readFileSync(path.join(root,'minimajo-editor.json')),statuses=JSON.parse(before).data.statuses;
+statuses.statuses.find(s=>s.id==='power').description='增加傷害攻擊力。\n狀態效果第二行。';
 (async()=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));let browser;
  try{
   browser=await chromium.launch({headless:true,channel:'msedge'});
+  fs.mkdirSync(path.join(root,'tmp/browser/status-explanations'),{recursive:true});
   for(const width of [1366,390]){
    const page=gamePage(await browser.newPage({viewport:{width,height:900}})),errors=[];page.on('pageerror',e=>errors.push(e.message));
    await page.addInitScript(()=>{let api;Object.defineProperty(window,'Battle',{configurable:true,get:()=>api,set(value){api=value;const create=value.create;value.create=(...args)=>window.statusBattle=create(...args);}});});
@@ -35,6 +37,14 @@ const before=fs.readFileSync(path.join(root,'minimajo-editor.json')),statuses=JS
    await page.waitForFunction(()=>statusBattle.tick>=statusWatch.start+12);
    const result=await page.evaluate(()=>{const w=statusWatch;w.done=true;w.observer.disconnect();return {same:w.host.querySelector('img')===w.image,mutations:w.mutations,hidden:w.hidden,frames:w.frames,labelChanged:w.host.firstElementChild.title!==w.title};});
    assert(result.same&&result.frames>10&&result.labelChanged);assert.equal(result.mutations,0);assert.equal(result.hidden,0);
+   const badge=page.locator('#ally-units .unit-status-badge').first();await badge.hover();
+   assert.match(await badge.getAttribute('title'),/^.+ · .+秒\n增加傷害攻擊力。\n狀態效果第二行。$/);
+   await page.locator('#ally-units [data-battle-id="0:0"]').click();
+   assert.deepEqual(await page.locator('#detail-statuses .detail-status-effects>li').allTextContents(),['增加傷害攻擊力。','狀態效果第二行。']);
+   assert(await page.locator('#detail-statuses .detail-status-heading .status-art-icon').isVisible());
+   await page.locator('#detail-statuses .detail-status-entry').scrollIntoViewIfNeeded();
+   await page.screenshot({path:path.join(root,`tmp/browser/status-explanations/detail-${width}.png`)});
+   await page.keyboard.press('Escape');
    await page.evaluate(()=>{
     const unit=statusBattle.teams[0].units[0];
     Statuses.apply(unit,{status:'power',duration:{kind:'seconds',value:1}},7,statusBattle.tick);

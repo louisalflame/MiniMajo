@@ -32,6 +32,14 @@
  const snapshot=()=>({version:1,statuses:structuredClone(definitions)});
  const classification=kind=>definitions.find(d=>d.id===kind)?.classification??'neutral';
  const imagePath=kind=>definitions.find(d=>d.id===kind)?.imagePath??'';
+ function description(status){
+  const kind=typeof status==='string'?status:status.kind,definition=definitions.find(d=>d.id===kind);
+  const text=typeof status==='object'&&typeof status.description==='string'?status.description:definition?.description??'';
+  const lines=text.split(/\r?\n/).map(line=>line.trim()).filter(Boolean);
+  if(lines.length)return lines.join('\n');
+  const effects=typeof status==='object'&&Array.isArray(status.rules)?status.rules:definition?.effects??[];
+  return [...new Set(effects.map(effect=>behaviors[effect.behavior]).filter(Boolean))].join('\n')||'尚未填寫效果說明。';
+ }
  const rules=kind=>definitions.find(d=>d.id===kind)?.effects??[];
  function policy(def){if(def?.effects?.some(e=>e.behavior==='dodge'))return 'attacks';if(def?.enhanced)return 'permanent';if(def?.effects?.some(e=>['haste','fatigue'].includes(e.behavior)))return 'seconds';return 'free';}
  const durationPolicy=kind=>policy(definitions.find(d=>d.id===kind));
@@ -49,11 +57,11 @@
   if(timed(e.status)&&d.kind!=='seconds')throw Error('急速／倦怠使用秒數設定持續時間。');
   return {status:e.status,target:e.target,duration:d.kind==='permanent'?{kind:d.kind}:{kind:d.kind,value:d.value}};
  }
- function apply(u,e,amount,tick){e={...e,duration:normalizeDuration(e.status,e.duration)};const previous=(u.statuses||[]).find(x=>x.kind===e.status);const entry={kind:e.status,rules:structuredClone(rules(e.status)),amount:durationPolicy(e.status)==='permanent'?(previous?.amount??0)+amount:amount,appliedAt:tick,until:e.duration.kind==='seconds'?tick+Math.round(e.duration.value*10):null,remaining:e.duration.kind==='actions'?e.duration.value:null,attacks:e.duration.kind==='attacks'?1:null,nextPulse:previous?.nextPulse??tick+10,skipAt:tick+Math.round(u.cooldown*10)};u.statuses=u.statuses||[];u.statuses=u.statuses.filter(x=>x.kind!==e.status);u.statuses.push(entry);return entry;}
+ function apply(u,e,amount,tick){e={...e,duration:normalizeDuration(e.status,e.duration)};const previous=(u.statuses||[]).find(x=>x.kind===e.status);const entry={kind:e.status,description:definitions.find(d=>d.id===e.status)?.description??'',rules:structuredClone(rules(e.status)),amount:durationPolicy(e.status)==='permanent'?(previous?.amount??0)+amount:amount,appliedAt:tick,until:e.duration.kind==='seconds'?tick+Math.round(e.duration.value*10):null,remaining:e.duration.kind==='actions'?e.duration.value:null,attacks:e.duration.kind==='attacks'?1:null,nextPulse:previous?.nextPulse??tick+10,skipAt:tick+Math.round(u.cooldown*10)};u.statuses=u.statuses||[];u.statuses=u.statuses.filter(x=>x.kind!==e.status);u.statuses.push(entry);return entry;}
  const sum=(u,kind)=>(u.statuses||[]).reduce((n,x)=>n+amount(x,kind,u),0);
  const has=(u,kind)=>(u.statuses||[]).some(x=>x.kind===kind);
  const speed=u=>Math.max(0,Math.min(10,1+sum(u,'haste')-sum(u,'fatigue')));
  function actionEnd(u,eligible){u.statuses=(u.statuses||[]).filter(x=>{if(eligible.includes(x)&&x.remaining!==null&&!amount(x,'stun',u))x.remaining--;return x.remaining===null||x.remaining>0;});}
  function label(x,tick){return names[x.kind]+(fixed(x.kind)?'':x.amount)+' · '+(x.attacks!=null?x.attacks+'次敵方普通攻擊':x.until!==null?Math.max(0,(x.until-tick)/10).toFixed(1)+'秒':x.remaining!==null?x.remaining+'次行動':'永久');}
- const api={imagePath,classifications,defaultClassification,classification,enhancedKinds,policy,policyLabel,durationPolicy,normalizeDuration,validImagePath,read:(storage,warnings)=>(typeof module!=='undefined'?require('./saved-data.js'):root.SavedData).read('statuses',storage,warnings),load:(data,warnings,...args)=>(typeof module!=='undefined'?require('./saved-data.js'):root.SavedData).statuses(data,warnings,...args),behaviors,defaults,validateLibrary,configure,snapshot,rules,fixed,timed,amount,active,names,validate,apply,sum,has,speed,actionEnd,label};if(typeof module!=='undefined')module.exports=api;else root.Statuses=api;
+ const api={description,imagePath,classifications,defaultClassification,classification,enhancedKinds,policy,policyLabel,durationPolicy,normalizeDuration,validImagePath,read:(storage,warnings)=>(typeof module!=='undefined'?require('./saved-data.js'):root.SavedData).read('statuses',storage,warnings),load:(data,warnings,...args)=>(typeof module!=='undefined'?require('./saved-data.js'):root.SavedData).statuses(data,warnings,...args),behaviors,defaults,validateLibrary,configure,snapshot,rules,fixed,timed,amount,active,names,validate,apply,sum,has,speed,actionEnd,label};if(typeof module!=='undefined')module.exports=api;else root.Statuses=api;
 })(globalThis);

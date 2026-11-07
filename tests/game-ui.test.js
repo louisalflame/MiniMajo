@@ -429,13 +429,19 @@ test('late duplicate campaign payload never resets an already started battle',()
 test('status artwork survives countdowns, refreshed status objects and unrelated badge changes',()=>{
  const S=require('../js/statuses.js'),previous=S.snapshot();
  try{
-  S.configure({version:1,statuses:previous.statuses.map(s=>({...s,imagePath:s.id==='power'?'assets/ui/status-icons/v1/test-power.png':s.imagePath}))});
+  S.configure({version:1,statuses:previous.statuses.map(s=>({...s,description:s.id==='power'?'增加傷害攻擊力。\n第二條狀態說明。':s.description,imagePath:s.id==='power'?'assets/ui/status-icons/v1/test-power.png':s.imagePath}))});
   const ui=setup(true),base={...require('../js/database.js').defaults[0],maxHp:10000,cooldown:120,effects:[]},row=u=>[u,...Array(9).fill(null)];
   ui.send({type:'minimajo-preview',loadouts:[row(base),row(base)],skills:[],limits:[10,10]});
   const unit=ui.state.teams[0].units[0];S.apply(unit,{status:'power',duration:{kind:'seconds',value:2}},3,0);
   ui.elements.get('play').click();
   const host=ui.elements.get('ally-units').children[0].querySelector('.unit-status'),badge=host.children[0],icon=badge.children[0],image=icon.children[0];
   image.onload();assert.equal(image.hidden,false);const label=badge.title;
+  assert.match(label,/\n增加傷害攻擊力。\n第二條狀態說明。$/);
+  ui.elements.get('ally-units').children[0].click();
+  const detail=ui.elements.get('detail-statuses').children[0];
+  assert.equal(detail.className,'detail-status-entry');assert.equal(detail.children[0].className,'detail-status-heading');
+  assert.deepEqual(detail.children[1].children.map(el=>el.textContent),['增加傷害攻擊力。','第二條狀態說明。']);
+  ui.document.handlers.keydown({key:'Escape',preventDefault(){}});
   ui.advance(3);assert.equal(host.children[0],badge);assert.equal(badge.children[0].children[0],image);assert.equal(image.hidden,false);assert.notEqual(badge.title,label);
   S.apply(unit,{status:'power',duration:{kind:'seconds',value:2}},7,ui.state.tick);ui.advance(1);
   assert.equal(host.children[0],badge);assert.match(badge.title,/7/);assert.equal(image.hidden,false);

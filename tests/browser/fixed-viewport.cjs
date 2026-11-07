@@ -97,11 +97,34 @@ const before=fs.readFileSync(path.join(root,'minimajo-editor.json')),server=requ
    await raw.screenshot({path:path.join(out,`reward-${width}.png`)});
    await page.locator('#reward-options .reward-card').first().click();await page.locator('#reward-confirm').click();
    await battle.locator('#play').click();await page.locator('#journey-battle').waitFor({state:'hidden'});
+   // BOSS victory must remain visible until an explicit player confirmation.
+   const bossLabel=await page.locator('.hex-cell.reachable').first().getAttribute('aria-label');
+   const [,bq,br]=bossLabel.match(/座標 (-?\d+), (-?\d+)/);
+   await page.evaluate(({q,r})=>{const [id,cell]=Object.entries(fixedJourney.map.map.cells).find(([,c])=>c.q===+q&&c.r===+r);cell.type='goal';fixedJourney.map.cleared.delete(id);fixedJourney.enemyRolls[id]=structuredClone(Object.values(fixedJourney.enemyRolls)[0]);if(!Journey.move(fixedJourney,id))throw Error('Cannot enter isolated BOSS fixture');dispatchEvent(new Event('resize'));},{q:bq,r:br});
+   await page.locator('#map-resolve').click();
+   await page.locator('#journey-battle').waitFor({state:'visible'});
+   await battleFrame.waitForFunction(()=>fixedBattle&&!fixedBattle.started&&!fixedBattle.done);
+   await battle.locator('#play').click();await battleFrame.waitForFunction(()=>fixedBattle.started);
+   await battleFrame.evaluate(()=>{fixedBattle.teams[1].units.forEach(u=>u.hp=0);Battle.step(fixedBattle);});
+   await battle.locator('#battle-result-confirm').waitFor({state:'visible'});
+   await raw.waitForTimeout(1000);
+   assert(raw.url().endsWith('/play.html'));assert.equal(await battle.locator('#battle-result-title').textContent(),'VICTORY');
+   assert(await page.evaluate(()=>fixedJourney.encounter?.type==='goal'&&!fixedJourney.map.complete));
+   assert(!(await page.locator('#reward-hub').isVisible()));
+   await raw.screenshot({path:path.join(out,`boss-victory-${width}.png`)});
+   await battle.locator('#battle-result-confirm').click();
+   await page.locator('#journey-complete[open]').waitFor();
+   assert.equal(await page.locator('#journey-complete-title').textContent(),'JOURNEY COMPLETE');
+   await raw.waitForTimeout(600);assert(raw.url().endsWith('/play.html'));
+   assert(!(await page.locator('#reward-hub').isVisible()));
+   await raw.screenshot({path:path.join(out,`journey-complete-${width}.png`)});
+   await page.locator('#journey-complete-confirm').click();await raw.waitForURL('**/index.html');
+   await page.getByRole('link',{name:'START'}).waitFor();
    assert.deepEqual(await page.evaluate(()=>[innerWidth,innerHeight]),[1600,900]);assert.deepEqual(errors,[]);await context.close();
   }
   const editor=await browser.newPage();await editor.goto(url+'/index.html');const game=gamePage(editor);
   await game.locator('.workshop-link').click();await editor.waitForFunction(()=>document.documentElement.dataset.editorReady==='true');assert.equal(await editor.locator('#game-frame').count(),0);await editor.close();
   assert.deepEqual(fs.readFileSync(path.join(root,'minimajo-editor.json')),before);
-  console.log('PASS fixed desktop/landscape/portrait: logical viewport, safe bounds, touch buy/merge/ghosts, resize cancellation, long-text touch scrolling, stacked dialogs, nested battle touch reposition, victory/rewards/map, editor escape, no duplicate journey or source writes.');
+  console.log('PASS fixed desktop/landscape/portrait: logical viewport, safe bounds, touch buy/merge/ghosts, resize cancellation, long-text touch scrolling, stacked dialogs, nested battle touch reposition, victory/rewards/map, BOSS victory waits for click before home, editor escape, no duplicate journey or source writes.');
  }finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}
 })().catch(error=>{console.error(error);process.exitCode=1;});

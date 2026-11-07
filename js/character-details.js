@@ -42,8 +42,13 @@
   $('detail-statuses').replaceChildren(...statuses.map(status=>{
    if(typeof status==='string')return node('li',status);
    const row=node('li','');row.className='detail-status-entry';
-   if(status.kind&&Icons)row.append(Icons.createStatus(document,status.kind));
-   row.append(node('span',status.label??''));return row;
+   const heading=node('div','');heading.className='detail-status-heading';
+   if(status.kind&&Icons)heading.append(Icons.createStatus(document,status.kind));
+   heading.append(node('strong',status.label??''));
+   const effects=node('ul','');effects.className='detail-status-effects';
+   const lines=(status.description??'').split(/\r?\n/).map(text=>text.trim()).filter(Boolean);
+   effects.append(...(lines.length?lines:['尚未填寫效果說明。']).map(text=>node('li',text)));
+   row.append(heading,effects);return row;
   }));
   $('detail-state-section').hidden=!statuses.length;
   $('detail-laws').replaceChildren(...(unit.laws??[]).map(law=>{
