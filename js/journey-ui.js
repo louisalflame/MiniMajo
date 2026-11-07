@@ -248,7 +248,19 @@
    if(event.data.type==='minimajo-prepare-ready'&&event.data.allowed===true&&!run.encounter.started){preparing=true;ExpeditionUI.open('gear');return;}
   }
   if(!battleOpen||event.data?.type!=='minimajo-journey-result')return;
-  try{const result=Journey.settle(run,event.data);if(!result)return;if(result.victorySnapshot)historyClient?.submit(result.victorySnapshot);completedBattleToken=event.data.token;payload=null;const text=result.winner===0?'':result.winner==='draw'?'平手':'戰鬥敗北，可返回整備後重試。';$('journey-battle-status').textContent=text;$('journey-return').textContent='返回地圖';$('journey-return').hidden=false;$('journey-battle-gear').hidden=true;redraw();if(result.winner===0&&state.complete){location.assign('index.html');return;}if(result.winner===0)rewardUI.show();else if(result.winner===1){selected=state.current;cameraOrigin=JourneyView.world(state.map.cells[state.current]);$('journey-return').click();}}catch(e){$('journey-battle-status').textContent=e.message;}
+  try{const result=Journey.settle(run,event.data);if(!result)return;if(result.victorySnapshot)historyClient?.submit(result.victorySnapshot);completedBattleToken=event.data.token;payload=null;const text=result.winner===0?'':result.winner==='draw'?'平手':'戰鬥敗北，可返回整備後重試。';$('journey-battle-status').textContent=text;$('journey-return').textContent='返回地圖';$('journey-return').hidden=false;$('journey-battle-gear').hidden=true;redraw();if(result.winner===0&&state.complete){showCompletion();return;}if(result.winner===0)rewardUI.show();else if(result.winner===1){selected=state.current;cameraOrigin=JourneyView.world(state.map.cells[state.current]);$('journey-return').click();}}catch(e){$('journey-battle-status').textContent=e.message;}
+ });
+ let completionLeaving=false;
+ function showCompletion(){
+  const dialog=$('journey-complete');
+  $('journey-return').hidden=true;
+  dialog.hidden=false;if(!dialog.open)dialog.showModal();
+  $('journey-complete-confirm').focus({preventScroll:true});
+ }
+ $('journey-complete').addEventListener('cancel',event=>event.preventDefault());
+ $('journey-complete-confirm').addEventListener('click',()=>{
+  if(!$('journey-complete').open||!state.complete||completionLeaving)return;
+  completionLeaving=true;location.assign('index.html');
  });
  $('journey-new').addEventListener('click',()=>{if(!state.complete||rewardUI.pending())return;run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(dataStorage),Laws.read(dataStorage).laws,EchoLevels.read(dataStorage));historyClient=makeHistoryClient();state=run.map;selected=state.current;angle=0;cameraOrigin=JourneyView.world(state.map.cells[state.current]);ExpeditionUI.bind(run.roster);redraw();});
  const requestReady=()=>$('journey-frame').contentWindow.postMessage({type:'minimajo-request-ready'},'*');

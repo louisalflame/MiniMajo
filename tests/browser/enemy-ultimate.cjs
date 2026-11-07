@@ -35,7 +35,7 @@ const server=require('../../editor-server.cjs').createEditorServer({root,dataFil
   await frame.locator('#enemy-cast').focus();await frame.locator('#enemy-skill-tooltip').waitFor({state:'visible'});
   for(const width of [1920,390]){await page.setViewportSize({width,height:width===390?844:1080});await assertOrbUnclipped();await frame.locator('#enemy-cast').click();await frame.locator('#enemy-skill-tooltip').waitFor({state:'visible'});const box=await frame.locator('#enemy-skill-tooltip').boundingBox();assert.ok(box.x>=0&&box.x+box.width<=width+1);await page.screenshot({path:path.join(out,'tooltip-'+width+'.png')});}
   const token=await page.evaluate(()=>journeyRun.encounter.token);await iframe.evaluate(token=>parent.postMessage({type:'minimajo-journey-result',token,winner:0,hp:battleState.teams[0].units.map(u=>u.hp)},'*'),token);
-  await page.waitForURL('**/index.html');assert.deepEqual(errors,[]);
+  await page.locator('#journey-complete-confirm').click();await page.waitForURL('**/index.html');assert.deepEqual(errors,[]);
   // Same fixture in a standalone preview: normal/no enemy ultimate stays hidden.
   await page.goto(url+'/battle.html?preview=1');await page.waitForFunction(()=>!!globalThis.battleState);
   const unit={...D.defaults[0],effects:[],cooldown:120,maxHp:500};const row=[unit,...Array(9).fill(null)];

@@ -164,7 +164,7 @@
       reuse('system:posture',label,()=>statusBadge('posture',label));
     }
     for(const status of unit.statuses){
-      const label=Statuses.label(status,state.tick),key='status:'+status.kind+':'+(Statuses.imagePath(status.kind)||'');
+      const label=Statuses.label(status,state.tick)+'\n'+Statuses.description(status),key='status:'+status.kind+':'+(Statuses.imagePath(status.kind)||'');
       reuse(key,label,()=>{const badge=node('span','unit-status-badge');badge.setAttribute('role','img');badge.append(UIIcons.createStatus(document,status.kind));return badge;});
     }
     for(const key of card.statusBadges.keys())if(!keys.has(key))card.statusBadges.delete(key);
@@ -412,7 +412,7 @@
     $('character-detail').hidden=false;
 
     const stats=[['職業',unit.job],['種族 / 類型',unit.race+' / '+unit.affinity],['星等 / 階級',unit.stars+' 星 / '+unit.rarity],['血量',unit.hp+' / '+unit.maxHp],['護盾',unit.shield],['攻擊力',Effects.attackValue(unit,'damage')],['治療力',Effects.attackValue(unit,'heal')],['護盾力',Effects.attackValue(unit,'shield')],['攻擊距離',(unit.attackRange??1)+' 格'],['失衡',unit.posture+' / '+state.config.postureLimit],['失衡效果加成',unit.outputBonuses?.posture??0],['狀態秒數加成',unit.statusDurationBonus??0],['狀態層數加成',unit.statusAmountBonus??0],['倒地時間',unit.weakDuration+' 秒'],['行動間隔',unit.cooldown+' 秒'],['移動距離',unit.moveDistance+' 格']];
-    const statuses=unit.statuses.map(x=>({kind:x.kind,label:Statuses.label(x,state.tick)}));
+    const statuses=unit.statuses.map(x=>({kind:x.kind,label:Statuses.label(x,state.tick),description:Statuses.description(x)}));
     if(unit.hp===0)statuses.unshift('已倒下，無法行動');
     else if(unit.weakUntil>state.tick)statuses.unshift('失衡倒地 · 剩餘 '+((unit.weakUntil-state.tick)/10).toFixed(1)+' 秒');
     CharacterDetails.render(document,unit,{stats,statuses});

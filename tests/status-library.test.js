@@ -1,4 +1,14 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');const S=require('../js/statuses.js'),B=require('../js/battle.js');
+test('status explanations retain applied descriptions and fall back to snapshot behavior text',()=>{
+ const original=S.snapshot();try{
+  const lib=S.snapshot(),power=lib.statuses.find(d=>d.id==='power');power.description='增加傷害\n額外說明';S.configure(lib);
+  const unit={cooldown:1,statuses:[]},entry=S.apply(unit,{status:'power',duration:{kind:'seconds',value:5}},3,0);
+  power.description='後來改寫';S.configure(lib);
+  assert.equal(S.description(entry),'增加傷害\n額外說明');
+  assert.equal(S.description({...entry,description:' \n ',rules:[{behavior:'regen',scale:1},{behavior:'power',value:2}]}),'每秒恢復 HP\n增加傷害攻擊力');
+  assert.equal(S.description('power'),'後來改寫');
+ }finally{S.configure(original);}
+});
 test('custom compound status runs periodic damage, power and speed with formulas and snapshot rules',()=>{
  const original=S.snapshot();try{
  const lib=structuredClone(original);lib.statuses.push({id:'custom',name:'烈焰',effects:[{behavior:'poison',scale:2},{behavior:'power',value:7},{behavior:'haste',formula:'0.5'}]});S.configure(lib);
