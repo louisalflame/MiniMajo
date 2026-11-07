@@ -151,9 +151,11 @@
    const unit=items.find(u=>u.id===value);if(!unit||!Number.isInteger(unit.space)||unit.space<1||i+unit.space>10||Array.from({length:unit.space},(_,j)=>i+j).some(n=>occupied.has(n))){note(w,p+'['+i+']','引用失效、重疊或超界，該起始格已設為空位');return null;}
    for(let n=i;n<i+unit.space;n++)occupied.add(n);return value;});
  }
- function enemies(data,w=warnings,items=get('characters').defaults){
+ function enemies(data,w=warnings,items=get('characters').defaults,skillDefinitions){
   const E=get('enemies'),seen=new Set();const rows=list(object(data).teams,[],300,w,'enemies.teams').map((value,i)=>{const x=object(value),p='enemies.teams['+i+']',board=slots(x.slots,items,w,p+'.slots');
    const team={id:id(x.id,'recovered-team',i,seen,w,p+'.id'),name:text(x.name,'未命名敵隊',40,w,p+'.name'),category:option(x.category,'normal',Object.keys(E.categories),w,p+'.category'),matchLevel:number(x.matchLevel,1,1,1000000,1,w,p+'.matchLevel'),weight:number(x.weight,0,0,1000000,1,w,p+'.weight'),slots:board,stars:[],laws:[]};
+   team.skillId=choose(x.skillId,null,v=>v===null||typeof v==='string'&&/^[a-zA-Z0-9_-]{1,80}$/.test(v),w,p+'.skillId');
+   if(team.skillId!==null&&skillDefinitions&&!skillDefinitions.some(skill=>skill.id===team.skillId)){team.skillId=null;note(w,p+'.skillId','極式引用失效，已設為無極式');}
    for(let n=0;n<10;n++){const u=items.find(u=>u.id===board[n]),star=x.stars?.[n];team.stars[n]=u&&star!=null?number(star,u.stars,u.stars,6,1,w,p+'.stars['+n+']'):null;team.laws[n]=u?laws(x.laws?.[n]??[],w,p+'.laws['+n+']',{allowDuplicates:true}).laws:[];}
    if(!board.some(Boolean)&&team.weight!==0){team.weight=0;note(w,p+'.weight','空隊伍已停用抽選，請在敵隊編輯器補入角色');}return team;});return E.validate({version:1,teams:rows});
  }
@@ -196,7 +198,7 @@
   if(kind==='skills')return skills(raw??{version:1,skills:get('skills').defaults},w);
   if(kind==='statuses')return statuses(raw??{version:1,statuses:get('statuses').defaults},w);
   if(kind==='laws')return laws(raw??{version:1,laws:[]},w);
-  if(kind==='config'||kind==='enemies'){const items=overrideItems??read('characters',storage,w).items;return kind==='config'?config(raw??get('config').defaults,w,items):enemies(raw??get('enemies').defaults(items),w,items);}
+  if(kind==='config'||kind==='enemies'){const items=overrideItems??read('characters',storage,w).items;return kind==='config'?config(raw??get('config').defaults,w,items):enemies(raw??get('enemies').defaults(items),w,items,read('skills',storage,w).skills);}
   if(kind==='capacity')return capacity(raw??[10,10],w);
   if(kind==='map'){if(raw===undefined){const H=get('map'),m=H.generate();return {version:1,radius:m.radius,seed:m.seed,rules:m.rules,rewardDecay:H.validateDecay()};}return map(raw,w);}
   throw Error('未知資料區域：'+kind);

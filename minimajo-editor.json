@@ -8,15 +8,15 @@
       "battleVolume": 80,
       "downSlowPercent": 20,
       "shopRerollBase": 10,
-      "shopRerollIncrement": 5,
+      "shopRerollIncrement": 2,
       "battleSeconds": 30,
       "overtimeDamage": 1,
       "overtimeInterval": 5,
       "startingGold": 50,
-      "normalReward": 80,
-      "eliteReward": 200,
+      "normalReward": 100,
+      "eliteReward": 300,
       "bossReward": 0,
-      "shopCount": 8,
+      "shopCount": 10,
       "sellPercent": 50,
       "postureLimit": 100,
       "posturePercent": 50,
@@ -1814,7 +1814,7 @@
                 {
                   "type": "shield",
                   "amount": {
-                    "multiplier": 1,
+                    "multiplier": 0.5,
                     "formula": "0",
                     "constant": 0
                   }
@@ -1832,7 +1832,7 @@
               ]
             }
           ],
-          "description": "對敵方單體造成等同0.3倍攻擊力的傷害\n對自身施加等同1倍攻擊力的護盾與【嘲諷】5秒\n\n常式：我方獸人受到攻擊時，賦予自身1【永續堅硬】",
+          "description": "對敵方單體造成等同0.3倍攻擊力的傷害\n對自身施加等同0.5倍攻擊力的護盾與【嘲諷】5秒\n\n常式：我方獸人受到攻擊時，賦予自身1【永續堅硬】",
           "passives": [
             {
               "when": "attacked",
@@ -2036,7 +2036,7 @@
                 {
                   "type": "shield",
                   "amount": {
-                    "multiplier": 0.6,
+                    "multiplier": 0.4,
                     "formula": "0",
                     "constant": 0
                   }
@@ -2044,7 +2044,7 @@
               ]
             }
           ],
-          "description": "對敵方單體造成等同1倍攻擊力的【虛弱】1次\n對自身和鄰近同伴施加等同0.6倍攻擊力的護盾\n\n常式：我方魔法角色被攻擊後，自身前進1秒",
+          "description": "對敵方單體造成等同1倍攻擊力的【虛弱】1次\n對自身和鄰近同伴施加等同0.4倍攻擊力的護盾\n\n常式：我方魔法角色被攻擊後，自身前進1秒",
           "passives": [
             {
               "when": "attacked",
@@ -4951,7 +4951,7 @@
                   "type": "damage",
                   "amount": {
                     "multiplier": 0.5,
-                    "formula": "self.shield",
+                    "formula": "self.shield*0.5",
                     "constant": 0
                   }
                 }
@@ -5001,7 +5001,7 @@
               ]
             }
           ],
-          "description": "對敵方單體造成等同0.5倍攻擊力+1倍護盾值的傷害\n對自身施加等同0.3倍攻擊力的護盾並賦予自身【嘲諷】5秒與10【堅硬】5秒\n\n常式：自身被攻擊後，對自身施加等同0.5倍攻擊力的護盾",
+          "description": "對敵方單體造成等同0.5倍攻擊力+0.5倍護盾值的傷害\n對自身施加等同0.3倍攻擊力的護盾並賦予自身【嘲諷】5秒與10【堅硬】5秒\n\n常式：自身被攻擊後，對自身施加等同0.2倍攻擊力的護盾",
           "passives": [
             {
               "when": "attacked",
@@ -5026,7 +5026,7 @@
                     {
                       "type": "shield",
                       "amount": {
-                        "multiplier": 0.5,
+                        "multiplier": 0.2,
                         "formula": "0",
                         "constant": 0
                       }
@@ -5190,7 +5190,7 @@
                 {
                   "type": "shield",
                   "amount": {
-                    "multiplier": 1,
+                    "multiplier": 0.4,
                     "formula": "0",
                     "constant": 0
                   }
@@ -5206,7 +5206,7 @@
               ]
             }
           ],
-          "description": "與我方血量最低角色互換位置\n對自身和鄰近同伴施加1倍攻擊力的護盾和0.3倍攻擊力的治療\n\n常式：自身交換位置後，自身賦予【嘲諷】5秒，對我方血量最低角色賦予3【再生】3秒",
+          "description": "與我方血量最低角色互換位置\n對自身和鄰近同伴施加0.4倍攻擊力的護盾和0.3倍攻擊力的治療\n\n常式：自身交換位置後，自身賦予【嘲諷】5秒，對我方血量最低角色賦予3【再生】3秒",
           "passives": [
             {
               "when": "swapped",
@@ -5446,7 +5446,7 @@
                 {
                   "type": "shield",
                   "amount": {
-                    "multiplier": 1,
+                    "multiplier": 0.5,
                     "formula": "0",
                     "constant": 0
                   }
@@ -5454,7 +5454,7 @@
               ]
             }
           ],
-          "description": "對敵方單體造成等同0.5倍攻擊力的傷害與5【混亂】3秒\n對自身和鄰近同伴施加等同1倍攻擊力的護盾\n\n常式：使用極式後，賦予敵方單體【僵直】2秒",
+          "description": "對敵方單體造成等同0.5倍攻擊力的傷害與5【混亂】3秒\n對自身和鄰近同伴施加等同0.5倍攻擊力的護盾\n\n常式：使用極式後，賦予敵方單體【僵直】2秒",
           "passives": [
             {
               "when": "playerSkill",
@@ -6970,7 +6970,7 @@
                 {
                   "type": "shield",
                   "amount": {
-                    "multiplier": 0.4,
+                    "multiplier": 0.2,
                     "formula": "0",
                     "constant": 0
                   }
@@ -7013,7 +7013,7 @@
               ]
             }
           ],
-          "description": "對我方全體角色施加等同0.4倍攻擊力的護盾並減少1倍攻擊力的失衡值\n對敵方全體角色賦予等同自身0.4倍最大血量的【虛弱】1次\n\n常式：\n我方角色獲得護盾時，該角色賦予2【鎮靜】5秒\n我方魔法角色倒地後，賦予自身5【永續堅硬】",
+          "description": "對我方全體角色施加等同0.2倍攻擊力的護盾並減少1倍攻擊力的失衡值\n對敵方全體角色賦予等同自身0.4倍最大血量的【虛弱】1次\n\n常式：\n我方角色獲得護盾時，該角色賦予2【鎮靜】5秒\n我方魔法角色倒地後，賦予自身5【永續堅硬】",
           "passives": [
             {
               "when": "shielded",
@@ -8446,7 +8446,7 @@
           "id": "law-1792605160339-8otlr",
           "name": "傷害法則",
           "description": "傷害 + 5",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/01-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -8468,7 +8468,7 @@
           "id": "law-1792605268896-nbulh",
           "name": "治癒法則",
           "description": "治療 + 3",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/02-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -8490,7 +8490,7 @@
           "id": "law-1792605320068-ynu11",
           "name": "守護法則",
           "description": "護盾 + 4",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/03-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -8512,7 +8512,7 @@
           "id": "law-1793209746957-7czl4",
           "name": "急速法則",
           "description": "行動間隔 - 0.5",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/04-law.png",
           "shopPrice": 100,
           "shopWeight": 50,
           "stats": {
@@ -8534,7 +8534,7 @@
           "id": "law-1793209790067-4u0r6",
           "name": "生命法則",
           "description": "血量 + 10",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/05-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -8556,7 +8556,7 @@
           "id": "law-1793209849204-w8fsr",
           "name": "均衡法則",
           "description": "血量 + 5；傷害 + 2；治療 + 2；護盾 + 2",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/06-law.png",
           "shopPrice": 200,
           "shopWeight": 30,
           "stats": {
@@ -8578,7 +8578,7 @@
           "id": "law-1793209903171-qrqct",
           "name": "威壓法則",
           "description": "失衡效果 + 5",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/07-law.png",
           "shopPrice": 100,
           "shopWeight": 50,
           "stats": {
@@ -8600,7 +8600,7 @@
           "id": "law-1793210142643-a2kfl",
           "name": "矢量法則",
           "description": "攻擊距離 + 1",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/08-law.png",
           "shopPrice": 200,
           "shopWeight": 30,
           "stats": {
@@ -8622,7 +8622,7 @@
           "id": "law-1793210198184-z3fam",
           "name": "空間法則",
           "description": "移動距離 + 1",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/09-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -8644,7 +8644,7 @@
           "id": "law-1793210229826-qrc53",
           "name": "甦醒法則",
           "description": "倒地時間 - 0.5",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/10-law.png",
           "shopPrice": 100,
           "shopWeight": 50,
           "stats": {
@@ -8666,7 +8666,7 @@
           "id": "law-1793210253481-2cxxr",
           "name": "復仇法則",
           "description": "被攻擊時，前進 0.5 秒",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/11-law.png",
           "shopPrice": 100,
           "shopWeight": 50,
           "stats": {
@@ -8717,7 +8717,7 @@
           "id": "law-1793211857850-efqh4",
           "name": "寧靜法則",
           "description": "我方同伴行動後，失衡值 - 5",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/12-law.png",
           "shopPrice": 100,
           "shopWeight": 50,
           "stats": {
@@ -8771,7 +8771,7 @@
           "id": "law-1793973928671-bwttm",
           "name": "遠攻法則",
           "description": "血量 - 10；傷害 - 5；攻擊距離 + 2",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/13-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -8793,7 +8793,7 @@
           "id": "law-1793974021791-ijj2r",
           "name": "盾強法則",
           "description": "被疊盾後，賦予2【永續強化】",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/14-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -8849,7 +8849,7 @@
           "id": "law-1793974167128-ce326",
           "name": "返控法則",
           "description": "倒地時，賦予對面敵方目標【僵直】3秒",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/15-law.png",
           "shopPrice": 100,
           "shopWeight": 50,
           "stats": {
@@ -8906,7 +8906,7 @@
           "id": "law-1793974554825-78uj3",
           "name": "常返法則",
           "description": "使用極式後，賦予3【永續反擊】",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/16-law.png",
           "shopPrice": 120,
           "shopWeight": 40,
           "stats": {
@@ -8962,7 +8962,7 @@
           "id": "law-1793975363168-zk85e",
           "name": "負生法則",
           "description": "獲得負面狀態後，賦予1【永續再生】",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/17-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9021,7 +9021,7 @@
           "id": "law-1793975481843-trl63",
           "name": "閃現法則",
           "description": "被攻擊後，與隨機同伴互換位置",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/18-law.png",
           "shopPrice": 30,
           "shopWeight": 100,
           "stats": {
@@ -9072,7 +9072,7 @@
           "id": "law-1793975539491-ki6c2",
           "name": "療毒法則",
           "description": "被治療後，賦予對面敵方目標1【永續中毒】",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/19-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9128,7 +9128,7 @@
           "id": "law-1793975706402-9wzyz",
           "name": "左進法則",
           "description": "攻擊使敵人倒地後，使左側全體同伴前進1秒",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/20-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9179,7 +9179,7 @@
           "id": "law-1793975797533-gou8k",
           "name": "左閃法則",
           "description": "發動治療後，賦予最左側同伴【閃避】",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/21-law.png",
           "shopPrice": 200,
           "shopWeight": 30,
           "stats": {
@@ -9237,7 +9237,7 @@
           "id": "law-1793976743049-eu8ht",
           "name": "左反法則",
           "description": "主動換位置後，賦予左側全體同伴2【永續反擊】",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/22-law.png",
           "shopPrice": 100,
           "shopWeight": 50,
           "stats": {
@@ -9294,7 +9294,7 @@
           "id": "law-1793976855023-in84m",
           "name": "右靜法則",
           "description": "攻擊後，右側全體同伴失衡值 - 5",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/23-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9348,7 +9348,7 @@
           "id": "law-1793977020332-jkn0h",
           "name": "右強法則",
           "description": "使用極式後，賦予右側全體同伴等同失衡值的【強化】1次",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/24-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9407,7 +9407,7 @@
           "id": "law-1793977151744-pu0nc",
           "name": "閃虛法則",
           "description": "機人同伴閃避成功後，賦予最左側敵方2【永續虛弱】",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/25-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9468,7 +9468,7 @@
           "id": "law-1793977420882-wcqpg",
           "name": "右換法則",
           "description": "血量 + 5；被攻擊後，與我方最右側同伴互換位置，",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/26-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9519,7 +9519,7 @@
           "id": "law-1793977559868-douh3",
           "name": "互混法則",
           "description": "互換位置後，使對面目標失衡值 + 15",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/27-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9573,7 +9573,7 @@
           "id": "law-1793977676737-43n6q",
           "name": "左換法則",
           "description": "傷害 + 3；被攻擊後；獲得正面狀態後，與我方最左側同伴互換位置",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/28-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9623,7 +9623,7 @@
           "id": "law-1793977849848-7zs1r",
           "name": "長時法則",
           "description": "狀態秒數  + 2",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/29-law.png",
           "shopPrice": 50,
           "shopWeight": 50,
           "stats": {
@@ -9645,7 +9645,7 @@
           "id": "law-1793977883361-xe0g8",
           "name": "層疊法則",
           "description": "狀態層數 + 1",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/30-law.png",
           "shopPrice": 150,
           "shopWeight": 30,
           "stats": {
@@ -9667,7 +9667,7 @@
           "id": "law-1793978292800-8zoiq",
           "name": "混換法則",
           "description": "失衡效果 + 3；攻擊後，與我方血量最低同伴互換位置",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/31-law.png",
           "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
@@ -9717,7 +9717,7 @@
           "id": "law-1793978517006-9jeg2",
           "name": "亂時法則",
           "description": "行動間隔 - 0.5；被攻擊後，與隨機我方同伴互換位置",
-          "imagePath": "",
+          "imagePath": "assets/ui/law-icons/v1/32-law.png",
           "shopPrice": 100,
           "shopWeight": 100,
           "stats": {
@@ -9796,6 +9796,7 @@
           "id": "default-normal",
           "name": "001",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 1,
           "weight": 1,
           "slots": [
@@ -9839,6 +9840,7 @@
           "id": "enemy-1793923877712",
           "name": "002",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 1,
           "weight": 1,
           "slots": [
@@ -9882,6 +9884,7 @@
           "id": "enemy-1793923975104",
           "name": "003",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 1,
           "weight": 1,
           "slots": [
@@ -9925,6 +9928,7 @@
           "id": "enemy-1793923995094",
           "name": "004",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 2,
           "weight": 1,
           "slots": [
@@ -9968,6 +9972,7 @@
           "id": "enemy-1793924018388",
           "name": "005",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 2,
           "weight": 1,
           "slots": [
@@ -10011,6 +10016,7 @@
           "id": "enemy-1793924546351",
           "name": "006",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 3,
           "weight": 1,
           "slots": [
@@ -10054,6 +10060,7 @@
           "id": "enemy-1793924603352",
           "name": "007",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 3,
           "weight": 1,
           "slots": [
@@ -10097,6 +10104,7 @@
           "id": "enemy-1793924655797",
           "name": "008",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 4,
           "weight": 1,
           "slots": [
@@ -10140,6 +10148,7 @@
           "id": "enemy-1793924677213",
           "name": "009",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 4,
           "weight": 1,
           "slots": [
@@ -10229,6 +10238,7 @@
           "id": "enemy-1793924789888",
           "name": "010",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 5,
           "weight": 1,
           "slots": [
@@ -10376,6 +10386,7 @@
           "id": "enemy-1793924823431",
           "name": "011",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 5,
           "weight": 1,
           "slots": [
@@ -10516,6 +10527,7 @@
           "id": "enemy-1793979952455",
           "name": "012",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 6,
           "weight": 1,
           "slots": [
@@ -10655,6 +10667,7 @@
           "id": "enemy-1793979978946",
           "name": "013",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 6,
           "weight": 1,
           "slots": [
@@ -10826,6 +10839,7 @@
           "id": "enemy-1793980018397",
           "name": "014",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 6,
           "weight": 1,
           "slots": [
@@ -11056,6 +11070,7 @@
           "id": "enemy-1793980054650",
           "name": "015",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 7,
           "weight": 1,
           "slots": [
@@ -11373,6 +11388,7 @@
           "id": "enemy-1793980109375",
           "name": "016",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 7,
           "weight": 1,
           "slots": [
@@ -11714,6 +11730,7 @@
           "id": "enemy-1793980177198",
           "name": "017",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 8,
           "weight": 1,
           "slots": [
@@ -11989,6 +12006,7 @@
           "id": "enemy-1793980194844",
           "name": "018",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 8,
           "weight": 1,
           "slots": [
@@ -12337,6 +12355,7 @@
           "id": "enemy-1793980255506",
           "name": "019",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 9,
           "weight": 1,
           "slots": [
@@ -12604,6 +12623,7 @@
           "id": "enemy-1793980275339",
           "name": "020",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 9,
           "weight": 1,
           "slots": [
@@ -12930,6 +12950,7 @@
           "id": "enemy-1793980301689",
           "name": "021",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 9,
           "weight": 1,
           "slots": [
@@ -13345,6 +13366,7 @@
           "id": "enemy-1793980340571",
           "name": "022",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 10,
           "weight": 1,
           "slots": [
@@ -13689,6 +13711,7 @@
           "id": "enemy-1793980358955",
           "name": "023",
           "category": "normal",
+          "skillId": null,
           "matchLevel": 10,
           "weight": 1,
           "slots": [
@@ -13863,6 +13886,7 @@
           "id": "enemy-1793980387671",
           "name": "101",
           "category": "elite",
+          "skillId": null,
           "matchLevel": 5,
           "weight": 1,
           "slots": [
@@ -14072,6 +14096,7 @@
           "id": "enemy-1793980408103",
           "name": "102",
           "category": "elite",
+          "skillId": null,
           "matchLevel": 5,
           "weight": 1,
           "slots": [
@@ -14212,6 +14237,7 @@
           "id": "enemy-1793980490115",
           "name": "103",
           "category": "elite",
+          "skillId": null,
           "matchLevel": 5,
           "weight": 1,
           "slots": [
@@ -14355,6 +14381,7 @@
           "id": "enemy-1793980509116",
           "name": "104",
           "category": "elite",
+          "skillId": null,
           "matchLevel": 5,
           "weight": 1,
           "slots": [
@@ -14770,6 +14797,7 @@
           "id": "enemy-1793981147890",
           "name": "105",
           "category": "elite",
+          "skillId": null,
           "matchLevel": 10,
           "weight": 1,
           "slots": [
@@ -15240,6 +15268,7 @@
           "id": "enemy-1793981168541",
           "name": "106",
           "category": "elite",
+          "skillId": null,
           "matchLevel": 10,
           "weight": 1,
           "slots": [
@@ -15840,6 +15869,7 @@
           "id": "enemy-1793981315049",
           "name": "201",
           "category": "boss",
+          "skillId": null,
           "matchLevel": 1,
           "weight": 1,
           "slots": [
@@ -16446,6 +16476,7 @@
           "id": "enemy-1793981335613",
           "name": "202",
           "category": "boss",
+          "skillId": null,
           "matchLevel": 1,
           "weight": 1,
           "slots": [
@@ -16971,6 +17002,7 @@
           "id": "enemy-1793981343303",
           "name": "203",
           "category": "boss",
+          "skillId": null,
           "matchLevel": 1,
           "weight": 1,
           "slots": [
@@ -17560,6 +17592,7 @@
           "id": "enemy-1793981362599",
           "name": "204",
           "category": "boss",
+          "skillId": null,
           "matchLevel": 1,
           "weight": 1,
           "slots": [
@@ -18127,6 +18160,7 @@
           "id": "enemy-1793981371561",
           "name": "205",
           "category": "boss",
+          "skillId": null,
           "matchLevel": 1,
           "weight": 1,
           "slots": [

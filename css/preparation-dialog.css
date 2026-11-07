@@ -95,7 +95,7 @@ body #roster-skill-menu .skill-choice[aria-pressed=true]::after{content:"";posit
 @keyframes skill-arrow-float{0%,100%{transform:translate(0,-50%) rotate(-90deg)}50%{transform:translate(-6px,-50%) rotate(-90deg)}}
 @media(prefers-reduced-motion:reduce){body #roster-skill-menu .skill-choice[aria-pressed=true]::after{animation:none}}
 body #roster-skill-menu .skill-choice strong{font:700 clamp(12px,2.6cqi,15px)/1.4 "Microsoft JhengHei",sans-serif;letter-spacing:1px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-body #roster-skill-menu .skill-choice-icon{display:grid;place-items:center;flex:none;width:clamp(24px,6cqi,42px);height:clamp(24px,6cqi,42px);border:0;border-radius:0;background:transparent;color:inherit;font-size:clamp(20px,5cqi,26px)}
+body #roster-skill-menu .skill-choice-icon{box-sizing:border-box;display:grid;place-items:center;flex:none;margin-left:clamp(10px,2.5cqi,20px);width:clamp(28px,7.5cqi,54px);height:clamp(28px,7.5cqi,54px);padding:clamp(4px,1cqi,7px);border:0;border-radius:50%;background:#20333e;color:#ead7b7;font-size:clamp(20px,5cqi,26px)}
 body #roster-skill-menu .skill-choice-image{width:100%;height:100%;object-fit:contain;border-radius:4px}
 body #roster-skill-menu .skill-selected-details{box-sizing:border-box;flex:1 1 190px;min-height:100px;max-height:230px;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;padding:14px 8px 6px;border-top:1px solid #31586c88;scrollbar-color:#546d7a #dac6a4;overflow-wrap:anywhere}
 body #roster-skill-menu #skill-selected-name{font-size:17px;line-height:1.5}

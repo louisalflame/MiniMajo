@@ -1,9 +1,19 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),J=require('../js/journey.js'),X=require('../js/expedition.js'),H=require('../js/hex-map.js');
 function encounter(s,type='battle'){const id=H.neighbors(s.map.map,s.map.current).find(id=>!s.map.cleared.has(id));s.map.map.cells[id].type=type;assert.ok(H.move(s.map,id));return id;}
-test('journey begins unequipped and sends only the skill explicitly chosen by the player',()=>{
+
+test('forfeiting character reward pays ten once even with full teams and preserves battle money',()=>{
+ const s=J.create(undefined,undefined,'skip');encounter(s);const p=J.start(s);J.settle(s,{token:p.token,winner:0,hp:p.loadouts[0].filter(Boolean).map(u=>u.maxHp)});
+ const reward=s.rewardChoice,gold=s.roster.gold,unit=s.roster.library.find(u=>u.space===1);assert.ok(reward.choices.length);
+ for(const area of ['active','reserve'])s.roster[area]=Array.from({length:10},(_,i)=>({...unit,instanceId:area+i}));const teams=structuredClone([s.roster.active,s.roster.reserve]);
+ assert.throws(()=>J.skipReward(s,'wrong'));assert.equal(s.roster.gold,gold);assert.equal(s.rewardChoice,reward);
+ assert.deepEqual(J.skipReward(s,reward.token),{skipped:true,gold:10});assert.equal(s.roster.gold,gold+10);assert.equal(s.rewardChoice,null);assert.deepEqual([s.roster.active,s.roster.reserve],teams);
+ assert.throws(()=>J.skipReward(s,reward.token));assert.throws(()=>J.claim(s,reward.token,0));assert.equal(s.roster.gold,gold+10);
+ s.rewardChoice={token:'empty',choices:[],gold:0,rewardTier:'none'};assert.throws(()=>J.skipReward(s,'empty'));assert.equal(s.roster.gold,gold+10);assert.ok(s.rewardChoice);
+});
+test('journey equips the first eligible skill and preserves a later explicit choice',()=>{
  const S=require('../js/skills.js'),B=require('../js/battle.js'),skills=['first','second'].map(id=>({...S.defaults[0],id,name:id,conditions:[]}));
- const s=J.create(undefined,skills,'manual-skill');assert.equal(s.roster.skillId,null);assert.deepEqual(X.eligible(s.roster).map(skill=>skill.id),['first','second']);
- encounter(s);assert.deepEqual(J.start(s).skills,[]);X.equip(s.roster,'second');const payload=J.prepare(s);assert.deepEqual(payload.skills.map(skill=>skill.id),['second']);
+ const s=J.create(undefined,skills,'manual-skill');assert.equal(s.roster.skillId,'first');assert.deepEqual(X.eligible(s.roster).map(skill=>skill.id),['first','second']);
+ encounter(s);assert.deepEqual(J.start(s).skills.map(s=>s.id),['first']);X.equip(s.roster,'second');const payload=J.prepare(s);assert.deepEqual(payload.skills.map(skill=>skill.id),['second']);
  const battle=B.create(payload.loadouts,payload.skills,payload.limits,{footprints:true});assert.equal(battle.teams[0].skill.id,'second');
 });
 test('shop ownership and formation flow into combat; victory preserves roster and grants reward once',()=>{

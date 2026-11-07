@@ -75,7 +75,7 @@ test('base down duration reaches growth, laws, shop, encounter and runtime witho
  const victim={...unit,cooldown:120,effects:[]},state=B.create([[{...unit,effects:[{type:'damage',amount:2}]}],[victim]],[],[3,3],{config});tick(state,1);assert.equal(state.teams[1].units[0].weakUntil,26);
  const fromRuntime=B.create([[D.runtime(D.defaults[0])],[victim]],[],[3,3],{config});assert.equal(fromRuntime.teams[0].units[0].weakDuration,2.5);
 });
-test('only allies have active skills even after composition refresh or explicit enemy cast',()=>{
+test('enemy skill stays disabled when no enemy skill was configured',()=>{
  const skill={id:'test',name:'主動',cooldown:1,mode:'all',conditions:[],effects:[{type:'damage',amount:1}]},state=B.create([[unit],[unit]],[skill]);state.started=true;
  assert.equal(state.teams[1].skill,null);assert.equal(B.canCast(state,0),false);assert.equal(B.canCast(state,1),false);const before=JSON.stringify(state);assert.equal(B.cast(state,1),false);assert.equal(JSON.stringify(state),before);tick(state,10);assert.equal(state.teams[1].skill,null);assert.equal(B.cast(state,0),true);
 });

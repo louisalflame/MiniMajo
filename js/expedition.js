@@ -70,6 +70,14 @@
   }
   return null;
  }
+ // Battle preparation repositions without recruiting, selling or merging.
+ function reposition(board,start,end){
+  if(!Array.isArray(board)||board.length!==size||!valid(board)||!ownedSlot('active',start)||!ownedSlot('active',end)||!board[start])throw Error('請選擇有效的戰前站位。');
+  if(start===end)return board.slice();
+  const plan=planTransfer({active:board,reserve:Array(size).fill(null)},'active',start,'active',end);
+  if(!plan||!valid(plan.active))throw Error('此處無法放入完整角色，請調整站位。');
+  return plan.active;
+ }
  function transferSlot(state,from,start,to,end){
   if(!ownedSlot(from,start)||!ownedSlot(to,end)||!state[from][start])return end;
   const owner=ownerSlot(state[to],end),other=state[to][owner];
@@ -177,5 +185,5 @@
   if(!ownedSlot(area,slot)||!state[area][slot])throw Error('只能賣出自己隊伍中的角色。');
   const unit=state[area][slot],value=sellValue(unit,state.config);state[area][slot]=null;state.gold+=value;syncSkill(state);return value;
  }
- const api={size,create,fits,firstFit,ownerSlot,transferSlot,valid,eligible,syncSkill,transfer,canMerge,merge,recruit,equip,shop,buy,sell,sellValue,lawShop,findOwned,buyLaw,rerollCost,reroll,upgradeEcho};if(typeof module!=='undefined')module.exports=api;else root.Expedition=api;
+ const api={size,create,fits,firstFit,ownerSlot,reposition,transferSlot,valid,eligible,syncSkill,transfer,canMerge,merge,recruit,equip,shop,buy,sell,sellValue,lawShop,findOwned,buyLaw,rerollCost,reroll,upgradeEcho};if(typeof module!=='undefined')module.exports=api;else root.Expedition=api;
 })(globalThis);

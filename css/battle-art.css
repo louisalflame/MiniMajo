@@ -6,8 +6,20 @@ body.battle-page .stage-heading{grid-row:1;grid-column:1}
 body.battle-page .stage-heading .clock{transform:none}
 body.battle-page #battle-start-dock{grid-row:2;grid-column:1;width:240px;justify-self:center;align-self:end;padding:0;transform:none}
 body.battle-page .arena-scroll{grid-row:3;margin-top:-26px;max-height:none}
+/* The 54px enemy orb extends 12px above its 30px label. Keep it inside
+   the scrolling viewport without changing the approved label artwork. */
+body.battle-page .arena:has(#enemy-skill-control:not([hidden])){padding-top:14px}
 body.battle-page .side-label{height:30px;margin:0;box-sizing:border-box;width:210px;max-width:none;position:relative;display:flex;align-items:center;gap:0;padding:0 0 0 48px;color:#efdfbf;font:700 18px/1.2 "PMingLiU",serif;letter-spacing:3px}
 body.battle-page .side-label .side-dot{display:none}
+body.battle-page .enemy-skill-control{position:absolute;left:132px;top:50%;transform:translateY(-50%);z-index:12;letter-spacing:normal;font:12px/1.7 "PMingLiU",serif}
+body.battle-page .enemy-skill-control[hidden]{display:none}
+body.battle-page .enemy-skill-control .skill-orb{width:54px;height:54px;opacity:1}
+body.battle-page .enemy-skill-control .skill-orb.skill-unavailable{opacity:.6}
+body.battle-page .enemy-skill-control .skill-orb>img{width:68%;height:68%;border-radius:50%}
+body.battle-page .enemy-skill-control .skill-orb>span:first-child{font-size:20px}
+body.battle-page #enemy-skill-progress{stroke:#d9b7ef;stroke-dasharray:100;transition:stroke-dashoffset .1s linear}
+body.battle-page .enemy-skill-control .skill-tooltip{top:calc(100% + 8px);bottom:auto;left:-100px;right:auto;width:280px;max-width:calc(100vw - 40px);font-weight:normal;color:var(--text);box-sizing:border-box}
+body.battle-page .enemy-skill-control .skill-tooltip small{display:block}
 body.battle-page .enemy-formation .side-label{background:url("../assets/ui/battle/v1/faction-enemy.png") 49.68944099378882% 47.99196787148594% / 119.4915254237288% 266.5551839464883% no-repeat}
 body.battle-page .ally-formation .side-label{background:url("../assets/ui/battle/v1/faction-ally.png") 49.815498154981555% 49.4279176201373% / 115.06392440244579% 235.29411764705884% no-repeat}
 body.battle-page .versus{height:10px;visibility:hidden}

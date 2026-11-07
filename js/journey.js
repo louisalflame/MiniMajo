@@ -4,6 +4,7 @@
  function create(characters,skills,seed='MOON-'+Date.now(),settings=null,enemies=null,config,laws=[],echo) {
   if(settings&&settings.version!==1)throw Error('地圖設定版本無效。');
   const roster=X.create(characters,skills,config,laws,echo),map=H.explore(H.generate(settings?.radius??4,settings?.seed??seed,settings?.rules),settings?.rewardDecay);
+  roster.skillId=X.eligible(roster)[0]?.id??null;
   return {config:(typeof module!=='undefined'?require('./config.js'):root.GameConfig).validate(config??(typeof module!=='undefined'?require('./config.js'):root.GameConfig).defaults),statusLibrary:(typeof module!=='undefined'?require('./statuses.js'):root.Statuses).snapshot(),roster,map,playerLevel:1,enemies:E.validate(enemies??E.defaults(roster.library)),enemyRolls:{},encounter:null,rewardChoice:null,serial:0};
  }
  function move(s,id){
@@ -28,12 +29,20 @@
   const entry=s.battleEntry?.id===id?structuredClone(s.battleEntry):{id,from,steps:Math.max(0,s.map.steps-(prior?1:0)),path:prior?s.map.path.slice(0,-1):s.map.path.slice(),fromCollapsed:false,complete:false};
   const token='encounter-'+(++s.serial);s.encounter={token,id,type,allies,entry,reward:H.rewardAt(s.map,id),enemyName:rolled.team.name};
   const skill=s.roster.skills.find(x=>x.id===s.roster.skillId);
-  return {type:'minimajo-preview',config:structuredClone(s.config),statusLibrary:structuredClone(s.statusLibrary),token,enemyName:rolled.team.name,loadouts:[allies,enemy],skills:skill?[skill]:[],limits:[10,10],activeSkillsEnabled:true,campaign:true};
+  const enemySkill=category==='normal'?null:structuredClone(s.roster.skills.find(x=>x.id===rolled.team.skillId)??null);
+  return {type:'minimajo-preview',config:structuredClone(s.config),statusLibrary:structuredClone(s.statusLibrary),token,enemyName:rolled.team.name,loadouts:[allies,enemy],skills:skill?[skill]:[],enemySkill,limits:[10,10],activeSkillsEnabled:true,campaign:true};
  }
  function prepare(s){
   if(!s.encounter||s.encounter.started)throw Error('只能在開戰前整備。');
   const previous=s.encounter;s.encounter=null;
   try{return start(s);}catch(error){s.encounter=previous;throw error;}
+ }
+ function reposition(s,start,end){
+  if(!s.encounter||s.encounter.started||s.rewardChoice)throw Error('只能在開戰前調整我方站位。');
+  const before={board:s.roster.active,skillId:s.roster.skillId,encounter:s.encounter,serial:s.serial};
+  const next=X.reposition(s.roster.active,start,end);
+  try{s.roster.active=next;X.syncSkill(s.roster);return prepare(s);}
+  catch(error){s.roster.active=before.board;s.roster.skillId=before.skillId;s.encounter=before.encounter;s.serial=before.serial;throw error;}
  }
  function settle(s,result){
   const e=s.encounter;if(!e||result.token!==e.token||![0,1,'draw'].includes(result.winner))return null;
@@ -68,10 +77,16 @@
   if(!Number.isInteger(index)||!reward.choices[index])throw Error('請選擇一名獎勵角色。');
   const result=X.recruit(s.roster,reward.choices[index]);s.rewardChoice=null;return result;
  }
+ function skipReward(s,token){
+  const reward=s.rewardChoice;
+  if(!reward||reward.token!==token)throw Error('此戰鬥獎勵已領取或已失效。');
+  if(!reward.choices.length)throw Error('本場沒有可放棄的角色獎勵。');
+  s.roster.gold+=10;s.rewardChoice=null;return {skipped:true,gold:10};
+ }
  function resolve(s){
   if(s.encounter||s.rewardChoice)return false;const type=s.map.map.cells[s.map.pending]?.type;
   if(type==='rest'){if(!H.resolve(s.map,s.config))return false;X.upgradeEcho(s.roster);return true;}
   if(type==='shop')return H.resolve(s.map,s.config);return false;
  }
- const api={create,move,start,prepare,settle,resolve,rollRewards,claim};if(typeof module!=='undefined')module.exports=api;else root.Journey=api;
+ const api={create,move,start,prepare,reposition,settle,resolve,rollRewards,claim,skipReward};if(typeof module!=='undefined')module.exports=api;else root.Journey=api;
 })(globalThis);

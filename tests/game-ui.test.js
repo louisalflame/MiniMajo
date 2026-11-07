@@ -10,6 +10,8 @@ class Element {
  showModal(){this.open=true;}close(){this.open=false;}
  focus(){this.focused=true;}
  setAttribute(k,v){this.attributes[k]=v;}
+ getAttribute(k){return this.attributes[k]??null;}
+ removeAttribute(k){delete this.attributes[k];}
  append(...items){for(const item of items){item.remove();item.parent=this;this.children.push(item);}}
  replaceChildren(...items){this.children.forEach(x=>x.parent=null);this.children=[];this.append(...items);}
  insertBefore(item,before){item.remove();const i=this.children.indexOf(before);item.parent=this;if(i<0)this.children.push(item);else this.children.splice(i,0,item);}
@@ -21,11 +23,11 @@ class Element {
 function setup(preview=false){
  const html=fs.readFileSync(path.join(root,'battle.html'),'utf8');
  const elements=new Map([...html.matchAll(/id="([^"]+)"/g)].map(m=>[m[1],new Element()]));
- const field=new Element(),document={body:new Element(),hidden:false,handlers:{},createElement:()=>new Element(),getElementById:id=>elements.get(id),querySelector:s=>s==='.battlefield'?field:null,addEventListener(type,fn){this.handlers[type]=fn;}};
+ const field=new Element(),document={body:new Element(),hidden:false,handlers:{},createElement:()=>new Element(),getElementById:id=>elements.get(id),querySelector:s=>s==='.battlefield'?field:null,querySelectorAll:()=>[],addEventListener(type,fn){const before=this.handlers[type];this.handlers[type]=before?event=>{before(event);fn(event);}:fn;}};
  let callback,now=0;const messages=[],globalHandlers={},parent={postMessage:message=>messages.push(message)};
  const audioCalls=[],audio={enabled:true,setVolume(value){this.volume=value;audioCalls.push(['volume',value]);},unlock(){audioCalls.push(['unlock']);},events(cues){audioCalls.push(['events',structuredClone(cues)]);},play(kind){audioCalls.push(['play',kind]);},stop(){audioCalls.push(['stop']);},setEnabled(value){this.enabled=value;audioCalls.push(['enabled',value]);}};
  let capturedState;const engine=require('../js/battle.js'),battle={...engine,create(...args){capturedState=engine.create(...args);return capturedState;}};
- const context=vm.createContext({document,structuredClone,location:{search:preview?"?preview=1":""},URLSearchParams,parent,addEventListener:(type,fn)=>globalHandlers[type]=fn,performance:{now:()=>now},requestAnimationFrame:fn=>{callback=fn;},setTimeout:()=>{},BattleAudio:{create:()=>audio},Laws:require('../js/laws.js'),GameConfig:require('../js/config.js'),UIIcons:require('../js/ui-icons.js'),CharacterDetails:require('../js/character-details.js'),DialogDismiss:require('../js/dialog-dismiss.js'),CharacterCardSkin:require('../js/character-card-skin.js'),CharacterArt:require('../js/character-art.js'),ItemDB:require('../js/database.js'),SkillDB:require('../js/skills.js'),Battle:battle,Effects:require('../js/effects.js'),Statuses:require('../js/statuses.js')});
+ const context=vm.createContext({document,structuredClone,location:{search:preview?"?preview=1":""},URLSearchParams,parent,addEventListener:(type,fn)=>globalHandlers[type]=fn,performance:{now:()=>now},requestAnimationFrame:fn=>{callback=fn;},setTimeout:()=>{},BattleAudio:{create:()=>audio},Laws:require('../js/laws.js'),GameConfig:require('../js/config.js'),UIIcons:require('../js/ui-icons.js'),CharacterDetails:require('../js/character-details.js'),DialogDismiss:require('../js/dialog-dismiss.js'),CharacterCardSkin:require('../js/character-card-skin.js'),CharacterArt:require('../js/character-art.js'),ItemDB:require('../js/database.js'),SkillDB:require('../js/skills.js'),Battle:battle,Expedition:require('../js/expedition.js'),Effects:require('../js/effects.js'),Statuses:require('../js/statuses.js')});
  vm.runInContext(fs.readFileSync(path.join(root,'js/game.js'),'utf8'),context);
  return {elements,document,messages,audioCalls,get state(){return capturedState;},send:data=>globalHandlers.message({source:parent,data}),advance(ticks){for(let i=0;i<ticks;i++){now+=100;callback(now);}}};
 }
@@ -382,6 +384,17 @@ test('defeated enemy formation retains ten distinct empty cells and statistics p
 
 test('battle skill art changes with selected skill and falls back for empty or failed images',()=>{
  const {elements:e,send}=setup(true),D=require('../js/database.js'),skill={id:'art',name:'圖案技能',imagePath:'images/skills/test.png',cooldown:1,mode:'all',conditions:[],effects:[]};const loadouts=[[D.defaults[0],...Array(9).fill(null)],[D.defaults[1],...Array(9).fill(null)]],payload={type:'minimajo-preview',loadouts,skills:[skill],limits:[10,10]};send(payload);const image=e.get('skill-art'),fallback=e.get('skill-art-fallback');assert.equal(image.src,skill.imagePath);assert.equal(image.hidden,true);image.onload();assert.equal(image.hidden,false);assert.equal(fallback.hidden,true);image.onerror();assert.equal(image.hidden,true);assert.equal(fallback.hidden,false);send({...payload,skills:[{...skill,imagePath:''}]});assert.equal(image.hidden,true);assert.equal(fallback.hidden,false);image.onload();assert.equal(image.hidden,true);
+});
+
+test('selected enemy skill keeps its art and explanation for empty or unmatched teams',()=>{
+ const {elements:e,send}=setup(true),D=require('../js/database.js'),row=u=>[u,...Array(9).fill(null)];
+ const skill={id:'enemy-preview',name:'敵方圖案',imagePath:'assets/ui/ultimate-icons/v1/normal.png',description:'指定技能說明',cooldown:1,mode:'all',conditions:[],effects:[]};
+ const payload={type:'minimajo-preview',loadouts:[row(D.defaults[0]),Array(10).fill(null)],skills:[],enemySkill:skill,limits:[10,10]};send(payload);
+ assert.equal(e.get('enemy-skill-control').hidden,false);assert.equal(e.get('enemy-skill-art').src,skill.imagePath);assert.match(e.get('enemy-skill-title').textContent,/敵方圖案/);assert.match(e.get('enemy-skill-state').textContent,/沒有存活的出戰角色/);assert.equal(e.get('enemy-skill-progress').style.strokeDashoffset,'100');
+ send({...payload,loadouts:[row(D.defaults[0]),row(D.defaults[1])],enemySkill:{...skill,conditions:[{kind:'count',field:'id',value:'missing',op:'gte',count:1}]}});
+ assert.equal(e.get('enemy-skill-control').hidden,false);assert.equal(e.get('enemy-skill-art').src,skill.imagePath);assert.match(e.get('enemy-skill-state').textContent,/不符合目前敵方編隊條件/);
+ e.get('enemy-cast').handlers.focus();assert.equal(e.get('enemy-skill-tooltip').hidden,false);
+ send({...payload,enemySkill:null});assert.equal(e.get('enemy-skill-control').hidden,true);
 });
 
 test('battle HUD and details show four-star output totals with live status bonuses',()=>{

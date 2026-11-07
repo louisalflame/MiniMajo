@@ -67,8 +67,11 @@
     db.items=db.items.filter(x=>x.id!==selected);loadouts=loadouts.map(a=>a.map(id=>id===selected?'':id));persist();edit(db.items[0].id);resetBattle();
   };
   function battleMembers(){return loadouts.map((a,i)=>a.map((id,j)=>{const c=getItem(id);return c?Laws.attach(ItemDB.atStars(c,Math.max(c.stars,runStars[i][j]??c.stars),GameConfig.read(localStorage)),runLaws[i][j],GameConfig.read(localStorage)):null;}));}
+  function previewEnemySkill(){return SkillEditor.getSkills().find(s=>s.id===$('preview-enemy-skill').value)??null;}
+  function renderPreviewSkills(){const select=$('preview-enemy-skill'),id=select.value;select.replaceChildren();const none=make('option','無極式');none.value='';select.append(none);for(const skill of SkillEditor.getSkills()){const option=make('option',skill.name);option.value=skill.id;select.append(option);}select.value=SkillEditor.getSkills().some(s=>s.id===id)?id:'';}
   function resetBattle(){
-    running=false;bank=0;loadouts=loadouts.map(a=>a.map(id=>getItem(id)?id:''));const members=battleMembers();state=Battle.create(members,SkillEditor.getSkills(),[Number($('capacity-self').value),Number($('capacity-enemy').value)],{config:GameConfig.read(localStorage),footprints:true,activeSkillsEnabled:$('active-skills-enabled').checked});SkillEditor.setTeams(members,db.items);
+    renderPreviewSkills();$('preview-enemy-skill').disabled=false;
+    running=false;bank=0;loadouts=loadouts.map(a=>a.map(id=>getItem(id)?id:''));const members=battleMembers();state=Battle.create(members,SkillEditor.getSkills(),[Number($('capacity-self').value),Number($('capacity-enemy').value)],{config:GameConfig.read(localStorage),footprints:true,activeSkillsEnabled:true,allySkillsEnabled:$('active-skills-enabled').checked,enemySkill:previewEnemySkill()});SkillEditor.setTeams(members,db.items);
     $('teams').replaceChildren();
     state.teams.forEach((team,i)=>{
       const section=make('div',undefined,`team ${i?'enemy':''}`),heading=make('div',undefined,'team-heading');heading.append(make('strong',i?'🔥 敵方':'🌿 我方'),make('span','','vitals'));section.append(heading);
@@ -91,7 +94,7 @@
     [...$('teams').children].forEach(node=>node.querySelectorAll('.trial-laws button').forEach(button=>button.disabled=state.started));
     [...$('teams').children].forEach((node,i)=>{const team=state.teams[i];node.querySelector('.vitals').textContent='存活 '+team.units.filter(u=>u.hp>0).length+' / '+team.units.length;
       const board=node.querySelector('.live-board');board.replaceChildren();team.items.forEach((u,j)=>{const tile=make('div',undefined,'combatant');tile.append(make('strong',(j+1)+'位 · '+(u?u.name:'空位')));if(u){tile.classList.toggle('dead',u.hp===0);tile.classList.toggle('weak',u.weakUntil>state.tick);tile.append(make('small',u.hp===0?'死亡':u.hp+' / '+u.maxHp+' HP · 盾 '+u.shield));for(const [label,value,max,cls] of [['血量',u.hp,u.maxHp,'health'],['失衡',u.posture,state.config.postureLimit,'posture']]){const meter=make('div',undefined,cls);meter.setAttribute('role','progressbar');meter.setAttribute('aria-label',u.name+label);meter.setAttribute('aria-valuemin',0);meter.setAttribute('aria-valuemax',max);meter.setAttribute('aria-valuenow',value);const fill=make('div');fill.style.width=value/max*100+'%';meter.append(fill);tile.append(meter);}tile.append(make('small',u.hp===0?'':u.weakUntil>state.tick?'倒地 '+((u.weakUntil-state.tick)/10).toFixed(1)+' 秒':'失衡 '+u.posture+' / '+state.config.postureLimit));const progress=make('div',undefined,'charge'),fill=make('div');const percent=u.hp>0?Math.max(0,Math.min(100,(1-(u.nextAction-state.tick)/(u.cooldown*10))*100)):0;fill.style.width=percent+'%';progress.setAttribute('role','progressbar');progress.setAttribute('aria-label',u.name+'行動進度');progress.setAttribute('aria-valuemin',0);progress.setAttribute('aria-valuemax',100);progress.setAttribute('aria-valuenow',Math.round(percent));progress.append(fill);tile.append(progress);tile.append(make('small',(u.statuses||[]).map(x=>Statuses.label(x,state.tick)).join('／')));tile.append(make('small',u.hp>0?'下次行動 '+Math.max(0,(u.nextAction-state.tick)/10).toFixed(1)+' 秒':''));}board.append(tile);});
-      node.querySelector('.team-skill').textContent=i?'敵方無極式':'極式：'+team.skill.name+' · CD '+team.skill.cooldown+'s';node.querySelectorAll('.slots select').forEach(control=>control.disabled=state.started||control.closest('.slot').dataset.occupied==='true'||!control.closest('.slot').querySelector('select').value&&control.closest('label')!==null);
+      node.querySelector('.team-skill').textContent=i?'敵方極式：'+(team.skill?.enabled?team.skill.name+' · CD '+team.skill.cooldown+'s':previewEnemySkill()?'不符合目前編隊條件':'無極式'):'極式：'+team.skill.name+' · CD '+team.skill.cooldown+'s';node.querySelectorAll('.slots select').forEach(control=>control.disabled=state.started||control.closest('.slot').dataset.occupied==='true'||!control.closest('.slot').querySelector('select').value&&control.closest('label')!==null);
     });
     const skill=state.teams[0].skill;$('skill-name').textContent=skill.name;$('skill-description').textContent=skill.effects.map(EffectEditor.describe).join(' ＋ ')+` · CD ${skill.cooldown} 秒`;$('cast').disabled=!running||!Battle.canCast(state,0);$('cast').textContent=state.teams[0].skillReady>state.tick?`冷卻 ${((state.teams[0].skillReady-state.tick)/10).toFixed(1)} 秒`:'施放極式';
     $('timer').textContent=`${(state.tick/10).toFixed(1)} 秒`;
@@ -105,21 +108,34 @@
   $('cast').onclick=()=>{if(running){Battle.cast(state,0);finish();draw();}};
   document.addEventListener('visibilitychange',()=>{last=performance.now();});
   window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
-  function frame(now){if(running&&!document.hidden){bank+=Math.min(now-last,100)*Number($('speed').value);while(bank>=100&&running){bank-=100;Battle.step(state);if(state.done){running=false;$('play').disabled=true;$('play').textContent='戰鬥結束';$('battle-result').textContent=state.winner==='draw'?'平手':state.winner===0?'我方獲勝！':'敵方獲勝';}}draw();}last=now;requestAnimationFrame(frame);}
+  function frame(now){if(running&&!document.hidden){bank+=Math.min(now-last,100)*Number($('speed').value);while(bank>=100&&running){bank-=100;Battle.step(state);if(!state.done)Battle.cast(state,1);if(state.done){running=false;$('play').disabled=true;$('play').textContent='戰鬥結束';$('battle-result').textContent=state.winner==='draw'?'平手':state.winner===0?'我方獲勝！':'敵方獲勝';}}draw();}last=now;requestAnimationFrame(frame);}
   window.addEventListener('config-changed',()=>{resetBattle();previewGrowth();});
   window.addEventListener('workspace-tab-change',e=>{if(e.detail!=='battle')$('battle-preview').contentWindow?.postMessage({type:'minimajo-pause'},'*');if(e.detail!=='battle'&&running){running=false;$('play').textContent='繼續';$('battle-result').textContent='已暫停（切換編輯頁）';draw();}});
   window.addEventListener('laws-changed',resetBattle);window.addEventListener('skills-changed',resetBattle);window.addEventListener('statuses-changed',resetBattle);
   function sendPreview(){
-    $('battle-preview').contentWindow?.postMessage({type:'minimajo-preview',config:GameConfig.read(localStorage),statusLibrary:Statuses.snapshot(),loadouts:battleMembers(),skills:SkillEditor.getSkills(),activeSkillsEnabled:$('active-skills-enabled').checked,limits:[Number($('capacity-self').value),Number($('capacity-enemy').value)]},'*');
+    $('battle-preview').contentWindow?.postMessage({type:'minimajo-preview',config:GameConfig.read(localStorage),statusLibrary:Statuses.snapshot(),loadouts:battleMembers(),skills:SkillEditor.getSkills(),activeSkillsEnabled:true,allySkillsEnabled:$('active-skills-enabled').checked,enemySkill:previewEnemySkill(),repositionTeams:[0,1],limits:[Number($('capacity-self').value),Number($('capacity-enemy').value)]},'*');
   }
   $('active-skills-enabled').addEventListener('change',resetBattle);
+  $('preview-enemy-skill').addEventListener('change',()=>{if(!state.started)resetBattle();});
   $('battle-preview').addEventListener('load',sendPreview);
   window.addEventListener('message',event=>{
     if(event.source!==$('battle-preview').contentWindow)return;
+    if(event.data?.type==='minimajo-reposition'){
+      const data=event.data;
+      try{
+        if(state.started||![0,1].includes(data.team))throw Error('只能在開戰前調整編隊。');
+        const members=battleMembers()[data.team].map((u,i)=>u?{...u,previewSlot:i}:null),next=Expedition.reposition(members,data.from,data.to);
+        const ids=next.map(u=>u?.id??''),stars=next.map(u=>u?runStars[data.team][u.previewSlot]:null),laws=next.map(u=>u?runLaws[data.team][u.previewSlot]:[]);
+        const before={ids:loadouts[data.team],stars:runStars[data.team],laws:runLaws[data.team]};
+        try{loadouts[data.team]=ids;runStars[data.team]=stars;runLaws[data.team]=laws;resetBattle();}
+        catch(error){loadouts[data.team]=before.ids;runStars[data.team]=before.stars;runLaws[data.team]=before.laws;throw error;}
+      }catch(error){$('battle-preview').contentWindow.postMessage({type:'minimajo-reposition-error',requestId:data.requestId,token:data.token,message:error.message},'*');}
+      return;
+    }
     if(event.data?.type==='minimajo-preview-ready')sendPreview();
     if(event.data?.type==='minimajo-battle-state'){
       state.started=!!event.data.started;draw();
-      ['capacity-self','capacity-enemy','active-skills-enabled'].forEach(id=>$(id).disabled=state.started);
+      ['capacity-self','capacity-enemy','active-skills-enabled','preview-enemy-skill'].forEach(id=>$(id).disabled=state.started);
     }
   });
   window.CharacterLibrary={getItems:()=>clone(db.items)};

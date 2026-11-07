@@ -9,6 +9,7 @@ const server=http.createServer((req,res)=>{try{const name=decodeURIComponent(new
  try{
   fs.mkdirSync(out,{recursive:true});browser=await chromium.launch({channel:'msedge',headless:true});
   const context=await browser.newContext({viewport:{width:1366,height:768},reducedMotion:'reduce'}),page=await context.newPage(),errors=[],failed=[];
+  page.setDefaultTimeout(90000);
   page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failed.push(r.url());});
   await page.addInitScript(()=>{
    localStorage.setItem('minimajo.characters.v2','old local data must remain');
@@ -16,7 +17,17 @@ const server=http.createServer((req,res)=>{try{const name=decodeURIComponent(new
   });
   const url=`http://127.0.0.1:${server.address().port}`;
   await page.goto(url);assert.equal(await page.locator('a[href="editor.html"]').count(),0);
-  await page.locator('a.start').click();await page.waitForFunction(()=>!!globalThis.releaseRun);
+  let failImage=true;
+  await page.route('**/assets/characters/yun-detail.png',route=>{if(failImage){failImage=false;return route.abort();}return route.continue();});
+  await page.locator('a.start').click();
+  await page.locator('#asset-loading-retry').waitFor({state:'visible',timeout:90000});
+  assert.equal(await page.evaluate(()=>!!globalThis.releaseRun),false);
+  assert.equal(await page.locator('#journey-frame').getAttribute('src'),null);
+  assert.equal(await page.locator('#asset-loading-status').textContent(),'載入失敗');
+  await page.screenshot({path:path.join(out,'loading-retry-desktop.png')});
+  await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(out,'loading-retry-mobile.png')});await page.setViewportSize({width:1366,height:768});
+  await page.locator('#asset-loading-retry').click();await page.waitForFunction(()=>!!globalThis.releaseRun);
+  assert.equal(await page.locator('#asset-loading').isVisible(),false);
   assert.ok(await page.evaluate(()=>releaseRun.roster.active.some(Boolean)));
   assert.equal(await page.evaluate(()=>localStorage.getItem('minimajo.characters.v2')),'old local data must remain');
   assert.equal(await page.evaluate(()=>localStorage.getItem('minimajo.schema')),null);
@@ -26,7 +37,8 @@ const server=http.createServer((req,res)=>{try{const name=decodeURIComponent(new
   await page.screenshot({path:path.join(out,'preparation-desktop.png')});await page.keyboard.press('Escape');await page.locator('#expedition-dialog').waitFor({state:'hidden'});
   const target=await page.locator('.hex-cell.reachable').first().getAttribute('aria-label');
   await page.evaluate(label=>{const [,q,r]=label.match(/座標 (-?\d+), (-?\d+)/);const cell=Object.values(releaseRun.map.map.cells).find(c=>c.q===+q&&c.r===+r);cell.type='battle';},target);
-  await page.getByRole('button',{name:target,exact:true}).focus();await page.keyboard.press('Enter');await page.locator('#journey-battle').waitFor({state:'visible'});
+  // Dispatch to the chosen cell directly: map resize redraws can replace focused SVG nodes.
+  await page.getByRole('button',{name:target,exact:true}).dispatchEvent('click');await page.locator('#journey-battle').waitFor({state:'visible',timeout:10000});
   const frame=page.frameLocator('#journey-frame');await frame.locator('#play').waitFor({state:'visible'});await frame.locator('#play').click();await page.waitForFunction(()=>releaseRun.encounter?.started===true);
   await page.screenshot({path:path.join(out,'battle-desktop.png')});
   await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(out,'battle-mobile.png')});

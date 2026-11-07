@@ -3,34 +3,34 @@
   "totals": {
     "(root)": {
       "files": 10,
-      "bytes": 648897
+      "bytes": 653490
     },
     "assets": {
-      "files": 191,
-      "bytes": 279297609
+      "files": 224,
+      "bytes": 280094638
     },
     "css": {
-      "files": 25,
-      "bytes": 220992
+      "files": 26,
+      "bytes": 224930
     },
     "docs": {
-      "files": 45,
-      "bytes": 22834101
+      "files": 49,
+      "bytes": 24026042
     },
     "js": {
-      "files": 50,
-      "bytes": 696586
+      "files": 52,
+      "bytes": 717360
     },
     "tests": {
-      "files": 100,
-      "bytes": 651715
+      "files": 108,
+      "bytes": 695593
     },
     "tools": {
-      "files": 9,
-      "bytes": 47461
+      "files": 12,
+      "bytes": 61701
     }
   },
-  "mediaFiles": 209,
+  "mediaFiles": 243,
   "duplicateGroups": [],
   "missing": []
 }

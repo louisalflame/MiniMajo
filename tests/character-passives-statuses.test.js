@@ -15,11 +15,11 @@ test('innate and attached passives retain separate chain identities and ordinary
  step(s);assert.equal(s.teams[0].units[0].shield,18);
 });
 
-test('player skill dispatches once to both sides; invalid casts do not trigger',()=>{
+test('player skill dispatches once only to the casting side; invalid casts do not trigger',()=>{
  const p=passive('playerSkill',[shield(4)]),s=state(unit({passives:[p]}),unit({passives:[p]}));
  assert.equal(B.cast(s,0),false);step(s);s.teams[0].skill={enabled:true,name:'技能',cooldown:5,effects:[]};
- assert.equal(B.cast(s,0),true);assert.deepEqual(s.teams.map(t=>t.units[0].shield),[4,4]);
- assert.equal(B.cast(s,0),false);assert.deepEqual(s.teams.map(t=>t.units[0].shield),[4,4]);
+ assert.equal(B.cast(s,0),true);assert.deepEqual(s.teams.map(t=>t.units[0].shield),[4,0]);
+ assert.equal(B.cast(s,0),false);assert.deepEqual(s.teams.map(t=>t.units[0].shield),[4,0]);
 });
 
 test('innate attacked chains terminate, and death passives can still execute',()=>{

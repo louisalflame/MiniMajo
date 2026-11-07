@@ -15,7 +15,9 @@ function sourceFile(name){
 function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
  const prepared=Backup.prepare(JSON.parse(fs.readFileSync(dataFile,'utf8').replace(/^\uFEFF/,'')));
  // Fail visibly instead of silently publishing repaired gameplay data.
- if(prepared.warnings.length)throw Error('發布設定需要先修正／儲存：\n'+prepared.warnings.join('\n'));
+ const blockingWarnings=prepared.warnings.filter(w=>!/^enemies\.teams\[\d+\]\.skillId：缺少或無效/.test(w));
+ if(prepared.warnings.length)console.warn(prepared.warnings.join('\n'));
+ if(blockingWarnings.length)throw Error('發布設定需要先修正／儲存：\n'+blockingWarnings.join('\n'));
  const file=prepared.file,previous=Statuses.snapshot();
  try{
   Statuses.configure(file.data.statuses);
@@ -28,7 +30,7 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
  files.set('index.html',Buffer.from(files.get('index.html').toString().replace(/<a\b[^>]*class="workshop-link"[^>]*>[\s\S]*?<\/a>/g,'')));
  // All approved runtime image assets, including dynamic paths and unassigned icons.
  function assets(dir){for(const entry of fs.readdirSync(path.join(root,dir),{withFileTypes:true})){const name=dir+'/'+entry.name;if(entry.isSymbolicLink())throw Error('素材不可使用符號連結：'+name);if(entry.isDirectory())assets(name);else if(/\.(png|jpe?g|webp|svg|gif|avif|woff2?|mp3|ogg|wav)$/i.test(name))add(name);}}
- assets('assets');add('js/public-data.js');
+ assets('assets');add('js/public-data.js');add('js/asset-preloader.js');add('css/asset-loading.css');
  function reference(from,url){
   if(/^(?:data:|https?:|\/\/|#|var\()/i.test(url))return;
   const clean=decodeURIComponent(url.split(/[?#]/)[0]);if(!clean)return;
@@ -49,14 +51,22 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
  const digest=crypto.createHash('sha256').update(JSON.stringify(file));
  for(const [name,bytes] of [...files].sort(([a],[b])=>a.localeCompare(b)))digest.update(name).update(bytes);
  const version=digest.digest('hex').slice(0,20),dataName='data/game-'+version+'.js';
- files.set(dataName,Buffer.from('globalThis.MiniMajoRelease='+JSON.stringify({format:'minimajo-public',version,rulesVersion:1,file}).replace(/</g,'\\u003c')+';\n'));
+ const images=[...files.keys()].filter(name=>/\.(png|jpe?g|webp|svg|gif|avif)$/i.test(name)).sort();
+ files.set(dataName,Buffer.from('globalThis.MiniMajoRelease='+JSON.stringify({format:'minimajo-public',version,rulesVersion:2,images,file}).replace(/</g,'\\u003c')+';\n'));
  for(const name of ['play.html','battle.html']){
   let html=files.get(name).toString().replace('<html ','<html data-public-release ');
   html=html.replace('<script src="js/storage.js"',`<script src="${dataName}" defer></script><script src="js/storage.js"`);
   html=html.replace(/(<script src="js\/saved-data\.js[^>]*><\/script>)/,'$1<script src="js/public-data.js" defer></script>');
+  if(name==='play.html'){
+   html=html.replace('<html data-public-release ','<html data-public-release data-assets-loading ')
+    .replace('</head>','<link rel="stylesheet" href="css/asset-loading.css"></head>')
+    .replace('<script src="js/public-data.js" defer></script>','<script src="js/public-data.js" defer></script><script src="js/asset-preloader.js" defer></script>')
+    .replace(/(<iframe\b[^>]*?)\bsrc=/g,'$1data-src=')
+    .replace(/(<body\b[^>]*>)/,'$1<section id="asset-loading" role="region" aria-labelledby="asset-loading-title" aria-busy="true"><div class="asset-loading-panel"><h1 id="asset-loading-title">Loading</h1><p id="asset-loading-status" role="status" hidden></p><button id="asset-loading-retry" type="button" hidden>重試載入</button></div></section>');
+  }
   files.set(name,Buffer.from(html));
  }
- files.set('release.json',Buffer.from(JSON.stringify({format:'minimajo-public',version,rulesVersion:1,data:dataName},null,2)+'\n'));
+ files.set('release.json',Buffer.from(JSON.stringify({format:'minimajo-public',version,rulesVersion:2,data:dataName},null,2)+'\n'));
  // Revalidate every request so updates cannot mix cached scripts/data from older releases.
  files.set('_headers',Buffer.from('/*\n  Cache-Control: no-cache, max-age=0, must-revalidate\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n'));
  files.set('404.html',Buffer.from('<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>找不到頁面 · MiniMajo</title><p>找不到這個頁面。</p><a href="/">返回 MiniMajo 首頁</a></html>'));

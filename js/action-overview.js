@@ -22,7 +22,7 @@
     const row=make('li'),timing=Laws.labels[Laws.timings.indexOf(passive.when)]??passive.when;
     row.append(make('strong',`被動 ${i+1} · ${timing}`));
     const subject=passive.subject??{relation:'self',conditions:[]};
-    row.append(make('p',passive.when==='playerSkill'?'雙方持有者皆可觸發，不檢查事件角色範圍與屬性。':'事件角色：'+({self:'持有者自己',ally:'同陣營角色（含自己）',enemy:'敵方角色',any:'任意角色'}[subject.relation]??'持有者自己')+((subject.conditions??[]).length?'；條件（全部符合）：'+subject.conditions.map(c=>Effects.conditionFields[c.field]+'＝'+c.value).join('、'):'；無角色屬性限制。')));
+    row.append(make('p',passive.when==='playerSkill'?'僅施放陣營的持有者可觸發，不檢查事件角色範圍與屬性。':'事件角色：'+({self:'持有者自己',ally:'同陣營角色（含自己）',enemy:'敵方角色',any:'任意角色'}[subject.relation]??'持有者自己')+((subject.conditions??[]).length?'；條件（全部符合）：'+subject.conditions.map(c=>Effects.conditionFields[c.field]+'＝'+c.value).join('、'):'；無角色屬性限制。')));
     if(passive.when==='statusGained'){
      const condition=passive.statusCondition??{mode:'any'};
      const value=condition.mode==='specified'?Statuses.names[condition.status]??condition.status:Laws.statusModes[condition.mode];

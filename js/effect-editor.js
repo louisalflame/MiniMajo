@@ -55,7 +55,7 @@
     function rebuildModes(){const previous=mode.value,values=['main','event'].includes(base.value)?Effects.relativeModes:Effects.targetModes;mode.replaceChildren();Object.entries(values).forEach(([v,t])=>{const o=node('option',t);o.value=v;mode.append(o);});mode.value=Object.hasOwn(values,previous)?previous:['main','event'].includes(base.value)?'target':'primary';}
     base.onchange=()=>{rebuildModes();sync();change();};
     box.append(node('small','依主效果目標搜尋僅用於副效果：以命中時的佔位找緊貼左右邊緣的同陣營角色，不跨空格、不受射程限制；主目標死亡仍保留定位。主效果多人時合併去重。'));
-    if(allowEvent)box.append(node('small','本次事件角色指觸發被動的角色，例如被治療時為受治療者。依事件發生時的佔位定位，僅選存活角色；沒有事件上下文時略過，不另外選人。玩家極式事件以技能施放者為事件角色。'));
+    if(allowEvent)box.append(node('small','本次事件角色指觸發被動的角色，例如被治療時為受治療者。依事件發生時的佔位定位，僅選存活角色；沒有事件上下文時略過，不另外選人。我方極式事件以技能施放者為事件角色。'));
     for(const control of [side,mode])control.onchange=()=>{sync();change();};sync();
     if(moving)box.append(node('small','搜尋不受攻擊射程限制，排除自身。移動消耗本次行動；無對象或無合法路徑時原地等待。'));
     return {node:box,sync,setMain:value=>{base.options[1].disabled=moving||value;},read:()=>({...(!moving&&(excludeSelf.checked||initial.excludeSelf!==undefined)?{excludeSelf:excludeSelf.checked}:{}),...(['main','event'].includes(base.value)?{base:base.value}:{}),side:side.value,mode:mode.value,range:['main','event'].includes(base.value)||moving?'unlimited':range.value,targetCond:cond.read(),targetCondMode:cond.mode()})};
@@ -149,7 +149,7 @@
   function syncRelation(){const own=['swapInitiated','swapReceived','playerSkill'].includes(when.value);const result=['normalDown','normalKill'].includes(when.value);const allySkill=when.value==='allySkillResolved';relation.disabled=own||result||allySkill;if(allySkill)relation.value='ally';if(own)relation.value='self';if(result)relation.value='enemy';}when.onchange=()=>{syncRelation();changed();};syncRelation();
   card.append(field('觸發時機',when),field('事件中的角色',relation));
   const conditions=el('div');(p.subject?.conditions??[]).forEach(c=>conditions.append(condition(c,changed)));
-  card.append(el('p','下列條件需全部符合；沒有條件表示不限制角色屬性。玩家極式事件不檢查事件角色範圍與屬性，雙方持有者皆可觸發。'),conditions,button('＋ 角色條件',()=>{if(conditions.children.length>=10){say('最多 10 個角色條件。');return;}conditions.append(condition({field:'race',value:'人類'},changed));changed();}));
+  card.append(el('p','下列條件需全部符合；沒有條件表示不限制角色屬性。我方極式事件不檢查事件角色範圍與屬性，僅施放陣營的持有者可觸發。'),conditions,button('＋ 角色條件',()=>{if(conditions.children.length>=10){say('最多 10 個角色條件。');return;}conditions.append(condition({field:'race',value:'人類'},changed));changed();}));
   const statusMode=select(Laws.statusModes,p.statusCondition?.mode??'any');
   const statusId=select(Statuses.names,p.statusCondition?.status??Object.keys(Statuses.names)[0]);
   const specifiedStatus=field('指定狀態',statusId);

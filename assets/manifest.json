@@ -834,7 +834,8 @@
       "configured": true,
       "literalReferences": [
         "docs/ART_STYLE.md",
-        "docs/maintenance/cleanup-2026-11-07/moves.json"
+        "docs/maintenance/cleanup-2026-11-07/moves.json",
+        "tests/browser/release.cjs"
       ],
       "runtimeDirectoryReferences": [
         "editor.html",
@@ -1802,6 +1803,392 @@
       ]
     },
     {
+      "file": "assets/ui/law-icons/v1/01-law.png",
+      "bytes": 21957,
+      "sha256": "3d9c5e7892aca7d597b4d7383d77d82f9e534834548181faf18a7643b06cc74b",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/PROJECT_CONTEXT.md",
+        "docs/README.md",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/02-law.png",
+      "bytes": 20802,
+      "sha256": "b3e76c2d4a35666a2d66bf0ce17deeaa214e368a1bc19c2cb057e651ace6a147",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/03-law.png",
+      "bytes": 25664,
+      "sha256": "81fe200954ffd1edb40fc5780d5b3b0b1ef0b722d2571a8f9c3e7d48966a0324",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/04-law.png",
+      "bytes": 24202,
+      "sha256": "c26380f0fb310636fca91b45d187a2922ae81e0b1b9c463cd5094ca289b2d834",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/05-law.png",
+      "bytes": 21130,
+      "sha256": "9387cd4de7f4d88a289c58d2878758e9d5151b7dd8303bc84289c7ed02b74871",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/06-law.png",
+      "bytes": 25012,
+      "sha256": "e3079f95fa263de7a0913e4519fb7ec2e70d4f7762ee3aa657ac6848f9049b86",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/07-law.png",
+      "bytes": 25131,
+      "sha256": "e4fa7ad38475d3848e1f39befa4dd6dfdb646de0bb29b0d07ebe17a80c6f88b7",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/08-law.png",
+      "bytes": 21332,
+      "sha256": "1fb63fe595e1b25fc6996b38e56cafb937c6a88afb1e51b451b7d31f0e0ec6e1",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/09-law.png",
+      "bytes": 29677,
+      "sha256": "1305b6b72b0b2615ead18ed7d7b2d35e5ca56c8c4ad12137d4cf004f8d642f53",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/10-law.png",
+      "bytes": 20879,
+      "sha256": "2581b3cd56952f4421608bc2c16bb32cbbfd45e45bd5906d6b860b8dd25e8f8e",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/11-law.png",
+      "bytes": 23137,
+      "sha256": "6d340dd16ba14b74eec8b2287f48dd7ec0810547509292c6e5021f92f7390a78",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/12-law.png",
+      "bytes": 21923,
+      "sha256": "bbd3b5fd102e7dc99edce32129aa9f7aae8ede6afeb2cada8b090b0f8f8692b5",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/13-law.png",
+      "bytes": 22880,
+      "sha256": "92c17e34c6c58995c5f98d0a06bb9bfef1d9947f84a1fc6b363eda55fae56efd",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/14-law.png",
+      "bytes": 24862,
+      "sha256": "76116b15fbb028ebc78b03902d8a5bc1f50e34dea1d746784e956d079c339cf3",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/15-law.png",
+      "bytes": 24777,
+      "sha256": "7f5ba2489a227a3f4c6c448323010a646232f164d6f22713aad77c7268b3e0c1",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/16-law.png",
+      "bytes": 24793,
+      "sha256": "e4031f87cccd8784a28f3eeefd9e7fa23471f9c952353fbf8fa2561b6893eed6",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/17-law.png",
+      "bytes": 26566,
+      "sha256": "f65b0f516abcab13c3a66de7bb418bfd6d53a4288033099a49e6e570b705fe31",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/18-law.png",
+      "bytes": 25211,
+      "sha256": "b552f3e936c4dd8c3e226ae590588892058b13b262f7292040308e6e141b44c6",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/19-law.png",
+      "bytes": 24047,
+      "sha256": "e55cf33846f3d39132a9dbc21c258fb33a40ccca581f2c3db231a5d03ae241bf",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/20-law.png",
+      "bytes": 22842,
+      "sha256": "f26e513de07c10e8336b15aaabe5935543e8d1d12da04efe5434bf3eba31abab",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/21-law.png",
+      "bytes": 25171,
+      "sha256": "96bb5f9faad56be5525963f1015c9760352d9e0e939d49ced4d1fd6bf309de4d",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/22-law.png",
+      "bytes": 25329,
+      "sha256": "ce309dd567f2508b6068fa41891f4e9d13dd609a5e221e8b7ff4e806219e0b09",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/23-law.png",
+      "bytes": 20712,
+      "sha256": "4b46a30202157537f947ce4caa6ea84ae7b47daf476b87484333f48b4a329856",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/24-law.png",
+      "bytes": 23449,
+      "sha256": "28a24f8f0a14684c940203b4dd5f9a7ac23b3926fd59e5740b473556e4b61bd4",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/25-law.png",
+      "bytes": 24913,
+      "sha256": "3c8c3ac7d97a88617d794b48f7c109a2e5ee59c9729eb15eb7ffe68ec9226459",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/26-law.png",
+      "bytes": 20554,
+      "sha256": "4bdde8ceeb65f1e014a87dc1abd4cacd1003791190c1ffca7c0ea6d3e582b547",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/27-law.png",
+      "bytes": 26182,
+      "sha256": "2ed32289c06272cc22c6471b985aaf9c6d9354009a293bd2fe18b4183cb92a73",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/28-law.png",
+      "bytes": 26678,
+      "sha256": "3a8cf5b9529177aed78ed00cba9b5801a1e2ecbd6f73638e7585a29c6682bc45",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/29-law.png",
+      "bytes": 19426,
+      "sha256": "ccd00f0988eccef9ec8b0d54a19abecd04bdf3fd5a9b6d25fc5d0ec0eaf6ffa7",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/30-law.png",
+      "bytes": 28414,
+      "sha256": "fe120b45b450f8cadd8ee2749c6d9ee9f253e209aaaba4e4b2ca791bc61df08b",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/31-law.png",
+      "bytes": 26516,
+      "sha256": "b54acc42bc9afe3ff043ecdb3c25b128f1e1d2ae9c2dd13e215b76e682bfc073",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
+      "file": "assets/ui/law-icons/v1/32-law.png",
+      "bytes": 18469,
+      "sha256": "ce44fec7782c34afe603b5bca298898e14c3cc7a4555916f83a61d841917b13a",
+      "configured": true,
+      "literalReferences": [
+        "assets/ui/law-icons/v1/manifest.json",
+        "docs/ui-style/adopted-records.json",
+        "minimajo-editor.json"
+      ],
+      "runtimeDirectoryReferences": []
+    },
+    {
       "file": "assets/ui/map/v1/slate-background.png",
       "bytes": 2780691,
       "sha256": "da7b76fb5d54c11f13fd971360f1b54666fbb83c6d3b5e9a17a870f7d2f85d10",
@@ -2472,7 +2859,10 @@
       "sha256": "e0e8ef9a7457c977459486f9ba029b4bd1a23d2ae693509cd7ae65d8ebb38931",
       "configured": true,
       "literalReferences": [
-        "minimajo-editor.json"
+        "minimajo-editor.json",
+        "tests/browser/enemy-ultimate.cjs",
+        "tests/browser/prebattle-layout.cjs",
+        "tests/game-ui.test.js"
       ],
       "runtimeDirectoryReferences": [
         "editor.html"
