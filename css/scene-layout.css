@@ -1,0 +1,201 @@
+/* Scene sizing is based on both viewport dimensions. The ten-slot drop grids
+   and 134:288 card proportions remain unchanged, including the slate rim. */
+body.immersive-game:has(#journey-battle:not([hidden])),
+body.immersive-game:has(#expedition-dialog[open][data-mode=shop]){overflow:hidden}
+body.immersive-game:has(#journey-battle:not([hidden]))>header{display:none}
+body.immersive-game #journey-battle:not([hidden]){
+ position:fixed;inset:0;z-index:3;display:flex;flex-direction:column;
+ background:#050b12;
+}
+body.immersive-game #journey-battle .journey-battle-head{
+ position:absolute;bottom:8px;left:50%;transform:translateX(-50%);z-index:1;
+ width:min(1348px,100%);min-height:0;padding:0 24px;pointer-events:none;
+}
+body.immersive-game #journey-battle .journey-battle-head button{pointer-events:auto}
+body.immersive-game #journey-battle #journey-battle-gear{display:none}
+body.immersive-game #journey-battle #journey-return{display:none}
+body.immersive-game #journey-battle #journey-battle-status{margin:0;padding:0 24px}
+body.immersive-game #journey-battle #journey-frame{flex:1;min-height:0;height:0;width:100%}
+
+/* Keep the existing modal focus/lifecycle contract; visually the shop is a
+   complete scene, with an explicit exit instead of a backdrop click target. */
+body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop]{
+ --shop-team-width:min(1348px,calc(100vw - 632px),calc((100dvh - 160px) * 1340 / 1056));
+ --shop-content-width:calc(var(--shop-team-width) + 568px);
+ /* A stock row includes its slate rim; reserve the same block for laws.
+    The roster scroll has 4px padding per side, and sell is 28px + 6px gap. */
+ --shop-row-width:calc(var(--shop-team-width) - 8px);
+ --shop-product-block-height:calc(34px + var(--shop-row-width) * 352 / 1404);
+ --law-slot-width:calc(var(--shop-row-width) * 134 / 1404);
+ inset:0;width:100%;max-width:none;height:100dvh;max-height:none;
+ margin:0;padding:16px 28px;border:0;border-radius:0;overflow:hidden;
+ align-items:center;
+ box-sizing:border-box;background:radial-gradient(ellipse at top,#fff8e166,transparent 65%),#e8d9b9;
+}
+body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop]::before{display:none}
+body.immersive-game dialog.ui-panel#expedition-dialog[open][data-mode=shop]{display:flex}
+body.immersive-game #expedition-dialog[data-mode=gear] .shop-sidebar{display:none}
+body.immersive-game #expedition-dialog[data-mode=shop] .shop-sidebar{
+ grid-area:1 / 1 / 3 / 2;display:flex;flex-direction:column;align-items:center;
+ min-height:0;padding:0 20px;gap:18px;contain:size;
+}
+body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop] .ui-panel-title{
+ position:static;transform:none;clip-path:none;background:none;border:0;
+ color:var(--panel-ink);padding:0;margin:0;font-size:23px;
+}
+body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop] #expedition-close{
+ display:block;position:static;
+ width:auto;height:36px;font-size:13px;padding:6px 20px;
+ background:#25485e;color:#f2e2c3;
+}
+body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop]>.ui-panel-body{
+ display:grid;grid-template-columns:260px minmax(0,1fr) 260px;
+ grid-template-rows:auto auto auto auto;
+ column-gap:24px;width:min(100%,var(--shop-content-width));margin-inline:auto;
+ height:auto;max-height:100%;overflow:hidden;padding:0;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .expedition-head{
+ order:4;padding:0;align-items:center;flex:none;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .shop-navigation{
+ display:contents;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .shop-controls{order:3;margin:0;flex:none}
+body.immersive-game #expedition-dialog[data-mode=shop] .shop-controls button{margin:0}
+body.immersive-game #expedition-dialog[data-mode=shop] .shop-tabs{
+ order:2;flex-direction:column;gap:14px;margin:auto 0;flex:none;width:140px;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .shop-tabs button{width:100%}
+body.immersive-game #expedition-dialog[data-mode=shop] .roster-sell-zone{
+ grid-area:1 / 2 / 2 / 3;margin:0 0 6px;min-height:28px;padding:3px 12px;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .roster-scroll{
+ grid-area:2 / 2 / 3 / 3;align-self:start;justify-self:center;width:100%;
+ min-width:0;max-height:100%;overflow:auto;padding:0 4px;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .roster-row{min-width:0;margin:0}
+body.immersive-game #expedition-dialog[data-mode=shop] .roster-heading{padding:5px 0}
+body.immersive-game #expedition-dialog[data-mode=shop] [data-card-skin] .roster-card-hud{
+ padding:24px clamp(5px,8cqi,17px) 9px;gap:6px;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] [data-card-skin] .roster-card-heading{gap:1px}
+body.immersive-game #expedition-dialog[data-mode=shop] [data-card-skin] .roster-name{font-size:clamp(8px,12cqi,14px)}
+body.immersive-game #expedition-dialog[data-mode=shop] [data-card-skin] .roster-stars{font-size:clamp(8px,11cqi,13px);gap:0}
+body.immersive-game #expedition-dialog[data-mode=shop] [data-card-skin] .reward-symbol{
+ flex-basis:clamp(6px,10cqi,16px);width:clamp(6px,10cqi,16px);height:clamp(8px,12cqi,18px);
+}
+body.immersive-game #expedition-dialog[data-mode=shop] [data-card-skin] .roster-extra{
+ gap:1px;font-size:clamp(8px,13cqi,15px);
+}
+body.immersive-game #expedition-dialog[data-mode=shop] [data-card-skin] .roster-card-values{gap:2px;min-height:14px}
+body.immersive-game #expedition-dialog[data-mode=shop] .roster-inspect{
+ grid-area:1 / 3 / 3 / 4;min-height:0;contain:size;overflow:auto;overscroll-behavior:contain;
+ border-top:0;border-left:1px solid #25465c30;padding:14px 0 14px 20px;margin:0;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .roster-inspect p{white-space:pre-wrap;overflow-wrap:anywhere}
+body.immersive-game #expedition-dialog[data-mode=shop] .expedition-message{grid-area:4 / 2 / 5 / -1;margin:0}
+body.immersive-game #expedition-dialog[data-mode=shop] .expedition-message:empty{display:none}
+body.immersive-game #expedition-dialog[data-mode=shop] #roster-empty-warning{
+ grid-area:3 / 2 / 4 / 3;align-self:end;margin:0;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] #law-shop-panel:not([hidden]){
+ grid-area:1 / 2 / 2 / 3;margin:0;padding:0;gap:10px;
+ grid-template-columns:minmax(160px,1fr) calc(var(--law-slot-width) * 3) minmax(160px,1fr);
+ grid-template-rows:repeat(2,minmax(0,1fr));
+ height:var(--shop-product-block-height);min-height:0;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] #law-shop-panel .law-target-layout{grid-column:2;grid-row:1 / 3;height:100%;min-height:0}
+body.immersive-game #expedition-dialog[data-mode=shop] #law-shop-products>.law-card:nth-child(1){grid-column:1;grid-row:1}
+body.immersive-game #expedition-dialog[data-mode=shop] #law-shop-products>.law-card:nth-child(2){grid-column:1;grid-row:2}
+body.immersive-game #expedition-dialog[data-mode=shop] #law-shop-products>.law-card:nth-child(3){grid-column:3;grid-row:1}
+body.immersive-game #expedition-dialog[data-mode=shop] #law-shop-products>.law-card:nth-child(4){grid-column:3;grid-row:2}
+body.immersive-game #expedition-dialog[data-mode=shop] .law-target-zone{
+ height:100%;min-height:0;padding:0;gap:4px;overflow:auto;justify-content:center;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .law-target-art{height:calc(var(--law-slot-width) * 288 / 134);min-height:0;flex-shrink:0;display:flex;justify-content:center}
+body.immersive-game #expedition-dialog[data-mode=shop] .law-recipient-card{position:relative;display:block;height:100%;flex:none}
+body.immersive-game #expedition-dialog[data-mode=shop] #law-target-zone p:empty{display:none}
+body.immersive-game #expedition-dialog[data-mode=shop] #law-target-name{font-size:12px;text-align:center;max-width:100%;overflow-wrap:anywhere;color:var(--panel-ink)}
+body.immersive-game #expedition-dialog[data-mode=shop] #law-target-clear{width:24px;height:24px;min-height:24px;padding:0;margin:0}
+body.immersive-game #expedition-dialog[data-mode=shop] button.law-card{
+ display:grid;grid-template-columns:28px minmax(0,1fr) auto;grid-template-rows:28px minmax(0,1fr) auto;
+ min-height:0;height:100%;padding:6px;gap:4px;overflow:hidden;align-items:start;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .law-product-art{grid-area:1 / 1 / 2 / 2;height:28px}
+body.immersive-game #expedition-dialog[data-mode=shop] .law-art-placeholder{font-size:8px;text-align:center}
+body.immersive-game #expedition-dialog[data-mode=shop] .law-card-name{grid-area:1 / 2 / 2 / 3;font-size:12px;line-height:1.2;max-height:28px;overflow:auto}
+body.immersive-game #expedition-dialog[data-mode=shop] .law-description{
+ grid-area:2 / 1 / 3 / -1;min-height:0;max-height:100%;overflow:auto;overscroll-behavior:contain;font-size:12px;line-height:1.5;align-self:stretch;
+}
+body.immersive-game #expedition-dialog[data-mode=shop] .law-card-stats{grid-area:3 / 1 / 4 / -1;font-size:10px;line-height:1.2;max-height:24px;overflow:auto}
+body.immersive-game #expedition-dialog[data-mode=shop] .law-price{grid-area:1 / 3 / 2 / 4;margin:0;font-size:11px;white-space:nowrap}
+
+/* Battle uses the same arrangement in the journey, workshop and standalone.
+   The arena fits vertically before it expands horizontally. */
+body.battle-page{
+ --battle-scene-height:calc(100dvh - 76px);
+ --battle-reserved-height:200px;
+ --battle-content-width:min(1348px,100vw,calc((var(--battle-scene-height) - var(--battle-reserved-height)) * 1340 / 704));
+ /* Preserve the approved artwork's aspect ratio at every viewport shape. */
+ background-size:cover;
+}
+body.battle-page.preview-mode{--battle-scene-height:100dvh;--battle-reserved-height:252px}
+body.battle-page .game-shell{height:var(--battle-scene-height);min-height:0;display:flex;align-items:center}
+body.battle-page .battlefield{
+ width:100%;height:auto;max-height:100%;display:grid;grid-template-rows:44px 64px minmax(0,auto) 76px;
+}
+body.battle-page .stage-heading{grid-row:1;min-height:0;padding:0 24px;width:var(--battle-content-width);margin-inline:auto;align-items:center}
+body.battle-page .arena-scroll{grid-row:3;min-height:0;margin:0;max-height:100%;overflow:auto}
+body.battle-page .arena{
+ width:var(--battle-content-width);
+ min-width:0;margin:auto;padding:0 28px;
+}
+body.battle-page .side-label{height:20px}
+body.battle-page .versus{height:24px}
+body.battle-page #battle-start-dock{grid-row:2;align-self:center;padding:4px 0;z-index:1;pointer-events:none}
+body.battle-page #battle-start-dock #play{pointer-events:auto;width:240px;min-height:54px}
+body.battle-page .combat-skill{
+ grid-row:4;position:relative;bottom:auto;right:auto;max-width:none;
+ width:var(--battle-content-width);height:76px;justify-self:center;
+ display:flex;justify-content:center;align-items:center;padding:0 28px;margin:0;z-index:2;
+}
+body.battle-page .combat-skill .battle-actions{position:absolute;right:28px;top:0;height:76px;display:flex;align-items:center;min-width:0;padding:0;border:0}
+body.battle-page .combat-skill .minor-actions{display:flex;align-items:center;gap:12px;margin:0}
+body.battle-page .skill-control{gap:0;min-width:0}
+body.battle-page .skill-copy{position:absolute;right:calc(100% + 12px);min-width:120px}
+body.battle-page .skill-copy h2{font-size:16px;letter-spacing:1px;overflow-wrap:anywhere}
+body.battle-page .skill-orb{width:62px;height:62px}
+body.battle-page .stage-bottom{position:absolute;bottom:0;left:12px;max-width:25%;margin:0;padding:4px}
+body.battle-page #battle-stats-note{position:absolute;top:42px;left:24px;margin:0;font-size:10px}
+
+/* Narrow screens keep usable card widths and local horizontal navigation.
+   Only the selected character's long explanation scrolls vertically. */
+@media(max-width:900px){
+ body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop]{padding:12px;--shop-row-width:max(600px,calc(100vw - 144px))}
+ body.immersive-game #expedition-dialog[data-mode=shop] .shop-sidebar{padding:8px 0;gap:14px}
+ body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop] .ui-panel-title{font-size:18px}
+ body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop] #expedition-close{padding:6px 8px;font-size:11px}
+ body.immersive-game #expedition-dialog[data-mode=shop] .shop-tabs{width:90px}
+ body.immersive-game #expedition-dialog[data-mode=shop] .shop-controls button{padding:8px;font-size:11px;white-space:normal}
+ body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop]>.ui-panel-body{
+  width:100%;
+  grid-template-columns:100px minmax(0,1fr);grid-template-rows:auto auto 110px auto auto;column-gap:12px;
+ }
+ body.immersive-game #expedition-dialog[data-mode=shop] .roster-inspect{
+  grid-area:3 / 1 / 4 / -1;border-left:0;border-top:1px solid #25465c30;padding:8px 0;
+ }
+ body.immersive-game #expedition-dialog[data-mode=shop] .roster-row{min-width:600px}
+ body.immersive-game #expedition-dialog[data-mode=shop] .expedition-message{grid-area:5 / 1 / 6 / -1}
+ body.immersive-game #expedition-dialog[data-mode=shop] #roster-empty-warning{grid-area:4 / 1 / 5 / -1}
+ body.battle-page .arena{min-width:650px}
+ body.battle-page .combat-skill{width:100%}
+ body.battle-page .combat-skill .battle-actions{right:12px}
+ body.battle-page .skill-copy{display:none}
+ body.battle-page #battle-start-dock #play{width:200px}
+}
+@media(max-height:600px){
+ body.immersive-game dialog.ui-panel#expedition-dialog[data-mode=shop]>.ui-panel-body{overflow:auto}
+ body.immersive-game #expedition-dialog[data-mode=shop] .roster-scroll{min-width:min(100%,600px);max-height:none}
+ body.battle-page .arena{min-width:650px}
+ body.battle-page .arena-scroll{align-self:stretch}
+}

@@ -1,0 +1,40 @@
+/* Preparation/shop: full-bleed art + readable overlay, without battle timers. */
+.expedition-dialog{--roster-hud-opacity:.9}
+.expedition-dialog[data-mode] .roster-grid>.roster-tile{height:var(--roster-card-height);min-height:var(--roster-card-height);padding:0;gap:0;border:1px solid #bcc6cf40;background:#142c40;isolation:isolate;overflow:hidden;color:#e8d4ae}
+.roster-tile>.roster-art,.immersive-game .roster-tile>.roster-art{position:absolute;inset:0;z-index:0;width:100%;height:100%;min-height:0;margin:0;border:0;pointer-events:none;display:grid;place-items:center;font-size:10px;letter-spacing:1px;color:#b5c1cc;background:linear-gradient(145deg,#243e53,#102333)}
+.roster-tile>.roster-art .character-image{object-fit:cover;object-position:50% 28%}
+.roster-tile>.roster-slot{display:none}
+.roster-tile>.roster-card-hud{position:absolute;inset:auto 0 0;z-index:2;display:flex;flex-direction:column;gap:8px;padding:34px 6px 10px;background:linear-gradient(0deg,rgb(8 20 32 / var(--roster-hud-opacity,.9)),#0b1b2cb3 65%,transparent);text-shadow:0 1px 3px #000;pointer-events:none}
+.roster-card-heading{display:flex;align-items:center;gap:4px;min-width:0;white-space:nowrap}
+.roster-tile .roster-card-heading .roster-job{position:static;display:inline-flex;flex:0 0 13px;width:13px;height:13px;color:#e8d4ae}
+.roster-job svg,.roster-stat-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.roster-tile .roster-name{flex:1;min-width:0;font-size:11px;font-weight:500;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;letter-spacing:0}
+.roster-tile .roster-stars{flex:none;font-size:10px;letter-spacing:0;color:#e8d4ae;white-space:nowrap}
+.roster-card-values{display:flex;align-items:center;justify-content:space-between;gap:5px;flex-wrap:wrap}
+.roster-tile .roster-card-values .roster-extra{display:inline-flex;align-items:center;gap:3px;color:#eee0c6;font-size:11px;line-height:1.4;white-space:nowrap}
+.expedition-dialog[data-mode] .roster-tile .roster-card-values .roster-extra::before{content:none}
+.roster-stat-icon{display:inline-flex;width:13px;height:13px;color:#d9b2aa}
+.roster-price .roster-stat-icon{color:#e3c58a}
+.expedition-dialog[data-mode] .roster-tile.vacant{background:#9ab6d007;border-color:#b8c7d326;color:transparent}
+.roster-tile.vacant>span{visibility:hidden}
+.expedition-dialog[data-mode] .roster-tile.occupied:hover{border-color:#dfc8a2}
+.expedition-dialog[data-mode] .roster-tile[aria-pressed=true]{outline:2px solid #dfc8a2;outline-offset:-2px}
+.roster-tile.roster-drag-ghost{--roster-hud-opacity:.9;padding:0;isolation:isolate}
+.roster-drop-marker{grid-row:1;z-index:4;pointer-events:none;border:2px solid #e5d1a6;background:#e5d1a61a;min-width:0}
+
+/* Merge affordance reuses the approved star; the floating cue sits above the drag popover. */
+.roster-tile.merge-candidate{outline:2px solid #e1c784!important;outline-offset:1px;box-shadow:0 0 12px #efc66c55}
+.roster-tile.merge-hover{z-index:6;outline:3px solid #ffe3a0!important;outline-offset:3px;background:transparent!important;animation:roster-merge-pulse .85s ease-in-out infinite alternate}
+body .roster-tile.merge-hover .reward-card-frame{filter:brightness(1.5) drop-shadow(0 0 5px #ffd776aa)}
+.roster-tile.merge-hover::after{content:"";position:absolute;left:50%;top:22%;width:clamp(28px,28%,48px);aspect-ratio:1;z-index:5;pointer-events:none;transform:translateX(-50%);background:url("../assets/ui/card-icons/approved-v1/star.png") center/contain no-repeat;filter:drop-shadow(0 0 9px #ffda88)}
+.roster-tile.roster-drag-ghost{transition:opacity .12s ease,transform .12s ease}
+.roster-tile.roster-drag-ghost.merge-preview{opacity:.28;transform:scale(.94);filter:saturate(.6)}
+.roster-merge-cue{position:fixed;inset:auto;margin:0;padding:9px 12px;border:2px solid #e6ca83;border-radius:6px;background:#102b38f5;color:#ffe3a0;box-sizing:border-box;z-index:30;pointer-events:none;text-align:center;box-shadow:0 0 18px #e3b75b66,0 8px 20px #0009;font-family:"Microsoft JhengHei",sans-serif}
+.roster-merge-cue::backdrop{background:transparent;pointer-events:none}
+.roster-merge-cue>strong{display:block;font-size:15px;line-height:1.4;letter-spacing:2px}
+.roster-merge-stars{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;font-size:20px;font-weight:700;line-height:1.2}
+.roster-merge-stars>img{width:19px;height:19px;object-fit:contain;filter:drop-shadow(0 0 4px #ffd485)}
+@keyframes roster-merge-pulse{from{box-shadow:0 0 0 3px #ffd97744,0 0 18px #edc66f88,inset 0 0 18px #ffe59a22}to{box-shadow:0 0 0 6px #ffd97766,0 0 30px #edc66fbb,inset 0 0 28px #ffe59a44}}
+@media(prefers-reduced-motion:reduce){.roster-tile.merge-hover{animation:none;box-shadow:0 0 0 3px #ffd97766,0 0 20px #edc66f99}.roster-tile.roster-drag-ghost{transition:none}}
+
+.roster-inspect .roster-effects-title{font-size:12px;font-weight:700;letter-spacing:1px;margin:12px 0 4px}

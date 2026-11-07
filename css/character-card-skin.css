@@ -1,0 +1,162 @@
+/* Generated alpha borders overlay a window-masked portrait/HUD. Shared roster/combat adaptation of the approved reward skin. */
+body [data-card-skin],
+body [data-card-skin]:hover{border:0;background:transparent}
+body [data-card-skin] .reward-card-surface{position:absolute;inset:0;display:block;mask-size:100% 100%;mask-repeat:no-repeat;mask-position:center;mask-mode:luminance;background:#102333;pointer-events:none}
+body [data-card-skin] .roster-art{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+body [data-card-skin] .roster-art .character-image{object-fit:cover;object-position:50% 28%}
+body [data-card-skin]{container-type:inline-size}
+body [data-card-skin] .roster-card-hud{position:absolute;inset:auto 0 0;z-index:2;display:flex;flex-direction:column;gap:8px;box-sizing:border-box;max-width:100%;padding:36px 17px 19px;background:linear-gradient(0deg,#081420fa,#0b1b2ce6 57%,#0b1b2c99 77%,transparent);font-family:"Noto Serif TC","PMingLiU","Songti TC",serif;letter-spacing:0;text-shadow:0 1px 2px #000;pointer-events:none}
+body [data-card-skin] .roster-card-heading{gap:2px;min-height:18px}
+body [data-card-skin] .roster-name{font-size:12px;font-weight:700;line-height:1.5;color:#f3e3c4}
+body [data-card-skin] .roster-stars{display:inline-flex;align-items:center;gap:1px;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+body [data-card-skin] .reward-symbol{display:inline-flex;align-items:center;justify-content:center;flex:0 0 13px;width:13px;height:15px;color:#ead8b5}
+body [data-card-skin] .reward-symbol img{display:block;width:100%;height:100%;object-fit:contain}
+body [data-card-skin] .roster-stars .reward-symbol{flex-basis:10px;width:10px;height:12px}
+body [data-card-skin] .reward-symbol svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+body [data-card-skin] .roster-health .reward-symbol{color:#e58f91}
+body [data-card-skin] .roster-card-values{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px;min-height:20px}
+body [data-card-skin] .roster-extra{display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:13px;font-weight:700;line-height:1.5;font-variant-numeric:tabular-nums;color:#f3e3c4}
+body [data-card-skin] .roster-card-values .reward-symbol{flex-basis:16px;width:16px;height:18px}
+body [data-card-skin] .roster-extra::before{content:none}
+body [data-card-skin] .reward-card-frame{position:absolute;inset:0;z-index:3;display:block;width:100%;height:100%;max-width:none;object-fit:fill;pointer-events:none}
+body [data-card-skin]:hover .reward-card-frame{filter:brightness(1.12)}
+/* Stars live above the card surface/frame, independently of the bottom name row. */
+body [data-star-layout=pending]>.card-star-column{visibility:hidden}
+body [data-card-skin]>.roster-stars.card-star-column{position:absolute;top:var(--card-star-top,clamp(18px,calc(15cqi / var(--star-footprint,1)),30px));right:var(--card-star-right,clamp(8px,7cqi,18px));z-index:4;display:flex;flex-direction:column;align-items:center;align-self:auto;gap:var(--card-star-gap,1px);padding:0;margin:0;border:0;pointer-events:none;filter:drop-shadow(0 1px 2px #000d)}
+body [data-card-skin]>.card-star-column>.card-star{display:block;flex:none;width:var(--card-star-size,clamp(4px,calc(8cqi / var(--star-footprint,1)),14px));height:var(--card-star-size,clamp(4px,calc(8cqi / var(--star-footprint,1)),14px));max-width:none;object-fit:contain}
+/* Reserve the rail in the name row; keep full-width combat meters readable. */
+body [data-card-skin] .roster-card-heading{padding-right:var(--card-star-clearance,calc(clamp(4px,calc(8cqi / var(--star-footprint,1)),14px) + 3px))}
+/* Grow the typography with usable card width, including a wide card wrapped on mobile. */
+@container (min-width:180px){
+ body [data-card-skin] .roster-card-hud{padding-inline:20px}
+ body [data-card-skin] .roster-card-heading{gap:4px}
+ body [data-card-skin] .roster-name{font-size:14px}
+ body [data-card-skin] .roster-stars{font-size:13px;gap:3px}
+ body [data-card-skin] .reward-symbol{flex-basis:16px;width:16px;height:18px}
+ body [data-card-skin] .roster-stars .reward-symbol{flex-basis:12px;width:12px;height:14px}
+ body [data-card-skin] .roster-extra{font-size:15px;gap:6px}
+ body [data-card-skin] .roster-card-values .reward-symbol{flex-basis:19px;width:19px;height:21px}
+}
+/* Selection marker geometry is owned by ui-raster-dialogs.css. */
+
+/* Shared approved reward layout: same heading and separators in play and preview. */
+body [data-card-skin] .roster-card-hud{
+ gap:12px;background:linear-gradient(0deg,#07151ff7,#0a1a26eb 54%,#0a1a2699 77%,transparent);
+}
+body [data-card-skin] .roster-card-heading{position:relative;gap:2px}
+body [data-card-skin] .roster-card-heading::after{
+ content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;
+ background:linear-gradient(90deg,#dac49c99 calc(50% - 5px),transparent calc(50% - 5px),transparent calc(50% + 5px),#dac49c99 calc(50% + 5px));
+ pointer-events:none;
+}
+body [data-card-skin] .roster-card-heading::before{
+ content:"";position:absolute;left:50%;bottom:-8px;width:4px;height:4px;box-sizing:border-box;
+ border:1px solid #e2cba4;transform:translateX(-50%) rotate(45deg);pointer-events:none;
+}
+body [data-card-skin] .roster-name{font-size:11px;text-align:center}
+body [data-card-skin] .reward-symbol{flex-basis:12px;width:12px;height:15px}
+body [data-card-skin] .roster-card-heading>.reward-symbol:first-child{
+ box-sizing:content-box;padding-right:3px;border-right:1px solid #dac49c80;
+}
+body [data-card-skin] .roster-stars{
+ align-self:stretch;border-left:1px solid #dac49c80;padding-left:3px;font-size:10px;
+}
+body [data-card-skin] .roster-stars .reward-symbol{flex-basis:9px;width:9px;height:12px}
+body [data-card-skin] .roster-card-values{position:relative;gap:10px}
+body [data-card-skin] .roster-card-values::after{
+ content:"";position:absolute;left:50%;top:1px;bottom:1px;width:1px;background:#dac49c80;pointer-events:none;
+}
+body [data-card-skin] .roster-extra{justify-content:center;gap:3px}
+body [data-card-skin] .roster-card-values .reward-symbol{flex-basis:16px;width:16px;height:18px}
+/* Health now uses the selected yellow droplet PNG, like the other card icons. */
+@container (min-width:180px){
+ body [data-card-skin] .roster-card-heading{gap:6px}
+ body [data-card-skin] .roster-name{font-size:14px}
+ body [data-card-skin] .reward-symbol{flex-basis:16px;width:16px;height:18px}
+ body [data-card-skin] .roster-card-heading>.reward-symbol:first-child{padding-right:6px}
+ body [data-card-skin] .roster-stars{padding-left:6px;font-size:13px}
+ body [data-card-skin] .roster-stars .reward-symbol{flex-basis:12px;width:12px;height:14px}
+ body [data-card-skin] .roster-extra{gap:7px}
+ body [data-card-skin] .roster-card-values .reward-symbol{flex-basis:20px;width:20px;height:22px}
+}
+
+/* Approved icon palette, shared by actual rewards and preview. PNG alpha owns the shape. */
+body [data-card-skin] .roster-card-hud{--card-icon-size:12px;--card-icon-height:15px}
+body [data-card-skin] .reward-symbol[data-card-icon]{
+ position:relative;flex-basis:var(--card-icon-size);width:var(--card-icon-size);height:var(--card-icon-height);
+ --card-icon-color:#d8c4a1;
+}
+body [data-card-skin] .reward-symbol[data-card-icon] img{opacity:0}
+body [data-card-skin] .reward-symbol[data-card-icon]::before{
+ content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+ width:var(--card-icon-size);height:var(--card-icon-height);background:var(--card-icon-color);
+ mask-image:var(--card-icon-mask);mask-size:contain;mask-repeat:no-repeat;mask-position:center;mask-mode:alpha;
+ pointer-events:none;
+}
+body [data-card-skin] .reward-symbol[data-card-icon=health]{--card-icon-color:#c78f82}
+body [data-card-skin] .reward-symbol:is([data-card-icon=attack],[data-card-icon=range]){--card-icon-color:#83a9b9}
+body [data-card-skin] .reward-symbol[data-card-icon=posture]{--card-icon-color:#a99a84}
+@container (min-width:180px){
+ body [data-card-skin] .roster-card-hud{--card-icon-size:16px;--card-icon-height:18px}
+}
+
+
+/* Context-specific information remains inside the approved window. */
+body [data-card-skin]{position:relative;isolation:isolate;padding:0;border:0!important;background:transparent!important;container-type:inline-size;overflow:visible}
+body [data-card-skin] .reward-card-surface{overflow:hidden;isolation:isolate}
+body [data-card-skin] .roster-art{min-height:0;margin:0;border:0;display:grid;place-items:center;background:linear-gradient(145deg,#243e53,#102333)}
+body [data-card-skin] .roster-card-heading{display:flex;align-items:center;min-width:0;white-space:nowrap}
+body [data-card-skin] .roster-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body [data-card-skin] .roster-stars{flex:none;color:#f3e3c4}
+body [data-card-skin] .roster-price{display:flex;align-items:center;justify-content:center;gap:4px;color:#e3c58a;font-size:12px;line-height:1.4}
+body [data-card-skin] .roster-price .roster-stat-icon{width:13px;height:13px}
+@container (max-width:110px){
+ body [data-card-skin] .roster-card-hud{padding:25px 10px 13px;gap:8px}
+ body [data-card-skin] .roster-name{font-size:10px}
+ body [data-card-skin] .roster-stars{font-size:9px;padding-left:2px}
+ body [data-card-skin] .reward-symbol[data-card-icon]{--card-icon-size:9px;--card-icon-height:12px}
+ body [data-card-skin] .roster-extra{font-size:11px;gap:1px}
+ body [data-card-skin] .roster-card-values{gap:4px}
+}
+
+/* Combat keeps its own four fixed rows; overlays anchor immediately above the name. */
+body .unit[data-card-skin] .unit-hud{--combat-row-gap:7px;gap:var(--combat-row-gap);overflow:visible;padding-top:24px}
+/* Trial: join only the two meter rows, keeping other HUD spacing unchanged. */
+body .unit[data-card-skin] .hp-meter+.stagger{margin-top:calc(-1 * var(--combat-row-gap))}
+body .unit[data-card-skin] .unit-heading-area{position:relative;flex:none;min-width:0;margin-bottom:5px}
+body .unit[data-card-skin] .roster-card-heading{margin:0}
+body .unit[data-card-skin] .meter:not(.unit-action-meter){height:18px;border:1px solid #dbc9aa55;border-radius:2px;background:#1d1519d9}
+body .unit[data-card-skin] .hp-meter>.meter-fill{background:#a74743}
+body .unit[data-card-skin] .meter.stagger{height:15px;background:#242322d9}
+body .unit[data-card-skin] .stagger>.meter-fill{background:#887c6b}
+body .unit[data-card-skin] .meter>.meter-value{inset:0 2px 0 16px;font:700 10px/1.2 'Noto Serif TC',serif}
+body .unit[data-card-skin] .meter>.reward-symbol{position:absolute;left:3px;top:1px;bottom:auto;z-index:1;background:none;--card-icon-size:11px;--card-icon-height:14px}
+body .unit[data-card-skin] .stagger>.ui-icon{top:1px;left:3px;width:11px;height:11px;display:flex;align-items:center;justify-content:center}
+body .unit[data-card-skin] .stagger>.ui-icon svg{height:11px;width:11px}
+body .unit[data-card-skin] .stagger>.reward-symbol{--card-icon-size:11px;--card-icon-height:11px}
+body .unit[data-card-skin] .roster-card-values{min-height:18px;align-items:center}
+body .unit[data-card-skin] .roster-range-label{font-size:10px;font-weight:400;color:#d8c4a1}
+body .unit[data-card-skin] .unit-status{position:absolute;inset:auto 0 calc(100% + 6px);display:flex;flex-flow:row wrap-reverse;align-content:flex-start;align-items:center;justify-content:flex-start;gap:2px;min-height:0;padding:0 var(--card-star-clearance,calc(clamp(4px,calc(8cqi / var(--star-footprint,1)),14px) + 3px)) 0 0;background:none}
+/* Outside the portrait window mask: long status rows must not disappear behind the frame. */
+body .unit[data-card-skin]>.unit-status{z-index:4;pointer-events:none;box-sizing:border-box;min-width:0}
+body .unit[data-card-skin]>.unit-status>.unit-status-badge{pointer-events:auto}
+body .unit[data-card-skin] .unit-status-badge{min-width:14px;min-height:14px;padding:1px;font-size:9px;line-height:1;gap:1px}
+body .unit[data-card-skin] .unit-status-badge>.ui-icon{width:10px;height:10px}
+body .unit[data-card-skin] .unit-status-badge:has(>.status-art-icon){width:var(--status-badge-size,24px);height:var(--status-badge-size,24px);min-width:var(--status-badge-size,24px);min-height:var(--status-badge-size,24px);padding:0;border:1px solid #c8b38b44;background:#0c1720db;box-sizing:border-box;border-radius:3px}
+body .unit[data-card-skin] .unit-status-badge>.status-art-icon{width:calc(var(--status-badge-size,24px) - 2px);height:calc(var(--status-badge-size,24px) - 2px)}
+body .unit[data-card-skin] .unit-status-badge>.reward-symbol{--card-icon-size:10px;--card-icon-height:10px;flex-basis:10px}
+body .unit[data-card-skin] .battle-totals{position:absolute;inset:auto 0 calc(100% + 6px);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;max-height:none;overflow:visible;border:0;border-radius:3px;background:#081420c9;text-align:center;font:700 clamp(8px,6cqi,12px)/1.4 'Noto Serif TC',serif;white-space:nowrap;pointer-events:none}
+body .unit[data-card-skin] .battle-totals>div{width:100%;text-align:center}
+body .unit[data-card-skin] .unit-status[hidden],body .unit[data-card-skin] .battle-totals[hidden]{display:none}
+@container (max-width:110px){
+ body .unit[data-card-skin] .unit-hud{--combat-row-gap:5px;gap:var(--combat-row-gap);padding-top:18px}
+ body .unit[data-card-skin] .meter>.meter-value{font-size:9px}
+ body .unit[data-card-skin] .roster-range-label{font-size:9px}
+}
+/* Short mobile boards need the same compact rows for every footprint. */
+@media(max-width:650px){
+ body .unit[data-card-skin] .unit-hud{--combat-row-gap:4px;padding:12px 10px;gap:var(--combat-row-gap)}
+ body .unit[data-card-skin] .roster-extra{font-size:11px;gap:3px}
+ body .unit[data-card-skin] .roster-card-values{min-height:18px}
+ body .unit[data-card-skin] .battle-totals{font-size:8px;line-height:1.25;gap:1px;padding:3px 0}
+}

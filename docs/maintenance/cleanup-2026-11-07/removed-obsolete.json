@@ -1,0 +1,38 @@
+{
+  "files": [
+    {
+      "file": "assets/characters/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "file": "assets/ui/common/gear-book.png",
+      "bytes": 1176409,
+      "sha256": "0eccd0b20d2f7e2bcdfab6f03fd0213184deb72bdd5ab2edd550f502fa77a184"
+    },
+    {
+      "file": "assets/ui/common/detail-border.svg",
+      "bytes": 1330,
+      "sha256": "bd9b68708974d601215c452f7f225c0ed6508558d7474a5e50bc143d22e4d9f7"
+    },
+    {
+      "file": "assets/ui/ultimate-icons/v1/paths.txt",
+      "bytes": 578,
+      "sha256": "bb2e93e36362f05790ba1637258ee2965d5d87a758d64a61a69f3dc0793eb9ad"
+    },
+    {
+      "file": "assets/ui/battle-board/fine-flow-background.webp",
+      "bytes": 133108,
+      "sha256": "b7d21bb141e8ad557779ab4b3624b04363438ba9fe0e5e76a9d6515225ea3999"
+    }
+  ],
+  "referenceUpdates": [
+    "docs/ui-style/battle-board-approved-v1/index.html",
+    "docs/ui-style/minimal-ui-candidates/index.html",
+    "editor.html",
+    "play.html",
+    "tests/browser/law-presentation.cjs",
+    "tests/browser/skill-art.cjs"
+  ],
+  "localRecoveryArchive": ".local-archives/obsolete-assets-2026-11-07.zip"
+}

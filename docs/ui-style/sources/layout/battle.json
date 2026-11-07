@@ -1,0 +1,93 @@
+{
+  "status": "split candidates; no production application",
+  "method": "Original generated PNG bytes; CSS uses measured bounds, no pixel editing.",
+  "files": [
+    {
+      "file": "battle-background-7.png",
+      "width": 1672,
+      "height": 941,
+      "bounds": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "transparentPixels": 0,
+      "opaquePixels": 1573352,
+      "sha256": "5f13e2d4186e94a3f655a114f5bcb8afa73106a87448d9b404d18936398644d4"
+    },
+    {
+      "file": "faction-enemy.png",
+      "width": 1974,
+      "height": 797,
+      "bounds": [
+        160,
+        239,
+        1812,
+        538
+      ],
+      "transparentPixels": 1233232,
+      "opaquePixels": 888,
+      "sha256": "527c3c58892cc56a8fc48f11ebfcd4152f384349c06752c2981ae42c13dd97f7"
+    },
+    {
+      "file": "faction-ally.png",
+      "width": 2070,
+      "height": 760,
+      "bounds": [
+        135,
+        216,
+        1934,
+        539
+      ],
+      "transparentPixels": 1191430,
+      "opaquePixels": 279,
+      "sha256": "ff7a3e9d168c0552a73f61890bf6976011831978d0ab8c7a09bad910e1607b30"
+    },
+    {
+      "file": "skill-ring.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        48,
+        55,
+        1206,
+        1165
+      ],
+      "transparentPixels": 1263384,
+      "opaquePixels": 969,
+      "sha256": "4f80ee0dc33e8333a0b6295be3e2bba42b585a785a4a02b652977ff3517574a7",
+      "centralWindowTransparentFraction": 0.9988830857841801,
+      "centralWindowAlphaAtMostOneFraction": 1,
+      "centralWindowMaxAlpha": 1
+    },
+    {
+      "file": "button-paper.png",
+      "width": 2171,
+      "height": 724,
+      "bounds": [
+        204,
+        173,
+        1967,
+        551
+      ],
+      "transparentPixels": 909997,
+      "opaquePixels": 76,
+      "sha256": "861580e6779761db9cf8eb0e4dd9f750cc871d6a73b90268c2f24a023008194c"
+    },
+    {
+      "file": "preparation-book.png",
+      "width": 1484,
+      "height": 1060,
+      "bounds": [
+        41,
+        208,
+        1443,
+        850
+      ],
+      "transparentPixels": 823059,
+      "opaquePixels": 632,
+      "sha256": "10694263a488c3eb0c7309826bfb321cb7206e75b352b106a3a03c37a1b9c901"
+    }
+  ]
+}

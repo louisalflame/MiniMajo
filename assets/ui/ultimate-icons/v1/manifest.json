@@ -1,0 +1,601 @@
+{
+  "date": "2026-11-07",
+  "status": "Installed as approved asset library for editor selection; no skill bindings changed",
+  "method": "Deterministic extraction of approved source-sheet crops, brightness matte against charcoal, small isolated background speckle removal, edge decontamination; source colors and paper shading preserved, no recolor or silhouette redraw. Native-sized exports and centered 512px resamples provided.",
+  "files": [
+    {
+      "id": "02",
+      "name": "三重法環",
+      "file": "02.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/02.png",
+      "nativeSize": [
+        217,
+        224
+      ],
+      "source": "ultimate-icons-twenty-v1/twenty-motifs.png",
+      "region": [
+        310,
+        72,
+        552,
+        287
+      ],
+      "sourceBounds": [
+        17,
+        1,
+        205,
+        212
+      ],
+      "removedSpecklePixels": 5,
+      "sha256": "e0e8ef9a7457c977459486f9ba029b4bd1a23d2ae693509cd7ae65d8ebb38931",
+      "nativeSha256": "40bb55cd34b4b80fb7218c40ded8eb29dcfa3f8c614e08aea80d0c95315da2c0",
+      "qa": {
+        "clear": 184513,
+        "solid": 53793,
+        "partial": 23838,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/02.png"
+    },
+    {
+      "id": "04",
+      "name": "冠翼徽印・原版",
+      "file": "04.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/04.png",
+      "nativeSize": [
+        240,
+        218
+      ],
+      "source": "ultimate-icons-twenty-v1/twenty-motifs.png",
+      "region": [
+        850,
+        72,
+        1105,
+        287
+      ],
+      "sourceBounds": [
+        11,
+        3,
+        228,
+        206
+      ],
+      "removedSpecklePixels": 11,
+      "sha256": "7767ddaab1fa24db669ed17ee3692c3ac8a60080286138782f69f31645ee7041",
+      "nativeSha256": "c5cfd5c1140c413ffe5a6060ae86226f50dcc0bac9865d138e3a06066d214891",
+      "qa": {
+        "clear": 193937,
+        "solid": 49117,
+        "partial": 19090,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/04.png"
+    },
+    {
+      "id": "11",
+      "name": "折頁魔典・原版",
+      "file": "11.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/11.png",
+      "nativeSize": [
+        260,
+        215
+      ],
+      "source": "ultimate-icons-twenty-v1/twenty-motifs.png",
+      "region": [
+        20,
+        579,
+        280,
+        784
+      ],
+      "sourceBounds": [
+        7,
+        1,
+        248,
+        203
+      ],
+      "removedSpecklePixels": 23,
+      "sha256": "52a7fb0fe2d90330672ea6bf39a76965e63d9ab5427bff42eb829abf87924b48",
+      "nativeSha256": "0523bfb00f49d0a4c21b112c64c2d6c6336b7bce3f882ca68ac4fb377e8698cd",
+      "qa": {
+        "clear": 192554,
+        "solid": 53010,
+        "partial": 16580,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/11.png"
+    },
+    {
+      "id": "15",
+      "name": "羽輪古印・原版",
+      "file": "15.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/15.png",
+      "nativeSize": [
+        244,
+        209
+      ],
+      "source": "ultimate-icons-twenty-v1/twenty-motifs.png",
+      "region": [
+        1115,
+        583,
+        1385,
+        785
+      ],
+      "sourceBounds": [
+        26,
+        3,
+        232,
+        197
+      ],
+      "removedSpecklePixels": 22,
+      "sha256": "14863549b22ba45ae45c09054cfd5b67f6710b1f2d7cf865d3da4267bc90ea26",
+      "nativeSha256": "aa1ab18a592b980dc1409d7f755f2eb60526545835c01248e3b6246bd2d0675e",
+      "qa": {
+        "clear": 192281,
+        "solid": 55402,
+        "partial": 14461,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/15.png"
+    },
+    {
+      "id": "16",
+      "name": "三角迷宮・原版",
+      "file": "16.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/16.png",
+      "nativeSize": [
+        243,
+        207
+      ],
+      "source": "ultimate-icons-twenty-v1/twenty-motifs.png",
+      "region": [
+        20,
+        827,
+        280,
+        1031
+      ],
+      "sourceBounds": [
+        15,
+        4,
+        231,
+        195
+      ],
+      "removedSpecklePixels": 20,
+      "sha256": "e2e7076fb55f934bb4a0182fbe52c130e05349ce2c1b98596cc0b226244c153a",
+      "nativeSha256": "ecc37e6c06e9526493b3e815702c5ecf8799301644f78cf6c8bfcd1c2d781d69",
+      "qa": {
+        "clear": 196277,
+        "solid": 50578,
+        "partial": 15289,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/16.png"
+    },
+    {
+      "id": "18",
+      "name": "盤旋龍紋・原版",
+      "file": "18.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/18.png",
+      "nativeSize": [
+        235,
+        222
+      ],
+      "source": "ultimate-icons-twenty-v1/twenty-motifs.png",
+      "region": [
+        575,
+        823,
+        830,
+        1041
+      ],
+      "sourceBounds": [
+        17,
+        1,
+        223,
+        210
+      ],
+      "removedSpecklePixels": 11,
+      "sha256": "9f783698ddc138a8b8c6dae61b5fffe63ed9e8b01f71655948ac16e390ae8910",
+      "nativeSha256": "3897d298ccdf65bb77c52f065b28d00bdc9766a8855f569a7d97bbc73fa37c8f",
+      "qa": {
+        "clear": 188563,
+        "solid": 53964,
+        "partial": 19617,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/18.png"
+    },
+    {
+      "id": "20",
+      "name": "無盡繩結・原版",
+      "file": "20.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/20.png",
+      "nativeSize": [
+        257,
+        224
+      ],
+      "source": "ultimate-icons-twenty-v1/twenty-motifs.png",
+      "region": [
+        1120,
+        823,
+        1380,
+        1040
+      ],
+      "sourceBounds": [
+        11,
+        2,
+        245,
+        212
+      ],
+      "removedSpecklePixels": 6,
+      "sha256": "803317628c553c1a2ea6cf874221e026b5dead30be477eea57cd6e773325263f",
+      "nativeSha256": "99fe8fb4a8243b86416659a1150a36e35bdc3e23127ff26d084b26938fd017fb",
+      "qa": {
+        "clear": 201939,
+        "solid": 45242,
+        "partial": 14963,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/20.png"
+    },
+    {
+      "id": "04-A",
+      "name": "冠翼・簡化",
+      "file": "04-A.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/04-A.png",
+      "nativeSize": [
+        351,
+        297
+      ],
+      "source": "ultimate-icons-selected-variants-v1/nine-variants.png",
+      "region": [
+        40,
+        78,
+        400,
+        380
+      ],
+      "sourceBounds": [
+        12,
+        13,
+        339,
+        285
+      ],
+      "removedSpecklePixels": 2,
+      "sha256": "c2ddf6bbc59bac59c9db1219cbfe460a04651be4608d96fdbb7803b84f186650",
+      "nativeSha256": "30ae6252a0227a74c85001fb298e54b12daf8a1425e9cb26b0442746efa35c80",
+      "qa": {
+        "clear": 203557,
+        "solid": 49647,
+        "partial": 8940,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/04-A.png"
+    },
+    {
+      "id": "04-B",
+      "name": "冠翼・繁複",
+      "file": "04-B.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/04-B.png",
+      "nativeSize": [
+        378,
+        319
+      ],
+      "source": "ultimate-icons-selected-variants-v1/nine-variants.png",
+      "region": [
+        429,
+        71,
+        827,
+        383
+      ],
+      "sourceBounds": [
+        15,
+        2,
+        366,
+        307
+      ],
+      "removedSpecklePixels": 2,
+      "sha256": "463adbe06eed4f2b1509d9305f990d6a4732a8f67187c174d92310f47b54ade8",
+      "nativeSha256": "e0ea4fbceda287917ffc55b8e8b21d8fe074d0ea757d3086649062ebb0da2c2b",
+      "qa": {
+        "clear": 202161,
+        "solid": 47876,
+        "partial": 12107,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/04-B.png"
+    },
+    {
+      "id": "11-A",
+      "name": "魔典・簡化",
+      "file": "11-A.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/11-A.png",
+      "nativeSize": [
+        367,
+        285
+      ],
+      "source": "ultimate-icons-selected-variants-v1/nine-variants.png",
+      "region": [
+        850,
+        78,
+        1220,
+        370
+      ],
+      "sourceBounds": [
+        13,
+        8,
+        355,
+        273
+      ],
+      "removedSpecklePixels": 3,
+      "sha256": "83772aedb7558e9e96a1f80457887df5c7c6aa226ec308284ed5a15342ebd686",
+      "nativeSha256": "9b183c95b4f1ec4fd20ef80db96b5566ddc4d5b9c950a28d4ea93a3b25ae83ea",
+      "qa": {
+        "clear": 191186,
+        "solid": 63516,
+        "partial": 7442,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/11-A.png"
+    },
+    {
+      "id": "16-A",
+      "name": "三角・簡化",
+      "file": "16-A.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/16-A.png",
+      "nativeSize": [
+        322,
+        287
+      ],
+      "source": "ultimate-icons-selected-variants-v1/nine-variants.png",
+      "region": [
+        50,
+        444,
+        400,
+        751
+      ],
+      "sourceBounds": [
+        17,
+        14,
+        310,
+        275
+      ],
+      "removedSpecklePixels": 1,
+      "sha256": "0f33c8b7b1d53a71a75e53cea298bf293ee62839e998728bc39602cff5dac948",
+      "nativeSha256": "bad84a726963856527d9187cb48be29fa6da27641e0e351c1a5d0412ed2c90cc",
+      "qa": {
+        "clear": 181494,
+        "solid": 69470,
+        "partial": 11180,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/16-A.png"
+    },
+    {
+      "id": "16-B",
+      "name": "三角・繁複",
+      "file": "16-B.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/16-B.png",
+      "nativeSize": [
+        364,
+        313
+      ],
+      "source": "ultimate-icons-selected-variants-v1/nine-variants.png",
+      "region": [
+        438,
+        435,
+        817,
+        753
+      ],
+      "sourceBounds": [
+        14,
+        1,
+        352,
+        301
+      ],
+      "removedSpecklePixels": 13,
+      "sha256": "4fadf50cda047848c68b46b2c203d3c54b0a08d66ea3b3e8300857618dffafe5",
+      "nativeSha256": "6979ab901f57431468871bcc5a3fa777a326c912ff7b804001c9330a4ce134a7",
+      "qa": {
+        "clear": 203574,
+        "solid": 48010,
+        "partial": 10560,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/16-B.png"
+    },
+    {
+      "id": "15-A",
+      "name": "羽輪・簡化",
+      "file": "15-A.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/15-A.png",
+      "nativeSize": [
+        319,
+        310
+      ],
+      "source": "ultimate-icons-selected-variants-v1/nine-variants.png",
+      "region": [
+        864,
+        440,
+        1219,
+        750
+      ],
+      "sourceBounds": [
+        19,
+        10,
+        307,
+        298
+      ],
+      "removedSpecklePixels": 0,
+      "sha256": "ba432207e02e20b1f25cb26f34b16e4c50f6c0d91bb530482f2a90bf515bfe98",
+      "nativeSha256": "f2a61ad9324d213ecebb8eefd84a0ff23a18ae812eb9cd466c23597b067fca12",
+      "qa": {
+        "clear": 178781,
+        "solid": 73782,
+        "partial": 9581,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/15-A.png"
+    },
+    {
+      "id": "18-A",
+      "name": "龍紋・簡化",
+      "file": "18-A.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/18-A.png",
+      "nativeSize": [
+        298,
+        353
+      ],
+      "source": "ultimate-icons-selected-variants-v1/nine-variants.png",
+      "region": [
+        52,
+        806,
+        389,
+        1156
+      ],
+      "sourceBounds": [
+        20,
+        5,
+        286,
+        341
+      ],
+      "removedSpecklePixels": 1,
+      "sha256": "7c8139c5d3b49c0ae234408e3f0c3d7020e93dc008129768a2cbb712f47a62bb",
+      "nativeSha256": "de778eb34cd117e60e15d54963721f07c7245d6216de702d1386f9b6531166f5",
+      "qa": {
+        "clear": 194717,
+        "solid": 60439,
+        "partial": 6988,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/18-A.png"
+    },
+    {
+      "id": "18-B",
+      "name": "龍紋・繁複",
+      "file": "18-B.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/18-B.png",
+      "nativeSize": [
+        316,
+        357
+      ],
+      "source": "ultimate-icons-selected-variants-v1/nine-variants.png",
+      "region": [
+        431,
+        795,
+        817,
+        1157
+      ],
+      "sourceBounds": [
+        36,
+        11,
+        304,
+        345
+      ],
+      "removedSpecklePixels": 0,
+      "sha256": "eb1fb36dd0b1154794a189af789bf73c971a258044b65358c37058dfb8a7d4c3",
+      "nativeSha256": "1fc0bd375d8a74b4cd6c0d1799022f9eb9482a17f4e8f8a612480d197f99946b",
+      "qa": {
+        "clear": 184140,
+        "solid": 63320,
+        "partial": 14684,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/18-B.png"
+    },
+    {
+      "id": "20-A",
+      "name": "繩結・簡化",
+      "file": "20-A.png",
+      "size": [
+        512,
+        512
+      ],
+      "nativeFile": "docs/ui-style/ultimate-icons-cutouts-v2/native/20-A.png",
+      "nativeSize": [
+        342,
+        345
+      ],
+      "source": "ultimate-icons-selected-variants-v1/nine-variants.png",
+      "region": [
+        850,
+        808,
+        1220,
+        1158
+      ],
+      "sourceBounds": [
+        17,
+        9,
+        330,
+        333
+      ],
+      "removedSpecklePixels": 0,
+      "sha256": "1a38d3de62ee834e8d8c435bca83a6833016588a178c810f2b32655b1e1f7208",
+      "nativeSha256": "f3ab7eaca8a5e90816deb4af3f9103ec6c774511114a3cedf461cdd2e5e9acb4",
+      "qa": {
+        "clear": 183991,
+        "solid": 70286,
+        "partial": 7867,
+        "edge": 0
+      },
+      "sourceFile": "docs/ui-style/ultimate-icons-cutouts-v2/icons/20-A.png"
+    }
+  ],
+  "installed": "2026-11-07",
+  "sourceDirectory": "docs/ui-style/ultimate-icons-cutouts-v2"
+}

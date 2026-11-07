@@ -1,0 +1,136 @@
+{
+  "files": [
+    {
+      "id": "power",
+      "name": "強化",
+      "file": "power.png",
+      "sha256": "dd2281ee99ca7dca0264537aeef13ff4311574462d3632dab1acee2982879767"
+    },
+    {
+      "id": "weakness",
+      "name": "虛弱",
+      "file": "weakness.png",
+      "sha256": "42bbb61c7c59bb1928f3c76c06e71cd4f6b455d2a013cb04ae4fa067c2bcdd6e"
+    },
+    {
+      "id": "hard",
+      "name": "堅硬",
+      "file": "hard.png",
+      "sha256": "ba4fd2544dcd94d044c683f00260c9f4ce7594d2e6fccceaa1003e4dc4401bb5"
+    },
+    {
+      "id": "fragile",
+      "name": "脆弱",
+      "file": "fragile.png",
+      "sha256": "d4a462d24760d5eef08ba03c0b739fd4780ac8df888523e0f4f29af9b3cd2cbe"
+    },
+    {
+      "id": "haste",
+      "name": "急速",
+      "file": "haste.png",
+      "sha256": "60d17791c11ec4fdcef8372fd018fc20255332c3a8b144d9230dda1a7f54e0d2"
+    },
+    {
+      "id": "fatigue",
+      "name": "倦怠",
+      "file": "fatigue.png",
+      "sha256": "2ebea364f5f90242c64ae127e75ec662fc6304dadcf9999340d00c420d0fbd18"
+    },
+    {
+      "id": "regen",
+      "name": "再生",
+      "file": "regen.png",
+      "sha256": "8e67ac99bd3619e3470f506ab1b778206d07cceb18969b891c8aa764ea2f20a2"
+    },
+    {
+      "id": "rage",
+      "name": "激怒",
+      "file": "rage.png",
+      "sha256": "918a401a779d2890e95fce6020cb7e986106b129eefb3a9ce01be703fac75153"
+    },
+    {
+      "id": "poison",
+      "name": "中毒",
+      "file": "poison.png",
+      "sha256": "6bff086389585b34826d6f2fa678a08f427404a51ce6619e6ce030b4b452bb4f"
+    },
+    {
+      "id": "confusion",
+      "name": "混亂",
+      "file": "confusion.png",
+      "sha256": "8c456b5cefc565d8da6e683131680f856bca585105bac2ee66fe56843f9f32c9"
+    },
+    {
+      "id": "stun",
+      "name": "僵直",
+      "file": "stun.png",
+      "sha256": "9efae3c8ecb89798809178f1430d81cf7767de0e799848031e99e4d163645a3e"
+    },
+    {
+      "id": "taunt",
+      "name": "嘲諷",
+      "file": "taunt.png",
+      "sha256": "f52a9b2715465a91e83ccb24875b520239e10d198e195a5c733f2d44afb94cfe"
+    },
+    {
+      "id": "counter",
+      "name": "反擊",
+      "file": "counter.png",
+      "sha256": "7aff233c668403ad88b4f2562854b2479da5a1c66a498e2369be837d11e286f1"
+    },
+    {
+      "id": "dodge",
+      "name": "閃避",
+      "file": "dodge.png",
+      "sha256": "58a07f577fa7ae4e739293aff64d316c62e0635002fd0c7c127bfc08a6dc9b8a"
+    },
+    {
+      "id": "calm",
+      "name": "鎮靜",
+      "file": "calm.png",
+      "sha256": "1e3a705c84ab06304eebd17ca24c9186e7e06d8209106a899cedddf8ec90b41b"
+    },
+    {
+      "id": "enhancedPoison",
+      "name": "永續中毒",
+      "file": "enhancedPoison.png",
+      "sha256": "7552df43edbabb1a3e8bedef4b3adfd4b1465333a185fbf4c47f82ec168e5c33"
+    },
+    {
+      "id": "enhancedRegen",
+      "name": "永續再生",
+      "file": "enhancedRegen.png",
+      "sha256": "61307732cd5f63cf98b8454b196f3995a530d03b3316281c46a322b9aa7feea7"
+    },
+    {
+      "id": "enhancedPower",
+      "name": "永續強化",
+      "file": "enhancedPower.png",
+      "sha256": "98591fef8c44e7f74a579078fc15a512cb00282392c87b799b1e05d819034e5f"
+    },
+    {
+      "id": "enhancedWeakness",
+      "name": "永續虛弱",
+      "file": "enhancedWeakness.png",
+      "sha256": "5f5f0e6d0a75dcee00f4a815b413b358ce994b046d8f309871850c7e803b3d1c"
+    },
+    {
+      "id": "enhancedHard",
+      "name": "永續堅硬",
+      "file": "enhancedHard.png",
+      "sha256": "cc4004c7f3f35ea364d35cae9cb8d3047de793b06f1df515bd47f34b6df377f6"
+    },
+    {
+      "id": "enhancedFragile",
+      "name": "永續脆弱",
+      "file": "enhancedFragile.png",
+      "sha256": "8ba903167d9b7aa27b03969aa3c211c24b03f705ce3fe091b74bbe4a11cd6127"
+    },
+    {
+      "id": "status-1793837750192",
+      "name": "永續反擊",
+      "file": "enhancedCounter.png",
+      "sha256": "5bcb7ea6dc7bbe0c63910dd0e184dd74437e4e508a40a4558a9531d4c0961264"
+    }
+  ]
+}

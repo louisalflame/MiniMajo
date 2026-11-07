@@ -1,0 +1,87 @@
+/* User-approved battle UI with fracture background 4. Scoped to battle, no roster skin changes. */
+body.battle-page{background:#080f16 url("../assets/ui/battle/v1/background-fracture-4.png") center/cover no-repeat;--battle-reserved-height:320px;--text:#efdfbf;--muted:#c0b79f}
+body.battle-page.preview-mode{--battle-reserved-height:320px}
+body.battle-page .battlefield{grid-template-rows:44px 62px minmax(0,auto) 176px}
+body.battle-page .stage-heading{grid-row:1;grid-column:1}
+body.battle-page .stage-heading .clock{transform:none}
+body.battle-page #battle-start-dock{grid-row:2;grid-column:1;width:240px;justify-self:center;align-self:end;padding:0;transform:none}
+body.battle-page .arena-scroll{grid-row:3;margin-top:-26px;max-height:none}
+body.battle-page .side-label{height:30px;margin:0;box-sizing:border-box;width:210px;max-width:none;position:relative;display:flex;align-items:center;gap:0;padding:0 0 0 48px;color:#efdfbf;font:700 18px/1.2 "PMingLiU",serif;letter-spacing:3px}
+body.battle-page .side-label .side-dot{display:none}
+body.battle-page .enemy-formation .side-label{background:url("../assets/ui/battle/v1/faction-enemy.png") 49.68944099378882% 47.99196787148594% / 119.4915254237288% 266.5551839464883% no-repeat}
+body.battle-page .ally-formation .side-label{background:url("../assets/ui/battle/v1/faction-ally.png") 49.815498154981555% 49.4279176201373% / 115.06392440244579% 235.29411764705884% no-repeat}
+body.battle-page .versus{height:10px;visibility:hidden}
+body.battle-page .combat-skill{grid-row:4;height:176px;margin-top:-26px;align-self:start;align-items:flex-start;padding-top:0}
+body.battle-page .skill-copy{display:none}
+body.battle-page .skill-control{display:flex;align-items:center;gap:12px}
+body.battle-page .cast-hover{transform:translateY(-28px)}
+body.battle-page .skill-control::before,body.battle-page .skill-control::after{color:#efdfbf;font:700 20px/1.2 "PMingLiU",serif;letter-spacing:2px;white-space:nowrap;pointer-events:none}
+body.battle-page .skill-control::before{content:"－極"}body.battle-page .skill-control::after{content:"式－"}
+body.battle-page .skill-orb{width:164px;height:164px;padding:0;background:transparent;box-shadow:none;color:#a8b9c1;isolation:isolate}
+body.battle-page .skill-orb::before{content:"";position:absolute;inset:16%;border-radius:50%;background:#091720c9;z-index:-1;pointer-events:none}
+body.battle-page .skill-orb::after{content:"";position:absolute;inset:0;background:url("../assets/ui/battle/v1/skill-ring.png") 50% 38.19444444444444% / 108.29015544041451% 112.97297297297297% no-repeat;pointer-events:none;z-index:2}
+body.battle-page .skill-orb:hover:not(:disabled){background:transparent;box-shadow:none;filter:brightness(1.13)}
+body.battle-page .skill-orb:disabled{opacity:.65}
+body.battle-page .skill-orb>span:first-child{font-size:25px}
+body.battle-page #skill-art{width:68%;height:68%;border-radius:50%;z-index:0}
+body.battle-page .skill-orb svg{z-index:3;stroke-width:2;pointer-events:none}
+body.battle-page .ring-base{stroke:#45525b}
+body.battle-page #skill-progress{stroke:#b1d6e1}
+body.battle-page .combat-skill .battle-actions{height:48px;right:28px;top:0;align-items:flex-start}
+body.battle-page .combat-skill .minor-actions{gap:10px}
+body.battle-page :is(#speed,#auto-cast,#battle-gear,#battle-stats,#battle-sound){position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;min-height:48px;min-width:0;flex:0 0 auto;box-sizing:border-box;border:0;border-radius:0;margin:0;padding:0 14px;background:transparent;box-shadow:none;color:#183343;font:700 18px/1.2 "PMingLiU",serif;letter-spacing:0;isolation:isolate}
+body.battle-page #speed{width:88px}
+body.battle-page #battle-gear{width:150px}
+body.battle-page #battle-stats{width:156px;white-space:nowrap}
+body.battle-page .minor-actions:has(#battle-stats:not([hidden])) #reset{position:absolute;right:0;top:58px}
+body.battle-page :is(#battle-gear,#battle-stats)[hidden]{display:none}
+body.battle-page #battle-gear>.battle-book{display:block;position:relative;width:42px;height:30px;flex:none;z-index:1;background:url("../assets/ui/battle/v1/preparation-book.png") 50% 49.760765550239235% / 105.84878744650499% 165.10903426791276% no-repeat}
+body.battle-page .battle-button-skin{position:absolute;inset:0;pointer-events:none;z-index:-1;display:block}
+body.battle-page .battle-button-skin>i{position:absolute;top:0;bottom:0;display:block}
+body.battle-page :is(#speed,#auto-cast,#battle-gear,#battle-stats,#battle-sound):hover:not(:disabled){filter:brightness(1.1)}
+body.battle-page :is(#speed,#auto-cast,#battle-gear,#battle-stats,#battle-sound):focus-visible{outline:2px solid #e0c29a;outline-offset:4px}
+body.battle-page #battle-start-dock #play{border:0;border-radius:0;box-shadow:none;background:url("../assets/ui/battle/v1/button-paper.png") 50% 50% / 123.1423709585933% 191.53439153439155% no-repeat;color:#183343;font:700 20px/1.2 "PMingLiU",serif;padding:12px 28px;letter-spacing:2px}
+body.battle-page .skill-tooltip{background:#10202a;border-color:#b5a586;color:#efdfbf}
+@media(max-width:1100px){body.battle-page .skill-control{gap:8px}body.battle-page .skill-control::before,body.battle-page .skill-control::after{font-size:16px}body.battle-page #speed{width:72px}body.battle-page #battle-gear{width:126px}body.battle-page .combat-skill .minor-actions{gap:6px}}
+@media(min-width:701px) and (max-height:850px){body.battle-page .skill-control{gap:8px}body.battle-page .skill-control::before,body.battle-page .skill-control::after{font-size:16px}body.battle-page .combat-skill .battle-actions{right:12px}}
+@media(max-width:1000px){body.battle-page,body.battle-page.preview-mode{--battle-reserved-height:390px}body.battle-page .battlefield{grid-template-rows:44px 62px minmax(0,auto) 224px}body.battle-page .arena-scroll{margin-top:0}body.battle-page .combat-skill{height:224px;margin-top:0;align-items:flex-start;padding-top:0}body.battle-page .combat-skill .battle-actions{top:164px;left:0;right:0;height:48px;justify-content:center}body.battle-page .skill-orb{width:152px;height:152px}body.battle-page .stage-heading .clock{transform:none}body.battle-page .clock strong{font-size:24px}body.battle-page #battle-start-dock{width:190px;transform:none}body.battle-page #battle-start-dock #play{width:190px;font-size:18px}body.battle-page .side-label{width:190px;font-size:16px}}
+body.battle-page .battle-button-skin>i:nth-child(1){left:0;width:33.6px;background:url("../assets/ui/battle/v1/button-paper.png") 10.700797314309693% 50% / 820.4837490551777% 191.53439153439155% no-repeat}
+body.battle-page .battle-button-skin>i:nth-child(2){left:33.6px;right:33.6px;background:url("../assets/ui/battle/v1/button-paper.png") 50.000000000000014% 50% / 175.96044739828173% 191.53439153439155% no-repeat}
+body.battle-page .battle-button-skin>i:nth-child(3){right:0;width:33.6px;background:url("../assets/ui/battle/v1/button-paper.png") 89.2992026856903% 50% / 820.4837490551778% 191.53439153439155% no-repeat}
+
+body.battle-page #auto-cast{width:76px;white-space:nowrap}
+body.battle-page #auto-cast[aria-pressed=true]{color:#804721;text-shadow:0 0 8px #c7994a55}
+
+body.battle-page .combat-skill{container-type:inline-size}
+body.battle-page .combat-skill .battle-actions{left:auto;right:28px;justify-content:flex-end}
+@media(min-width:1001px){@container(max-width:1100px){body.battle-page .combat-skill .battle-actions:has(#battle-gear:not([hidden]),#battle-stats:not([hidden]),#reset:not([hidden])){top:140px}}}
+
+/* Overtime presentation uses live text and CSS; no artwork is replaced. */
+body.battle-page #battle-overtime{position:fixed;inset:0;z-index:10;pointer-events:none;isolation:isolate}
+body.battle-page #battle-overtime[hidden]{display:none}
+#battle-overtime .overtime-vignette,#overtime-entry,#overtime-pulse{position:absolute;inset:0;pointer-events:none}
+#battle-overtime .overtime-vignette{background:radial-gradient(ellipse at 50% 44%,transparent 40%,#21060938 72%,#160308b8 100%);box-shadow:inset 0 0 100px #6d17284d}
+#overtime-entry{opacity:0;background:radial-gradient(ellipse at center,transparent 40%,#82273499 100%);box-shadow:inset 0 0 100px #a23f4066}
+#overtime-pulse{opacity:0;background:radial-gradient(ellipse at center,transparent 58%,#962c3d80 100%);box-shadow:inset 0 0 70px #a43b4544}
+#overtime-title{position:absolute;top:40%;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:24px;min-height:120px;opacity:0;background:linear-gradient(90deg,transparent,#13060ce6 35%,#13060ce6 65%,transparent);text-align:center}
+#overtime-title>span{font:900 clamp(32px,4.2vw,64px)/1.6 "DFKai-SB","BiauKai","KaiTi","PMingLiU",serif;letter-spacing:.22em;padding-left:.22em;color:#edc6a6;text-shadow:0 2px 0 #50111d,0 0 10px #b8353a99,0 0 36px #b8353a55;white-space:nowrap}
+#overtime-title::before,#overtime-title::after{content:"";width:clamp(24px,9vw,160px);height:1px;background:linear-gradient(90deg,transparent,#b56b58)}
+#overtime-title::after{transform:rotate(180deg)}
+body.battle-page.battle-overtime-active #timer{color:#e49a90;text-shadow:0 0 14px #a52b3a88}
+@media(max-width:600px){#overtime-title{gap:12px;min-height:96px}#battle-overtime .overtime-vignette{box-shadow:inset 0 0 50px #6d17283d}}
+
+body.battle-page .stage-heading>#battle-sound{position:absolute;right:28px;top:0;width:76px;height:40px;min-height:40px;font-size:16px;z-index:2}
+body.battle-page #battle-sound[aria-pressed=false]{filter:saturate(.3);color:#716b60}
+body.battle-page .stage-heading .system-controls{justify-content:center;flex-direction:row}
+body.battle-page .stage-heading .clock{text-align:center}
+/* Persistent battle outcome. A modal traps focus until the player acknowledges it. */
+dialog.battle-result{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:#f0ddba;overflow:hidden;--result-glow:#ad884c;--result-ink:#f0ddba}
+dialog.battle-result[hidden]{display:none}
+dialog.battle-result::backdrop{background:radial-gradient(ellipse at 50% 45%,#070d1538 15%,#090c16a6 75%,#03070dd9);backdrop-filter:brightness(.7)}
+dialog.battle-result[data-result=game-set]{--result-glow:#843747;--result-ink:#d9aca3}
+#battle-result-confirm{display:flex;align-items:center;justify-content:center;width:100%;height:100%;margin:0;padding:0;border:0;border-radius:0;background:radial-gradient(ellipse at center,transparent 45%,color-mix(in srgb,var(--result-glow) 24%,transparent));color:var(--result-ink);cursor:pointer}
+#battle-result-confirm:focus-visible{outline:2px solid var(--result-ink);outline-offset:-8px}
+.battle-result-banner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;width:100%;padding:32px 16px;background:linear-gradient(90deg,transparent,#09070de8 30%,#09070de8 70%,transparent);animation:result-enter .6s ease-out both}
+#battle-result-title{font:900 clamp(36px,7vw,96px)/1.2 Georgia,"Times New Roman",serif;letter-spacing:.12em;padding-left:.12em;white-space:nowrap;text-shadow:0 2px 0 #1e101b,0 0 18px color-mix(in srgb,var(--result-glow) 80%,transparent),0 0 56px var(--result-glow)}
+@keyframes result-enter{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.battle-result-banner{animation:none}}

@@ -1,0 +1,55 @@
+/* First art pass: generated raster materials, live HTML text and controls.
+   Nine-slice paper keeps the corners stable as the content height changes. */
+body dialog.ui-panel.reward-dialog{--panel-ink:#0c2331;--panel-muted:#4b585a;background:none;box-shadow:none;padding:48px 38px 32px;filter:drop-shadow(0 18px 30px #0009)}
+body dialog.ui-panel.reward-dialog::before{inset:-12px;background:none;border:38px solid transparent;border-image-source:url("../assets/ui/common/parchment-panel-v2.png");border-image-slice:145 155 140 155 fill;border-image-width:38px;border-image-repeat:stretch;z-index:-1}
+/* Large companion dialog: fixed corners, tiled edges on both axes.
+   round fits whole motifs instead of cutting a curve at a corner. */
+body dialog.ui-panel#journey-reward::before{border-image-repeat:round}
+body dialog.ui-panel.reward-dialog>.ui-panel-title{top:-32px;width:320px;max-width:88%;height:64px;box-sizing:border-box;padding:12px 35px;display:grid;place-items:center;border:0;clip-path:none;background:transparent url("../assets/ui/common/title-plaque-v3.png") 50% 49%/100% 182% no-repeat;font:900 27px/1.2 "Noto Sans TC","Source Han Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;letter-spacing:5px;color:#f6dbad;text-shadow:0 1px 1px #000}
+body dialog.ui-panel.reward-dialog>.ui-panel-body{max-height:calc(90dvh - 84px);padding:4px 8px}
+body dialog.ui-panel.reward-dialog button:where(:not(.reward-card)){border:0;box-shadow:none;background:transparent url("../assets/ui/common/capsule-button-v3.png") 50% 48%/100% 165% no-repeat;color:#f6dbad;border-radius:999px;padding:14px 30px;min-height:52px;font-family:"Noto Sans TC","Source Han Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;font-weight:700;letter-spacing:3px;text-shadow:0 1px 1px #000}
+body dialog.ui-panel.reward-dialog button:where(:not(.reward-card)):not(:disabled):hover{background:transparent url("../assets/ui/common/capsule-button-v3.png") 50% 48%/100% 165% no-repeat;filter:brightness(1.15)}
+body dialog.ui-panel.reward-dialog button:focus-visible{outline:2px solid #9a5e2c;outline-offset:4px}
+body dialog.ui-panel.reward-hub{width:min(640px,92vw);min-height:250px}
+body dialog.ui-panel.reward-hub .reward-categories{margin:40px 6px 28px;gap:24px}
+body dialog.ui-panel.reward-hub .reward-categories button{min-height:64px;font-size:22px!important}
+body dialog.ui-panel.reward-money-dialog{width:min(560px,92vw)}
+body dialog.ui-panel.reward-money-dialog #reward-money-close{width:220px;max-width:90%}
+body dialog.ui-panel.reward-dialog .reward-actions button{min-width:170px}
+@media(max-width:650px){body dialog.ui-panel.reward-dialog{padding:42px 22px 24px}body dialog.ui-panel.reward-dialog::before{border-width:28px;border-image-width:28px}body dialog.ui-panel.reward-dialog>.ui-panel-title{width:280px;height:56px;top:-28px;font-size:23px;padding:11px 30px}body dialog.ui-panel.reward-dialog>.ui-panel-body{max-height:calc(90dvh - 66px);padding:3px}body dialog.ui-panel.reward-hub .reward-categories{gap:12px;margin:36px 0 20px}body dialog.ui-panel.reward-hub .reward-categories button{font-size:19px!important;padding-inline:20px;min-height:54px}body dialog.ui-panel.reward-dialog .reward-actions{flex-wrap:wrap}}
+
+/* Fit choices themselves; the whole dialog body owns any vertical scrolling. */
+body dialog.ui-panel#journey-reward{width:min(var(--reward-content-width,935px),96vw);max-width:96vw;padding-inline:28px;--roster-hud-opacity:.9}
+body dialog.ui-panel#journey-reward>.ui-panel-body{overflow-x:hidden;overflow-y:auto}
+body dialog.ui-panel#journey-reward .reward-card-scroll{overflow:visible;padding:64px 0 8px}
+body dialog.ui-panel#journey-reward .reward-options{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:64px 7px;min-width:0;width:100%;margin:0}
+body dialog.ui-panel#journey-reward button.reward-card{flex:0 1 auto;width:calc(var(--reward-space,1)*141px - 7px);max-width:100%;position:relative;display:block;height:var(--roster-card-height);min-height:var(--roster-card-height);padding:0;overflow:visible;isolation:isolate;cursor:pointer;border:1px solid #bcc6cf70;border-radius:0;background:#142c40;color:#e8d4ae;text-align:left}
+body dialog.ui-panel#journey-reward button.reward-card:hover{border-color:#dfc8a2;background:#142c40}
+body dialog.ui-panel#journey-reward button.reward-card[aria-pressed=true]{outline:none}
+body dialog.ui-panel#journey-reward button.reward-card:focus-visible{outline:2px solid #173449;outline-offset:3px}
+body dialog.ui-panel#journey-reward button.reward-card[aria-pressed=true]::after{content:"";position:absolute;z-index:5;pointer-events:none;left:50%;top:-29px;width:48px;height:58px;background:url("../assets/ui/common/selection-mineral-muted-v2.png") center/contain no-repeat;transform:translateX(-50%);animation:reward-arrow-float 3s ease-in-out infinite}
+@keyframes reward-arrow-float{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-6px)}}
+body dialog.ui-panel#journey-reward .reward-card>.roster-art{position:absolute;inset:0;width:100%;height:100%;min-height:0;margin:0;border:0;overflow:hidden}
+body dialog.ui-panel#journey-reward .reward-card>.roster-art .character-image{object-fit:cover;object-position:50% 28%}
+body dialog.ui-panel#journey-reward .reward-card>.roster-card-hud{display:flex;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;letter-spacing:0}
+body dialog.ui-panel#journey-reward .reward-inspect{position:relative;margin:0;padding:38px 2px 0;border:0;color:#173449;font-size:11px;line-height:1.8;overflow-wrap:anywhere}
+body dialog.ui-panel#journey-reward .reward-inspect::before{content:"";position:absolute;inset:0 0 auto;height:18px;pointer-events:none;box-sizing:border-box;background:none;border:0 solid transparent;border-inline-width:60px;border-image-source:url("../assets/ui/common/divider-engraved-bluegray-v2.png");border-image-slice:0 272 0 272 fill;border-image-width:0 60px;border-image-repeat:stretch}
+body dialog.ui-panel#journey-reward .reward-inspect strong{font-size:12px;font-weight:500}
+body dialog.ui-panel#journey-reward .reward-effects-title{font-size:12px;font-weight:700;letter-spacing:1px;margin:12px 0 4px}
+body dialog.ui-panel#journey-reward .reward-inspect p{font-size:11px;line-height:1.8;color:#46575d;white-space:pre-line;margin:0 0 8px}
+body dialog.ui-panel#journey-reward #reward-laws:empty{display:none}
+/* Reserve the divider and description before selection; only text scrolls. */
+body dialog.ui-panel#journey-reward .reward-inspect{height:182px;box-sizing:border-box;min-height:0}
+body dialog.ui-panel#journey-reward .reward-description-scroll{height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;touch-action:pan-y;overscroll-behavior-y:contain;user-select:none}
+body dialog.ui-panel#journey-reward .reward-description-scroll::-webkit-scrollbar{display:none}
+body dialog.ui-panel#journey-reward .reward-description-scroll:focus-visible{outline:1px solid #526776;outline-offset:2px}
+body dialog.ui-panel#journey-reward .reward-inspect[data-empty=true] .reward-description-scroll>*{visibility:hidden}
+/* Approved v3 keeps the center quiet in the PNG itself; no extra ink overlay. */
+body dialog.ui-panel.reward-dialog>.ui-panel-title{background-image:url("../assets/ui/common/title-plaque-v3.png");background-position:50% 49%;background-size:100% 182%;background-repeat:no-repeat}
+body dialog.ui-panel.reward-dialog button:where(:not(.reward-card)),
+body dialog.ui-panel.reward-dialog button:where(:not(.reward-card)):not(:disabled):hover{background-image:url("../assets/ui/common/capsule-button-v3.png");background-position:50% 48%;background-size:100% 165%;background-repeat:no-repeat}
+@media(prefers-reduced-motion:reduce){body dialog.ui-panel#journey-reward button.reward-card[aria-pressed=true]::after{animation:none}}
+
+/* Shared crystal currency, live amount and accessible label. */
+body dialog.ui-panel.reward-money-dialog #reward-money-amount{display:flex;align-items:center;justify-content:center;gap:12px}
+body dialog.ui-panel.reward-money-dialog #reward-money-amount::before{content:"";display:block;flex:none;width:18px;height:36px;background:url("../assets/ui/shop/v1/currency-crystal.png") 49.84423676012461% 47.0954356846473% / 377.521613832853% 167.13091922005572% no-repeat}

@@ -1,0 +1,36 @@
+{
+  "status": "split candidates awaiting review; no production application",
+  "method": "Original generated PNG bytes, no crop/repaint/resize. CSS uses measured artwork bounds.",
+  "files": [
+    {
+      "file": "law-option-panel.png",
+      "width": 1774,
+      "height": 887,
+      "bounds": [
+        64,
+        150,
+        1710,
+        736
+      ],
+      "centerAlpha": 253,
+      "transparentPixels": 601303,
+      "opaquePixels": 791,
+      "sha256": "b201c1f4afff36a9b5193e5c55d5774925b37be6df26275ad44b7c8e98cda433"
+    },
+    {
+      "file": "law-icon-frame.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        218,
+        231,
+        1036,
+        1023
+      ],
+      "centerAlpha": 0,
+      "transparentPixels": 1378075,
+      "opaquePixels": 1372,
+      "sha256": "add7aaa82309265495ec8ff8e9dee78138bad0740fa888e4cfc3c1e0c2318ee1"
+    }
+  ]
+}

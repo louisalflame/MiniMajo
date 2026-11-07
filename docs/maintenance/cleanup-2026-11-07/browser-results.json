@@ -1,0 +1,61 @@
+{
+  "browser": "isolated headless Edge",
+  "results": [
+    {
+      "route": "index.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "play.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "editor.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "battle.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "dialog-preview.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "ui-preview.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "docs/ui-style/quiet-labels-v3/index.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "docs/ui-style/battle-board-approved-v1/index.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "docs/ui-style/slate-thin-v2/index.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "docs/ui-style/character-details-raster-v1/split/index.html",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "decodedFormalImages": 189
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "fixedDataUnchanged": true
+}

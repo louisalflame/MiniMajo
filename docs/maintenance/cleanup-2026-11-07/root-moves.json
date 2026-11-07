@@ -1,0 +1,247 @@
+{
+  "moves": [
+    {
+      "from": "battle-art.css",
+      "to": "css/battle-art.css",
+      "beforeSha256": "b67edae636194afa866afe13840871b2ef31791c86bd46b84955099cdfb8a3bb",
+      "afterSha256": "dae54acc8e58a9473b12ef185f650866fc7bad34fd8f4d1dcc17491f8ab5fe72"
+    },
+    {
+      "from": "battle-board.css",
+      "to": "css/battle-board.css",
+      "beforeSha256": "28b9f71e78a188c24ca5ebe83f567beea82582018d0a31d46f1c05e77d5e2e30",
+      "afterSha256": "f68c16998d8a9d0155e710b03acec6986d24cbc505430b50d369a8bccc8f43fd"
+    },
+    {
+      "from": "battle-cards.css",
+      "to": "css/battle-cards.css",
+      "beforeSha256": "d1d0c18809ff85de83a0b3517bb3ac5c1722bfdb009e5b3c7dd01c6f9a562f72",
+      "afterSha256": "d1d0c18809ff85de83a0b3517bb3ac5c1722bfdb009e5b3c7dd01c6f9a562f72"
+    },
+    {
+      "from": "battle.css",
+      "to": "css/battle.css",
+      "beforeSha256": "b50dee6565aff398eb42c2ddf38c1f7a9f5995bcdb4a7656f047b89d3b7ea1a6",
+      "afterSha256": "b50dee6565aff398eb42c2ddf38c1f7a9f5995bcdb4a7656f047b89d3b7ea1a6"
+    },
+    {
+      "from": "card-geometry.css",
+      "to": "css/card-geometry.css",
+      "beforeSha256": "5a454d76bff8219ff1cb262524b308f22d9056f7e6b3250c025b9ff8abff1636",
+      "afterSha256": "5a454d76bff8219ff1cb262524b308f22d9056f7e6b3250c025b9ff8abff1636"
+    },
+    {
+      "from": "character-art.css",
+      "to": "css/character-art.css",
+      "beforeSha256": "a15f297073831fa71538a852d21076c48f7dc64f0fa31a07ac0e5444ccea5785",
+      "afterSha256": "a15f297073831fa71538a852d21076c48f7dc64f0fa31a07ac0e5444ccea5785"
+    },
+    {
+      "from": "character-card-skin.css",
+      "to": "css/character-card-skin.css",
+      "beforeSha256": "0454165e554af693fd7eb76d4011e01d46963dce88661a055c7781f0526ac73a",
+      "afterSha256": "0454165e554af693fd7eb76d4011e01d46963dce88661a055c7781f0526ac73a"
+    },
+    {
+      "from": "character-details.css",
+      "to": "css/character-details.css",
+      "beforeSha256": "f9b645067cef608587c3a9347df703ff6d5f8f26ba42ad2c2fb381b145ab9d4d",
+      "afterSha256": "a63d50eaf0af6d6ef180b43831ccd1dc0a9397bc9001c30a40e0f0b3ad2f5670"
+    },
+    {
+      "from": "dark-theme.css",
+      "to": "css/dark-theme.css",
+      "beforeSha256": "fac48a333f46b689194def1056242540a24fd2c85c9f51e7c0eab882ea875d53",
+      "afterSha256": "fac48a333f46b689194def1056242540a24fd2c85c9f51e7c0eab882ea875d53"
+    },
+    {
+      "from": "echo-tooltip.css",
+      "to": "css/echo-tooltip.css",
+      "beforeSha256": "ee9d3100b4eb4f2c46e3ba0364850dfbb74e27c2141676a42b3e0dda434384ae",
+      "afterSha256": "ee9d3100b4eb4f2c46e3ba0364850dfbb74e27c2141676a42b3e0dda434384ae"
+    },
+    {
+      "from": "expedition.css",
+      "to": "css/expedition.css",
+      "beforeSha256": "5f357009e273ce5199ab751b59656663cb69f59b660f922be5b59d44935595d7",
+      "afterSha256": "5f357009e273ce5199ab751b59656663cb69f59b660f922be5b59d44935595d7"
+    },
+    {
+      "from": "gear-button.css",
+      "to": "css/gear-button.css",
+      "beforeSha256": "e5fab6413d607fe33aa8ca83d58cfe4ff00f6d2f519b36936c0489eae760360a",
+      "afterSha256": "e5fab6413d607fe33aa8ca83d58cfe4ff00f6d2f519b36936c0489eae760360a"
+    },
+    {
+      "from": "home.css",
+      "to": "css/home.css",
+      "beforeSha256": "179fbbd8002680f51e61eb3e9f7da8dd0507a898d2807b73a1c077250008eb31",
+      "afterSha256": "179fbbd8002680f51e61eb3e9f7da8dd0507a898d2807b73a1c077250008eb31"
+    },
+    {
+      "from": "journey.css",
+      "to": "css/journey.css",
+      "beforeSha256": "795750609702c1d502bdeed6a20cb9d008b6e65a0fca67e66577171197353326",
+      "afterSha256": "795750609702c1d502bdeed6a20cb9d008b6e65a0fca67e66577171197353326"
+    },
+    {
+      "from": "map-art.css",
+      "to": "css/map-art.css",
+      "beforeSha256": "5a6c9933c77c0049b41b2ba3d11706e1c40bb4c218de5b5edfb17882b7014fb5",
+      "afterSha256": "da9171829a37ca24ad67ec0e0a2423fe6164812884b65ad09ecc0c50324fbde7"
+    },
+    {
+      "from": "map.css",
+      "to": "css/map.css",
+      "beforeSha256": "d3d478fdcd38eae0a6b2f349954b263643b64414ff386c9718af29ec15a3eae2",
+      "afterSha256": "d3d478fdcd38eae0a6b2f349954b263643b64414ff386c9718af29ec15a3eae2"
+    },
+    {
+      "from": "preparation-dialog.css",
+      "to": "css/preparation-dialog.css",
+      "beforeSha256": "575e4f20d9cd67ee288c02402b095b7ae1a00804cee8ffb24985155ac2c923de",
+      "afterSha256": "385f28eaa55dfae589adfb8d18628f904cf9f37e489d12e23f294b1896142584"
+    },
+    {
+      "from": "reward-card-frames.css",
+      "to": "css/reward-card-frames.css",
+      "beforeSha256": "d102d381bcde4ae644f5a9734c6e3a31bb94a8f728a25c6c4e771cd71989857b",
+      "afterSha256": "d102d381bcde4ae644f5a9734c6e3a31bb94a8f728a25c6c4e771cd71989857b"
+    },
+    {
+      "from": "roster-cards.css",
+      "to": "css/roster-cards.css",
+      "beforeSha256": "7335cbe9b7fb57d7e406502c15ac3aec7ef492d0c23dcd3836628563d61d2969",
+      "afterSha256": "89eddb28bd99291af8df7d76dc3d770483608069a45a9f6ba1db55cf1af35a4f"
+    },
+    {
+      "from": "scene-help.css",
+      "to": "css/scene-help.css",
+      "beforeSha256": "1c2d7ce88ca8c6c17fa712712d2e7c7c292a1e8e982104c39d8bcc9488c8e0f1",
+      "afterSha256": "1c2d7ce88ca8c6c17fa712712d2e7c7c292a1e8e982104c39d8bcc9488c8e0f1"
+    },
+    {
+      "from": "scene-layout.css",
+      "to": "css/scene-layout.css",
+      "beforeSha256": "e94311f347286df1f22de6a955f59d95993b3e011d5f03fb0944455485a03e6e",
+      "afterSha256": "e94311f347286df1f22de6a955f59d95993b3e011d5f03fb0944455485a03e6e"
+    },
+    {
+      "from": "shop-art.css",
+      "to": "css/shop-art.css",
+      "beforeSha256": "d7fe3581eb75756116524f318e3b1a9d50b11106f4882ba15e537db16979f869",
+      "afterSha256": "52e234979af6ed1240e1057391a7c82e2dfa2e13ce822c84363af81b0f68c414"
+    },
+    {
+      "from": "style.css",
+      "to": "css/style.css",
+      "beforeSha256": "a28c0c863a4dfdb814028e7ab4145ec662b725e57fedbf2d220188fa099cad6f",
+      "afterSha256": "a28c0c863a4dfdb814028e7ab4145ec662b725e57fedbf2d220188fa099cad6f"
+    },
+    {
+      "from": "ui-panels.css",
+      "to": "css/ui-panels.css",
+      "beforeSha256": "0d6df42a660236e266f64fe2ef7de2095156c8f4b29f5505621ad5119f4e1ba4",
+      "afterSha256": "4e2b9fac376a6ea0bcc894ccc2ba16f8c3ad66d389506f686063f8534d4b8a68"
+    },
+    {
+      "from": "ui-raster-dialogs.css",
+      "to": "css/ui-raster-dialogs.css",
+      "beforeSha256": "536c53a037ffdc956c0ae12990f8b86fe14dddd2637386948e93a17ef8ed7357",
+      "afterSha256": "bd4798f26092d92707bff658b9b6106e3575c8cb5ca130853c50846174654d76"
+    },
+    {
+      "from": "dialog-preview.html",
+      "to": "previews/dialog-preview.html",
+      "beforeSha256": "f4ff6aff1f914be8488853c57c85edb2b3288914c061d62e4ec9c635e3d048c2",
+      "afterSha256": "6a88bf23824f55d0fae5d5a40ad914d0ff7fc740ef74f278ba1fcf51b969997f"
+    },
+    {
+      "from": "roster-preview.html",
+      "to": "previews/roster-preview.html",
+      "beforeSha256": "1876749db6186f62f2811c13896bd1252a92e1a874ade1b2a9b6723fec6bb4d6",
+      "afterSha256": "7e14da651effa781829add2fd9533f98793bd05d931b82692490040b562c0ef8"
+    }
+  ],
+  "updatedTextFiles": [
+    "AGENTS.md",
+    "battle.html",
+    "css/battle-art.css",
+    "css/battle-board.css",
+    "css/character-details.css",
+    "css/map-art.css",
+    "css/preparation-dialog.css",
+    "css/roster-cards.css",
+    "css/shop-art.css",
+    "css/ui-panels.css",
+    "css/ui-raster-dialogs.css",
+    "docs/ART_STYLE.md",
+    "docs/maintenance/cleanup-2026-11-07/README.md",
+    "docs/PROJECT_CONTEXT.md",
+    "docs/README.md",
+    "docs/ui-style/battle-audio-v1/README.md",
+    "docs/ui-style/battle-background-2-4-ui-v1/README.md",
+    "docs/ui-style/battle-board-approved-v1/README.md",
+    "docs/ui-style/battle-board-directions-v1/README.md",
+    "docs/ui-style/battle-motion-v1/README.md",
+    "docs/ui-style/battle-split-v1/README.md",
+    "docs/ui-style/card-frames/v2/index.html",
+    "docs/ui-style/card-frames/v3/index.html",
+    "docs/ui-style/card-frames/v3/README.md",
+    "docs/ui-style/card-hud-v1/divider-preview.css",
+    "docs/ui-style/card-hud-v2/README.md",
+    "docs/ui-style/card-rollout/README.md",
+    "docs/ui-style/character-details-raster-v1/applied/README.md",
+    "docs/ui-style/detail-icons-design-v2/README.md",
+    "docs/ui-style/gear-candidates/PROMPTS.md",
+    "docs/ui-style/health-shield-v1/README.md",
+    "docs/ui-style/icons-color-study-v5/FILE_MASK_FIX.md",
+    "docs/ui-style/icons-color-study-v5/index.html",
+    "docs/ui-style/icons-color-study-v5/preview.js",
+    "docs/ui-style/icons-color-study-v5/README.md",
+    "docs/ui-style/icons-selected-rounded-v1/README.md",
+    "docs/ui-style/map-interface-v1/README.md",
+    "docs/ui-style/preparation-accessories-v1/index.html",
+    "docs/ui-style/preparation-accessories-v1/README.md",
+    "docs/ui-style/preparation-dialog-v1/README.md",
+    "docs/ui-style/quiet-labels-v3/README.md",
+    "docs/ui-style/RASTER_NOTES.md",
+    "docs/ui-style/reward-accessories-v2/README.md",
+    "docs/ui-style/shop-background-d-preview-v1/build-preview.cjs",
+    "docs/ui-style/shop-concepts-v4/build-preview.cjs",
+    "docs/ui-style/shop-split-v1/build-preview.cjs",
+    "docs/ui-style/shop-split-v1/README.md",
+    "docs/ui-style/skill-picker-light-v2/index.html",
+    "docs/ui-style/skill-picker-open-v3/index.html",
+    "docs/ui-style/skill-picker-paper-v4/README.md",
+    "docs/ui-style/skill-picker-raster-v1/index.html",
+    "docs/ui-style/skill-picker-raster-v1/README.md",
+    "docs/ui-style/slate-thin-v2/index.html",
+    "docs/ui-style/slate-thin-v2/README.md",
+    "docs/UI_ART_DIRECTION.md",
+    "docs/UI_DESIGN.md",
+    "editor.html",
+    "index.html",
+    "play.html",
+    "previews/dialog-preview.html",
+    "previews/roster-preview.html",
+    "tests/browser/asset-paths.cjs",
+    "tests/browser/card-geometry.cjs",
+    "tests/browser/card-stars.cjs",
+    "tests/browser/character-card-skin.cjs",
+    "tests/browser/preparation-skills.cjs",
+    "tests/browser/reward-accessories.cjs",
+    "tests/browser/reward-card-frames.cjs",
+    "tests/browser/reward-description.cjs",
+    "tests/browser/reward-home-flow.cjs",
+    "tests/browser/reward-icon-colors.cjs",
+    "tests/browser/reward-responsive.cjs",
+    "tests/expedition-ui.test.js",
+    "tests/preview-markup.test.js",
+    "tools/build-battle-skin.cjs",
+    "tools/build-map-skin.cjs",
+    "tools/build-shop-skin.cjs"
+  ],
+  "note": "CSS asset URLs adjusted relative to css/. Preview documents use base href ../ to retain shared root-based markup.",
+  "fixedJSONSha256": "c74614c0ee1ecc41ddc395e21da522e96235ed016c55cba1d4f4bf40e2796781"
+}

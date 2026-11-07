@@ -1,0 +1,539 @@
+{
+  "note": "Historical approval records; originalPath and source fields describe retired working files, not live dependencies.",
+  "records": [
+    {
+      "originalPath": "docs/ui-style/battle-background-2-4-ui-v1/approved-assets.json",
+      "record": {
+        "authorization": "2026-11-02 使用者：先選4來套用看看",
+        "files": [
+          {
+            "source": "docs/ui-style/battle-background-2-4-ui-v1/background-4.png",
+            "file": "assets/ui/battle/v1/background-fracture-4.png",
+            "width": 1672,
+            "height": 941,
+            "sha256": "9f262bb1b469459c5aecd7cfc74be3df9b656aab92ec9968bdf35160e8cf0626"
+          }
+        ],
+        "method": "Original PNG copied without pixel changes; existing UI retained"
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/battle-split-v1/approved-assets.json",
+      "record": {
+        "authorization": "2026-11-02 使用者：好吧 先套用現在這批UI看看",
+        "method": "Original generated PNG bytes copied without pixel changes",
+        "files": [
+          {
+            "file": "assets/ui/battle/v1/battle-background-7.png",
+            "source": "docs/ui-style/battle-split-v1/battle-background-7.png",
+            "sha256": "5f13e2d4186e94a3f655a114f5bcb8afa73106a87448d9b404d18936398644d4"
+          },
+          {
+            "file": "assets/ui/battle/v1/faction-enemy.png",
+            "source": "docs/ui-style/battle-split-v1/faction-enemy.png",
+            "sha256": "527c3c58892cc56a8fc48f11ebfcd4152f384349c06752c2981ae42c13dd97f7"
+          },
+          {
+            "file": "assets/ui/battle/v1/faction-ally.png",
+            "source": "docs/ui-style/battle-split-v1/faction-ally.png",
+            "sha256": "ff7a3e9d168c0552a73f61890bf6976011831978d0ab8c7a09bad910e1607b30"
+          },
+          {
+            "file": "assets/ui/battle/v1/skill-ring.png",
+            "source": "docs/ui-style/battle-split-v1/skill-ring.png",
+            "sha256": "4f80ee0dc33e8333a0b6295be3e2bba42b585a785a4a02b652977ff3517574a7"
+          },
+          {
+            "file": "assets/ui/battle/v1/button-paper.png",
+            "source": "docs/ui-style/battle-split-v1/button-paper.png",
+            "sha256": "861580e6779761db9cf8eb0e4dd9f750cc871d6a73b90268c2f24a023008194c"
+          },
+          {
+            "file": "assets/ui/battle/v1/preparation-book.png",
+            "source": "docs/ui-style/battle-split-v1/preparation-book.png",
+            "sha256": "10694263a488c3eb0c7309826bfb321cb7206e75b352b106a3a03c37a1b9c901"
+          }
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/character-details-raster-v1/split/approved-assets.json",
+      "record": {
+        "approved": "User approved concept v3, split PNGs, then explicitly authorized application on 2026-10-31",
+        "method": "RGBA lossless region export; no recolor, resize, repaint or alpha thresholding",
+        "files": [
+          {
+            "file": "portrait-frame-v1.png",
+            "region": [
+              79,
+              95,
+              964,
+              1212
+            ],
+            "sourceSha256": "eaee4614c87421d9930ad2179827a25e306858b9f80725c153f94da535102d70",
+            "sha256": "6b053ca3fc7a0dfb0d2c2119a8bea5cee013e31e78e3bf18fa9dbe827abc9a9f"
+          },
+          {
+            "file": "nameplate-v1.png",
+            "region": [
+              48,
+              227,
+              2077,
+              257
+            ],
+            "sourceSha256": "e30212b5f39c0bfa29f5c944bcfd147833c7c4bb459441b73851a3270df6994e",
+            "sha256": "4831cba46c649de9b4dfbdd7d58f9986dffe111f0687cb82ecbe4f8bcef556db"
+          },
+          {
+            "file": "section-heading-v1.png",
+            "region": [
+              74,
+              264,
+              2015,
+              189
+            ],
+            "sourceSha256": "b7bccae4f7b8334f9038e72510bf19d33edaff9e475db9c5e608bfbaf551d1ba",
+            "sha256": "fc8682827688fbd2ab6445d332ee342b57472cb64fd68329b763749eddabbe2a"
+          },
+          {
+            "file": "horizontal-divider-v1.png",
+            "region": [
+              69,
+              417,
+              1636,
+              53
+            ],
+            "sourceSha256": "bfaf16640dfb282ca973729e135bb60adc773bed567eb7bd8def4f499de3936b",
+            "sha256": "5c5707530c8326e64afd8b3fecd7148adc067ee72417f45ca1d3a1131339ddac"
+          },
+          {
+            "file": "vertical-divider-v1.png",
+            "region": [
+              500,
+              35,
+              24,
+              1465
+            ],
+            "sourceSha256": "14e546e0c89e2940ba11ec65969d5cfb0f6fe4451c25c1917819efda8406a055",
+            "sha256": "92ba51ec76f8958e3f7cde343a5164f826876b1286b8e7a19044e81dc69ee36c"
+          }
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/detail-icons-design-v2/split/approved-assets.json",
+      "record": {
+        "approved": "2026-10-31: user selected A, 1C/3B/4B and revised 2C, then explicitly authorized applying these icons.",
+        "method": "Built-in image_gen transparent cutouts; crop to visible-ink bounds (alpha>=16, plus 4px guard) and proportional canvas resampling. No per-pixel alpha thresholding, repaint, recolor, hole filling or background removal. Navy tint is applied by CSS in details only.",
+        "files": [
+          {
+            "file": "job-ranged.png",
+            "sourceSha256": "60dfd6f24f79f53c9a5b0cdca75382eec628ca3fb137c43a56775220d2e3a7fa",
+            "sha256": "dc6dc59547e6e269a1bbe8ad72f5d70a93eccd8a4f7620ad3db7a5098bc7d0b5",
+            "size": [
+              256,
+              256
+            ],
+            "sourceSize": [
+              1983,
+              793
+            ],
+            "bounds": [
+              156,
+              235,
+              1681,
+              354
+            ],
+            "transparent": 1206055,
+            "solid": 3985
+          },
+          {
+            "file": "posture-bonus.png",
+            "sourceSha256": "7021f7a36c9025f87c8a40e41d67a0f4375cc6138dacd9e48a9687de90d0432d",
+            "sha256": "5a1292de009ade669f944179af5714877eceb0857b3e9c93366ff521792c4ee8",
+            "size": [
+              256,
+              256
+            ],
+            "sourceSize": [
+              1254,
+              1254
+            ],
+            "bounds": [
+              127,
+              159,
+              1006,
+              976
+            ],
+            "transparent": 1100499,
+            "solid": 2663
+          },
+          {
+            "file": "knockdown.png",
+            "sourceSha256": "5c38c81cd51506f1c9c0445fb9fb9f93c9d0e6e1ff2bb6b15a7e1a89e98440c2",
+            "sha256": "0073f4feec0e5a7e0b4d20f57b3b3ea8d1d822f7af4f438e141f9576de9c93fb",
+            "size": [
+              256,
+              256
+            ],
+            "sourceSize": [
+              2172,
+              724
+            ],
+            "bounds": [
+              163,
+              162,
+              1846,
+              462
+            ],
+            "transparent": 1017247,
+            "solid": 3380
+          },
+          {
+            "file": "move.png",
+            "sourceSha256": "1ca5b2fa49adbdafe9255a128e36e12fdf99d558255189c773f69b24e0774102",
+            "sha256": "503060c2d59087bf3151fe58712e23f4c4c56d7188963f60ddfa50470bcce441",
+            "size": [
+              256,
+              256
+            ],
+            "sourceSize": [
+              1254,
+              1254
+            ],
+            "bounds": [
+              66,
+              95,
+              1125,
+              1064
+            ],
+            "transparent": 902721,
+            "solid": 4015
+          },
+          {
+            "file": "job-melee.png",
+            "sourceSha256": "c2d6a51e41e5e5bb84fe4dfe427e37e0e0b67be839ef96bbbc3524051fbc05cf",
+            "sha256": "543eb482a1cc8188cd382f3cbb0d809e2c80c4709d17f8c86d8ff25a99606890",
+            "size": [
+              256,
+              256
+            ],
+            "sourceSize": [
+              1254,
+              1254
+            ],
+            "bounds": [
+              106,
+              158,
+              1042,
+              996
+            ],
+            "transparent": 1100296,
+            "solid": 3995
+          },
+          {
+            "file": "job-tank.png",
+            "sourceSha256": "477fcf7441849c9f72f01573acf1119855f871749bf734a2ef6c9e953a5f4474",
+            "sha256": "ba8f4644fcfcada3a3a3b4393da351ab4299ce4af9522f2e4e8176317fe35184",
+            "size": [
+              256,
+              256
+            ],
+            "sourceSize": [
+              1254,
+              1254
+            ],
+            "bounds": [
+              262,
+              221,
+              730,
+              875
+            ],
+            "transparent": 1144354,
+            "solid": 2757
+          },
+          {
+            "file": "job-healer.png",
+            "sourceSha256": "68ad4ad21bb317880ec6e768714d57f6eae8f04de68ce5cbb3a39eee0745a119",
+            "sha256": "99625633e126c6703c0ca9309a1c06bc7e3da296b9f0312e8e08653aa8c4d1a2",
+            "size": [
+              256,
+              256
+            ],
+            "sourceSize": [
+              1254,
+              1254
+            ],
+            "bounds": [
+              122,
+              165,
+              1010,
+              951
+            ],
+            "transparent": 1009182,
+            "solid": 1863
+          },
+          {
+            "file": "rank.png",
+            "sourceSha256": "d0089893b535ed346baeb9cf57d525a84bd4752aa081927ccf09cd1fdacd4d59",
+            "sha256": "93472cbe3c9c636660acdd3f1451e29c520fab8afb2221eab0f9bf01b0fadcba",
+            "size": [
+              256,
+              256
+            ],
+            "sourceSize": [
+              1254,
+              1254
+            ],
+            "bounds": [
+              152,
+              119,
+              950,
+              1060
+            ],
+            "transparent": 1030110,
+            "solid": 4431
+          },
+          {
+            "file": "interval.png",
+            "sourceSha256": "a101b92dcbb52ad5f45222ff6c26e9ae1b23c8fe3049134fd7330ba8ee0e9971",
+            "sha256": "cf420db3a7bcdb48dae10fa100ad3486c815145197961aadbe2bdced3728fdb7",
+            "size": [
+              256,
+              256
+            ],
+            "sourceSize": [
+              1254,
+              1254
+            ],
+            "bounds": [
+              227,
+              104,
+              800,
+              1046
+            ],
+            "transparent": 1156362,
+            "solid": 3523
+          }
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/detail-status-bonus-icons-v1/approved-assets.json",
+      "record": {
+        "date": "2026-11-05",
+        "approval": "使用者：OK 可以套用",
+        "assets": [
+          {
+            "name": "status-duration-bonus",
+            "candidate": "docs/ui-style/detail-status-bonus-icons-v1/status-duration-bonus.png",
+            "formal": "assets/ui/character-details/icons-v1/status-duration-bonus.png",
+            "sha256": "425552cb8f99dd9d333e6d22d43a3ebc08aada25e98852aeaab6692972fbb805"
+          },
+          {
+            "name": "status-amount-bonus",
+            "candidate": "docs/ui-style/detail-status-bonus-icons-v1/status-amount-bonus.png",
+            "formal": "assets/ui/character-details/icons-v1/status-amount-bonus.png",
+            "sha256": "bfe94b49b849094e137ae097712080a6c95e2fe2b0375aae7e817668e41f5db6"
+          }
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/healer-frame-v4/approved-assets.json",
+      "record": {
+        "approvedDate": "2026-10-29",
+        "approval": "使用者：OK 這個框可以套用",
+        "files": [
+          {
+            "source": "exports/healer-sr.png",
+            "destination": "assets/ui/card-frames/v3/healer-sr.png",
+            "sha256": "84feb2ca62c43995ecba0512e3ffae54ff51fdfddb664dc1f8eb30b553a51d3d"
+          },
+          {
+            "source": "exports/healer-sr-window.png",
+            "destination": "assets/ui/card-frames/v3/healer-sr-window.png",
+            "sha256": "ca954ad793e9d9e1d1c7cffa83eda5e49a63c4ab62698f0315fb533065db9e35"
+          },
+          {
+            "source": "exports/healer-ssr.png",
+            "destination": "assets/ui/card-frames/v3/healer-ssr.png",
+            "sha256": "9a03aa2e3f1e6f9b3dda66609a10ff88041169e2705a3e7ddc0d432f40dfe917"
+          },
+          {
+            "source": "exports/healer-ssr-window.png",
+            "destination": "assets/ui/card-frames/v3/healer-ssr-window.png",
+            "sha256": "6587bf1c4f57a9d35f78ca11c6794d027e018c1425f863c6e95093ef60c3812a"
+          },
+          {
+            "source": "exports/healer-ur.png",
+            "destination": "assets/ui/card-frames/v3/healer-ur.png",
+            "sha256": "80cf1f007bd5b88d9143ea8a7b62e24999148562dd16d7dfe19ca0229929af6b"
+          },
+          {
+            "source": "exports/healer-ur-window.png",
+            "destination": "assets/ui/card-frames/v3/healer-ur-window.png",
+            "sha256": "3d7a4f20a54a6f82798b9121d10781ddfbafd64eecb6ecbc82f2320913f82a52"
+          }
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/preparation-accessories-v1/approved-assets.json",
+      "record": {
+        "approved": "2026-11-01 使用者明確確認修正版分隔線與出售區可套用",
+        "method": "Original generated alpha PNG bytes copied without crop/repaint. Fixed source regions rendered by CSS.",
+        "files": [
+          {
+            "file": "sell-zone.png",
+            "sha256": "7396ba5ceff12fa6b29d64dde13ab650e361f7234d6a993f41d7aea1940d544c"
+          },
+          {
+            "file": "divider-v2.png",
+            "sha256": "003fb7b9de34e8d6b0402f6a7680ab82c23b9e0925594174ac3288201b940908"
+          }
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/quiet-labels-v3/approved-assets.json",
+      "record": {
+        "approved": "User explicitly approved both redrawn PNGs for use on 2026-10-31",
+        "method": "Copied original transparent PNG bytes; no repaint or crop; removed CSS center wash",
+        "files": [
+          {
+            "file": "title-plaque-v3.png",
+            "sha256": "90d9997d728f3e101d81d867def093e5025b8a6fa3a5625b8a43a2c295b2762f"
+          },
+          {
+            "file": "capsule-button-v3.png",
+            "sha256": "4c98166e06526d47485ba16c2e1d25fd8ce681bf535dc101fb06f5219c9c18de"
+          }
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/shop-laws-split-v1/approved-assets.json",
+      "record": {
+        "approved": "2026-11-01 user explicitly authorized application",
+        "method": "Original generated bytes copied unchanged; CSS nine-slice uses measured bounds",
+        "files": [
+          {
+            "file": "law-icon-frame.png",
+            "sha256": "add7aaa82309265495ec8ff8e9dee78138bad0740fa888e4cfc3c1e0c2318ee1"
+          },
+          {
+            "file": "law-option-panel.png",
+            "sha256": "b201c1f4afff36a9b5193e5c55d5774925b37be6df26275ad44b7c8e98cda433"
+          }
+        ],
+        "reused": [
+          "assets/ui/character-details/v1/portrait-frame-v1.png",
+          "assets/ui/shop/v1/",
+          "assets/ui/preparation/v1/divider-v2.png"
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/shop-split-v1/approved-assets.json",
+      "record": {
+        "approved": "2026-11-01 user explicitly authorized application of split assets",
+        "files": [
+          {
+            "file": "background-alchemy.png",
+            "sha256": "8b798cff6dee6c7cf5ed00289c00eb9457fbbf791458444cd004628c51dc75c2"
+          },
+          {
+            "file": "button-navy.png",
+            "sha256": "09aef211d5b113c2eb85b1c75bf4f351726c2c6798ca7dd1786b2ed18afb589a"
+          },
+          {
+            "file": "button-paper.png",
+            "sha256": "92063f1703ed470891cb93b932870e5ca1199b447715b65b27dcda7688fd4c17"
+          },
+          {
+            "file": "currency-crystal.png",
+            "sha256": "038e0be8d43985abd445e3ce10848c43b00db18aea1d2776f8118cb58b0423fc"
+          },
+          {
+            "file": "exit-button.png",
+            "sha256": "c3b2f2890f9b9fd5f3819f12e2aed12932920a6f38929566612a6f80f03d3430"
+          },
+          {
+            "file": "sidebar-panel.png",
+            "sha256": "1cec80c9fbab6c4ab1e439e18ab9db8e41115f55d05bd380e9c4feda2fb28e71"
+          }
+        ],
+        "reused": [
+          "assets/ui/preparation/v1/sell-zone.png",
+          "assets/ui/preparation/v1/divider-v2.png",
+          "assets/ui/title-plaque-v3.png"
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/skill-picker-paper-v4/approved-assets.json",
+      "record": {
+        "approved": "2026-10-31 使用者確認 v3 外觀，要求補回原背景底色後直接套用",
+        "file": "assets/ui/skill-picker/v1/skill-option-paper-v4.png",
+        "sha256": "4ba93bd4fdee884506ddb8ea2e57e4d2d6fe8fd3d2c56a52e4a1bbaa7f03f79e",
+        "size": [
+          2172,
+          724
+        ],
+        "alphaBounds": [
+          8,
+          155,
+          2165,
+          551
+        ],
+        "interiorSample": [
+          150,
+          260,
+          2000,
+          450
+        ],
+        "minInteriorAlpha": 251,
+        "centerRGBA": [
+          242,
+          215,
+          177,
+          253
+        ],
+        "note": "Generated interior is painted parchment (alpha251-254), no transparent hole; CSS solid paper underlay ensures center composites opaque. Outer cutout transparency retained."
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/skill-picker-raster-v1/approved-scrollbars.json",
+      "record": {
+        "approved": "2026-10-31 使用者明確表示捲軸 OK；只採軌道與滑塊，不採深色技能選項底框",
+        "method": "Original alpha PNG bytes copied without crop/repaint",
+        "files": [
+          {
+            "file": "scroll-track.png",
+            "sha256": "511a723cb5adec3688a6fee69d3556a1be15c393177a55b14735ce80c3f07924"
+          },
+          {
+            "file": "scroll-thumb.png",
+            "sha256": "d786723323ac2bee1da3a9e1811b61ef301374fec46a06d9afc356362fe5c550"
+          }
+        ]
+      }
+    },
+    {
+      "originalPath": "docs/ui-style/slate-thin-v2/approved-assets.json",
+      "record": {
+        "approved": "2026-11-01 使用者確認薄角細線石板可套用",
+        "file": "assets/ui/battle-board/slate-ten-slots-thin-v2.png",
+        "sha256": "a0bafed943e5a7f528a14cfc7928283dd1e4a10142b5c7681b65d799811f7a2a",
+        "method": "Original alpha PNG bytes copied without crop/repaint; CSS compensates canvas and calibrates nine seams",
+        "css": {
+          "backgroundWidthPercent": 99.67096092079044,
+          "backgroundHeightPercent": 134.38971387178557,
+          "positionXPercent": 40.70241656902886,
+          "positionYPercent": 49.4602422327541
+        }
+      }
+    }
+  ]
+}

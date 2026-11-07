@@ -34,5 +34,5 @@ Desktop.ini
 *.swp
 *.swo
 
-# 保留 minimajo-editor.json、assets/、docs/（含候選與來源）、tests/
+# 保留 minimajo-editor.json、assets/、docs/（現行規範與必要來源）、tests/
 # wrangler 設定、資料庫 migration 與套件鎖定檔也應納入版本控制

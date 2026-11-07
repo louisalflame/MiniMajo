@@ -1,0 +1,1 @@
+(function(root){const values=Object.freeze({race:Object.freeze(['人類','獸人','機人']),affinity:Object.freeze(['物理','精神','魔法']),rarity:Object.freeze(['SR','SSR','UR']),job:Object.freeze(['守護','破陣','飛襲','支援']),stars:Object.freeze(['1','2','3','4','5','6'])});if(typeof module!=='undefined')module.exports=values;else root.CharacterEnums=values;})(globalThis);

@@ -1,0 +1,27 @@
+body .shop-exit-actions{display:flex;align-items:center;justify-content:center;gap:6px}
+body #expedition-dialog .shop-exit-actions #expedition-close{margin:0}
+body dialog#expedition-dialog #shop-help-open,body.battle-page #battle-help-open{
+ display:grid;place-items:center;flex:none;width:40px;height:44px;min-height:0;
+ margin:0;padding:0;border:0;border-radius:6px;background:transparent;box-shadow:none;
+}
+body dialog#expedition-dialog #shop-help-open{color:#183849}
+body.battle-page #battle-help-open{color:#e7d6b5}
+body dialog#expedition-dialog #shop-help-open:hover,body.battle-page #battle-help-open:hover{
+ background:transparent;filter:brightness(1.25)
+}
+body [data-scene-help] svg{
+ width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;
+ stroke-linecap:round;stroke-linejoin:round;pointer-events:none
+}
+body dialog.ui-panel.scene-help-dialog{width:min(640px,88vw)}
+body dialog.ui-panel.scene-help-dialog>.ui-panel-body{line-height:1.75;font-size:15px}
+.scene-help-dialog h3{margin:14px 0 4px;font-size:17px;color:#173449}
+.scene-help-dialog p{margin:0 0 12px;color:#243f4c}
+@media (min-width:701px) and (max-width:920px){
+ body.battle-page,body.battle-page.preview-mode{--battle-reserved-height:390px}
+ body.battle-page .battlefield{grid-template-rows:44px 62px minmax(0,auto) 224px}
+ body.battle-page .combat-skill{height:224px;margin-top:0;align-items:flex-start}
+ body.battle-page .combat-skill .battle-actions{
+  top:174px;left:0;right:0;justify-content:center
+ }
+}

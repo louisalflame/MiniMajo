@@ -1,0 +1,147 @@
+.journey-shell{display:block}.journey-shell>[hidden]{display:none!important}header a{color:var(--accent);text-decoration:none}#journey-wallet{color:var(--accent);font-size:14px}.journey-battle-head{display:flex;justify-content:space-between;align-items:center;gap:16px}#journey-frame{display:block;width:100%;height:calc(100dvh - 190px);min-height:640px;border:1px solid var(--line);border-radius:12px;background:#0d0c15}#journey-message{color:var(--accent)}.journey-rules{margin-top:20px;line-height:1.8}.journey-rules p{max-width:900px}#journey-battle-status{color:var(--accent);min-height:24px}#journey-new{margin-bottom:16px}#journey-battle{scroll-margin-top:16px}
+/* Journey camera: the workshop keeps its overhead map. */
+#journey-map .map-stage{isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 50% 27%,#6d607c33,transparent 55%),linear-gradient(#100f1b,#24202e 38%,#100e18 88%)}
+#journey-map .map-stage::before{content:none}
+/* Fog belongs to the full viewport, not the letterboxed projection SVG.
+   Static noise textures drift on two layers; map redraws never restart them. */
+#journey-map .map-canvas{isolation:isolate}
+#journey-map .map-canvas::before,#journey-map .map-canvas::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-repeat:no-repeat;filter:blur(12px);mask-image:radial-gradient(ellipse at 50% 62%,transparent 12%,#0002 30%,#000b 62%,transparent 85%),linear-gradient(transparent,#000 18%,#000 78%,transparent),linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-composite:intersect;animation:journey-fog-drift 38s ease-in-out infinite alternate}
+#journey-map .map-canvas::before{opacity:.48;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .018' numOctaves='3' seed='12'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 .68 0 0 0 0 .63 0 0 0 0 .76 1 0 0 0 -.28'/%3E%3C/filter%3E%3Cpath fill='white' filter='url(%23f)' d='M0 0h900v600H0z'/%3E%3C/svg%3E"),radial-gradient(ellipse at 24% 42%,#b3a6c04d,transparent 44%),radial-gradient(ellipse at 78% 30%,#968ca94d,transparent 48%);background-size:100% 100%}
+#journey-map .map-canvas::after{opacity:.32;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .025' numOctaves='2' seed='27'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 .73 0 0 0 0 .69 0 0 0 0 .79 1 0 0 0 -.34'/%3E%3C/filter%3E%3Cpath fill='white' filter='url(%23f)' d='M0 0h900v600H0z'/%3E%3C/svg%3E"),radial-gradient(ellipse at 70% 55%,#b8a9c24d,transparent 48%);background-size:100% 100%;animation-duration:53s;animation-delay:-19s;animation-direction:alternate-reverse}
+@keyframes journey-fog-drift{from{transform:translate3d(-4%,0,0)}to{transform:translate3d(4%,0,0)}}
+@media(prefers-reduced-motion:reduce){#journey-map .map-canvas::before,#journey-map .map-canvas::after{animation:none}}
+#journey-map .map-canvas{padding:0;position:relative}
+#journey-map #hex-map-svg{min-height:0;max-height:none;aspect-ratio:800/680;overflow:hidden}
+#journey-map .map-stage-top{position:absolute;top:0;left:0;right:0;z-index:1;justify-content:center;color:#c3b4d1;letter-spacing:2px;padding-top:25px;pointer-events:none}
+#journey-map .journey-horizon{fill:#b5a4c2;opacity:.55;font:12px serif;text-anchor:middle;letter-spacing:9px}
+#journey-map .journey-frontier-edges path{fill:none;stroke:#b1a3c2;stroke-opacity:.48;stroke-width:1.4;stroke-linecap:round}
+#journey-map .journey-frontier-fog{opacity:.86}
+#journey-map .map-legend{background:#100d1780;font-size:11px;gap:13px}
+#journey-map .map-sidebar{background:linear-gradient(#241d2d,#13101b)}
+@media(max-width:720px){#journey-map .map-stage-top{font-size:9px;letter-spacing:1px;padding-top:18px}#journey-map .map-sidebar{display:grid;grid-template-columns:1fr 1fr;gap:12px}#journey-map .map-node,#journey-map .map-event,#journey-map #map-status{grid-column:1/-1}#journey-map .map-position{margin:0;padding:8px 0}#journey-map .map-progress{gap:22px}#journey-map .map-progress strong{font-size:21px}#journey-map .map-node{padding:14px}#journey-map .map-node h3{margin:8px 0}}
+#journey-map .journey-player{fill:#f6e2b9;font:48px Georgia,serif;text-anchor:middle;pointer-events:none;filter:drop-shadow(0 0 12px #eac7ff99)}
+#journey-map #hex-map-svg{position:relative;z-index:1;user-select:none}
+
+.reward-dialog{width:min(960px,94vw);max-width:94vw;max-height:92dvh;overflow:auto;padding:28px;color:var(--text);border:1px solid #a787b578;border-radius:14px;background:radial-gradient(ellipse at top,#51334b55,transparent 65%),#15101d;box-shadow:0 24px 100px #000b}.reward-dialog::backdrop{background:#080610cf;backdrop-filter:blur(4px)}.reward-dialog h2{font-family:"PMingLiU",serif;letter-spacing:3px;font-weight:400;margin:12px 0}.reward-dialog>p{font-size:12px;line-height:1.8;color:#b9a7c3}.reward-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0}.reward-card{min-width:0;display:flex;flex-direction:column;gap:10px;border:1px solid #9972ac60;background:linear-gradient(145deg,#4a304938,#1b1422);padding:20px;overflow-wrap:anywhere}.reward-art{height:160px;display:grid;place-items:center;font-size:11px;color:#aa8dbb;background:radial-gradient(ellipse,#72537528,transparent 65%);border-bottom:1px solid #81638d35;letter-spacing:3px}.reward-card h3{margin:0;color:#ebd2af;font-size:17px;font-weight:500}.reward-card p{font-size:12px;color:#c1afcb;line-height:1.8;margin:0}.reward-card button{margin-top:auto;white-space:normal}.reward-actions{display:flex;gap:12px;justify-content:flex-end}.reward-dialog .reward-warning{padding:12px 16px;background:#65302f44;border:1px solid #bc79726b;color:#f2b7a6}@media(max-width:650px){.reward-dialog{padding:18px}.reward-options{grid-template-columns:1fr;gap:10px}.reward-art{height:75px}.reward-card{padding:14px}}
+
+
+/* Game-only presentation; editor dialogs keep their explanatory layout. */
+body.immersive-game{max-width:none;padding:0;background:radial-gradient(ellipse at 50% 30%,#302439,#0d0b14 75%);min-height:100dvh}
+.immersive-game>header{position:relative;z-index:2;margin:0;padding:20px 28px;background:transparent;font-size:12px}
+.immersive-game #journey-wallet{font-size:12px}
+.immersive-game .journey-shell{position:relative;padding:0 24px 24px;max-width:1800px;margin:auto}
+#journey-map{border:0;border-radius:0;background:transparent;position:relative;overflow:visible}
+#journey-map .map-heading{position:absolute;right:12px;top:8px;z-index:2;padding:0;background:none;border:0;display:flex;align-items:center;gap:16px;max-width:calc(100% - 24px)}
+#journey-map .map-layout{display:block}
+#journey-map .map-stage{border:0;border-radius:0;background:radial-gradient(ellipse at 50% 32%,#67547226,transparent 60%);min-height:0}
+#journey-map #hex-map-svg{width:100%;height:calc(100dvh - 145px);min-height:420px;aspect-ratio:auto}
+#journey-map .map-sidebar{position:absolute;bottom:24px;right:16px;display:block;padding:0;border:0;background:none;width:auto}
+#journey-map .map-progress,#journey-map .map-position,#journey-map #map-status,#journey-map .map-node,#journey-map #map-event-note,#journey-map .map-legend{display:none}
+#journey-map .map-event{border:0;background:none;margin:0;padding:0}
+.immersive-game button{border-color:transparent;border-radius:2px;background:#30243880}
+.immersive-game button:hover:not(:disabled){background:#58425c99}
+.immersive-game #journey-message{font-size:12px;text-align:center;margin:8px 0;min-height:20px}
+.immersive-game #journey-message:empty,.immersive-game #journey-battle-status:empty{display:none}
+.immersive-game #journey-frame{border:0;border-radius:0;height:calc(100dvh - 130px)}
+.immersive-game .journey-battle-head{font-size:13px;padding:8px 0}
+.immersive-game #journey-battle-status{font-size:12px;min-height:0}
+.immersive-game .expedition-dialog,.immersive-game .reward-dialog{border:0;border-radius:4px;background:radial-gradient(ellipse at top,#422a4755,transparent 65%),#14101bf5;padding:26px}
+.immersive-game .expedition-head{border:0;padding-bottom:12px}
+.immersive-game .expedition-head h2{font-size:23px}
+.immersive-game #expedition-eyebrow,.immersive-game #expedition-shop-note,.immersive-game #shop-echo-level,.immersive-game .roster-divider,.immersive-game .roster-slot{display:none}
+.immersive-game .roster-tile{border:0;background:linear-gradient(0deg,#67507424,transparent 75%);border-radius:0}
+.immersive-game .roster-tile.vacant{background:#b89acc04;box-shadow:inset 0 -1px #b89acc22;color:transparent}
+.immersive-game .roster-tile.vacant:hover{background:#b89acc12}
+.immersive-game .roster-tile.occupied:hover{background:linear-gradient(0deg,#9976ab35,transparent)}
+.immersive-game .roster-art{font-size:0;min-height:90px;width:100%}
+.immersive-game .roster-sell-zone{border:0;background:#8e605010;color:#cba885;min-height:32px}
+.immersive-game .roster-inspect{border:0;padding-top:8px}
+.immersive-game .roster-inspect:has(#roster-selected:empty){display:none}
+.immersive-game .expedition-message{background:none;padding:0}
+.immersive-game .expedition-message:empty{display:none}
+.immersive-game .law-shop-panel,.immersive-game .law-product,.immersive-game .roster-skill-menu{border:0;background:#9a74aa08}
+.immersive-game .law-target-zone{border:0;box-shadow:inset 0 -1px #c2a37350;background:#9a74aa08}
+.immersive-game .reward-card{border:0;background:linear-gradient(0deg,#76527d20,transparent);padding:20px}
+.immersive-game .reward-art{border:0;font-size:0;height:220px}
+.immersive-game .reward-card:hover{background:linear-gradient(0deg,#9976ab30,transparent)}
+
+@media(max-width:650px){.immersive-game>header{padding:16px;gap:12px}.immersive-game .journey-shell{padding:0 8px 16px}.immersive-game #journey-wallet{font-size:10px}#journey-map #hex-map-svg{height:calc(100dvh - 130px)}.immersive-game .expedition-dialog,.immersive-game .reward-dialog{padding:16px}.immersive-game .reward-art{height:110px}.immersive-game .reward-options{grid-template-columns:1fr}.immersive-game .reward-card{padding:14px}}
+
+.immersive-game .expedition-dialog[data-mode=gear] #expedition-title{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.immersive-game .expedition-wallet{display:flex;align-items:center;gap:24px;text-align:left}
+.immersive-game .expedition-wallet small,.immersive-game .expedition-wallet strong{font-size:14px;font-weight:400;margin:0;color:var(--accent)}
+.immersive-game #roster-top-count,.immersive-game #roster-bottom-count,.immersive-game #roster-reserve-count{display:none}
+.immersive-game .roster-stars{color:#dec08d;font-size:11px;letter-spacing:1px}
+.immersive-game .roster-job{position:absolute;top:10px;right:8px;color:#c4afcf;width:18px;height:18px}
+.immersive-game .roster-job svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round}
+.immersive-game #roster-effects,.immersive-game .skill-choice small{white-space:pre-line}
+@media(max-width:650px){.immersive-game .expedition-wallet{gap:14px}.immersive-game .expedition-wallet small,.immersive-game .expedition-wallet strong{font-size:12px}}
+
+.immersive-game .expedition-dialog[data-mode=gear] .roster-extra::before{content:"";display:inline-block;width:14px;height:14px;margin-right:5px;vertical-align:middle}
+
+.immersive-game .expedition-head #expedition-close{margin-left:auto}
+
+.immersive-game #skill-options-note:empty{display:none}
+
+/* Shop: one navigation row, quiet stock and a compact law recipient. */
+
+.immersive-game .shop-navigation{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px}
+.immersive-game .shop-tabs{order:0;margin:0;gap:20px}
+.immersive-game .shop-controls{order:1;margin:0}
+.immersive-game .shop-tabs button{min-width:0;padding:10px 4px;background:none;border:0;border-bottom:1px solid transparent;color:var(--muted);border-radius:0}
+.immersive-game .shop-tabs [aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent)}
+.immersive-game #shop-reroll-note:empty,.immersive-game .expedition-dialog[data-mode=shop] #roster-top-section>.roster-heading,.immersive-game .expedition-dialog[data-mode=shop] .roster-toolbar{display:none}
+.immersive-game .expedition-dialog[data-mode=shop] .roster-row{margin-bottom:10px}
+.immersive-game .expedition-dialog[data-mode=shop] .roster-tile{min-height:155px}
+.immersive-game .expedition-dialog[data-mode=shop] .roster-art{min-height:65px}
+.immersive-game .law-shop-panel{background:none;padding:0;margin:0 0 20px}
+.immersive-game .law-target-layout{display:flex;align-items:center;gap:12px;margin:16px 0 24px}
+.immersive-game .law-target-zone{display:flex;align-items:center;gap:18px;min-height:48px;min-width:220px;padding:8px 14px;background:#9a74aa08;box-shadow:inset 0 -1px #c2a37330}
+.immersive-game .law-target-zone .eyebrow{margin:0;letter-spacing:1px}
+.immersive-game .law-target-zone strong{font-size:14px}
+.immersive-game #law-target-summary:empty,.immersive-game #law-target-laws:empty{display:none}
+.immersive-game .law-target-guide button{margin:0;background:none;font-size:20px;padding:4px 10px}
+.immersive-game .law-product{background:linear-gradient(0deg,#76527d18,transparent);gap:16px;padding:20px 16px}
+.immersive-game .law-product>.primary{margin-top:auto;background:none;border-top:1px solid #c2a37325;color:var(--accent)}
+.immersive-game .law-passive-note p{white-space:pre-line;margin-top:10px}
+.immersive-game #roster-buy-note:empty{display:none}
+@media(max-width:650px){.immersive-game .shop-navigation{gap:10px}.immersive-game .shop-tabs{gap:14px}.immersive-game .law-target-zone{min-width:0;flex:1;gap:12px}.immersive-game .law-target-layout{gap:6px}}
+
+.immersive-game .expedition-dialog[data-mode=gear] .shop-navigation{display:none}
+
+.immersive-game #shop-wallet{margin:10px 0 0;font-size:14px;color:var(--accent)}
+.immersive-game .expedition-dialog[data-mode=shop] .expedition-head{padding-bottom:24px;align-items:flex-start}
+.immersive-game #law-shop-panel:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(140px,1fr)) minmax(130px,220px) repeat(2,minmax(140px,1fr));gap:18px;align-items:stretch}
+.immersive-game .law-target-layout{position:relative;display:block;margin:0}
+.immersive-game .law-target-zone{display:flex;flex-direction:column;min-width:0;min-height:260px;padding:16px;gap:12px;box-shadow:none;background:radial-gradient(ellipse at 50% 80%,#a782b51a,transparent 70%)}
+.immersive-game .law-target-art{width:100%;height:210px}
+.immersive-game .law-recipient-art{display:block;width:100%;height:100%;font-size:0}
+.immersive-game #law-target-name:empty{display:none}
+.immersive-game .law-target-guide{position:absolute;right:0;top:0}
+.immersive-game button.law-card{text-align:left;min-height:170px;border:0;border-radius:0;padding:20px;gap:16px;background:linear-gradient(0deg,#76527d18,transparent)}
+.immersive-game button.law-card:not(:disabled):hover{background:linear-gradient(0deg,#9976ab35,#76527d12)}
+.immersive-game button.law-card:disabled{opacity:.35;cursor:not-allowed}
+.immersive-game .law-card-name{font-size:15px;color:#dfc6eb;font-weight:500}
+.immersive-game .law-card-stats{font-size:12px;color:#bba9c5;line-height:1.8}
+.immersive-game .law-card .law-price{margin-top:auto}
+@media(max-width:650px){.immersive-game #law-shop-panel:not([hidden]){grid-template-columns:repeat(2,minmax(100px,1fr)) 76px repeat(2,minmax(100px,1fr));gap:8px}.immersive-game .law-target-zone{min-height:180px;padding:6px}.immersive-game .law-target-art{height:150px}.immersive-game button.law-card{padding:8px;gap:8px}.immersive-game #law-target-name{font-size:12px;overflow-wrap:anywhere}}
+
+.immersive-game .expedition-dialog[data-mode=shop] .expedition-head{position:relative;justify-content:center;text-align:center}
+.immersive-game .expedition-dialog[data-mode=shop] #expedition-close{position:absolute;right:0;top:0}
+.immersive-game .journey-battle-head{justify-content:flex-end;min-height:44px}
+
+.immersive-game .expedition-dialog[data-mode=gear] .roster-inspect{display:none}
+.immersive-game button.reward-card{text-align:left;color:var(--text);white-space:normal;cursor:pointer;border-radius:0}
+.immersive-game .reward-card>span{display:block;line-height:1.8;font-size:12px;white-space:pre-line}.immersive-game .reward-card>.reward-name{font-size:17px;color:#ebd2af}.immersive-game .reward-card>.reward-art{display:grid;width:100%;font-size:0}
+
+.immersive-game .reward-hub,.immersive-game .reward-money-dialog{width:min(460px,92vw);text-align:center}.reward-categories{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:30px 0}.reward-categories button{min-height:130px;font-size:22px!important}.immersive-game #reward-money-amount{font-size:32px;color:var(--accent);margin:28px 0}
+
+/* Floor art is projected in world space. Event cutouts stay upright. */
+#journey-map .map-floor-art{overflow:visible;pointer-events:none}
+#journey-map .map-floor-art>div{transform-origin:0 0;pointer-events:none}
+#journey-map .hex-cell .map-floor-depth{fill:#161b21;stroke:#252a30;pointer-events:none}
+#journey-map .hex-cell .map-floor-base{fill:#232831;stroke:none}
+#journey-map .hex-cell .map-floor-rim{fill:none;stroke:#555b63;stroke-width:1;pointer-events:none}
+#journey-map .hex-cell.reachable .map-floor-rim{stroke:#b3a485;stroke-width:1.5}
+#journey-map .hex-cell:is(.current,.reachable:hover,.selected,:focus-visible):not(.collapsed) .map-floor-rim{stroke:#f2d5a0;stroke-width:2.5}
+#journey-map .hex-cell.collapsed{cursor:default}

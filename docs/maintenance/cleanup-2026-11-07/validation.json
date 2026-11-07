@@ -1,0 +1,14 @@
+{
+  "nodeTests": {
+    "total": 474,
+    "passed": 474,
+    "failed": 0
+  },
+  "browserPages": 10,
+  "formalImagesDecoded": 189,
+  "movedFiles": 133,
+  "moveHashesVerified": true,
+  "fixedJSONUnchanged": true,
+  "manualFullJourney": false,
+  "physicalMobileTouch": false
+}

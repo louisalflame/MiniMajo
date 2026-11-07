@@ -1,0 +1,804 @@
+{
+  "date": "2026-11-07",
+  "editorDataSha256": "c74614c0ee1ecc41ddc395e21da522e96235ed016c55cba1d4f4bf40e2796781",
+  "files": [
+    {
+      "from": "images/characters/.gitkeep",
+      "to": "assets/characters/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "from": "images/characters/alice-2slot.png",
+      "to": "assets/characters/alice-2slot.png",
+      "bytes": 3584165,
+      "sha256": "5c8dd0c1d87045a3bd0b1c4fe2c60b5492dd9fe01378383f5d99c105e336f622"
+    },
+    {
+      "from": "images/characters/alice-detail.png",
+      "to": "assets/characters/alice-detail.png",
+      "bytes": 3274512,
+      "sha256": "39efd1689a468265321ce6ce2d2c099204406f0bf929250a19c520fa59062f96"
+    },
+    {
+      "from": "images/characters/an-mali-2slot.png",
+      "to": "assets/characters/an-mali-2slot.png",
+      "bytes": 4217370,
+      "sha256": "566b44aed8de99834e5cd61e73fff664e6fdcda264e4293e4fb035718c828d5e"
+    },
+    {
+      "from": "images/characters/an-mali-detail.png",
+      "to": "assets/characters/an-mali-detail.png",
+      "bytes": 4118038,
+      "sha256": "807f48e768e9fcf12ecd34d40c43f570dd5516219d5a13b73ef13b9b984f22ba"
+    },
+    {
+      "from": "images/characters/baduoli-3slot.png",
+      "to": "assets/characters/baduoli-3slot.png",
+      "bytes": 3381172,
+      "sha256": "9b829bc60aa594b0e912f8a6eef2c109d317efdccc6a882339f909daed15eaaf"
+    },
+    {
+      "from": "images/characters/baduoli-detail.png",
+      "to": "assets/characters/baduoli-detail.png",
+      "bytes": 3424020,
+      "sha256": "7f811ba5195898379b0c55f5d0ced759b291e12ad0f0d45652b8ac33b4dc6cfa"
+    },
+    {
+      "from": "images/characters/bellatrix-3slot.png",
+      "to": "assets/characters/bellatrix-3slot.png",
+      "bytes": 3139177,
+      "sha256": "e34cd532cc32a3c677ef52a90d8f5c57fbebf7eba5b478a08cecc249cd06912e"
+    },
+    {
+      "from": "images/characters/bellatrix-detail.png",
+      "to": "assets/characters/bellatrix-detail.png",
+      "bytes": 3339202,
+      "sha256": "215ec060141e5b59dc144136ff8715eed17f9f9533529be5f2938ca1074f4d17"
+    },
+    {
+      "from": "images/characters/budi-1slot.png",
+      "to": "assets/characters/budi-1slot.png",
+      "bytes": 4029671,
+      "sha256": "e7c8ddb6857216548a8fe1b15322aeb7b782147edb10171d010f37d48e18ee76"
+    },
+    {
+      "from": "images/characters/budi-detail.png",
+      "to": "assets/characters/budi-detail.png",
+      "bytes": 3741040,
+      "sha256": "9d2fa0685fdbaf8875816662d1cb0293ac4df1c468c562568c15545ff04feff7"
+    },
+    {
+      "from": "images/characters/dayu-3slot.png",
+      "to": "assets/characters/dayu-3slot.png",
+      "bytes": 3708107,
+      "sha256": "c613f42287013a4b1c81df6d006c3430d7dc89731c41b5d1431549b9a5a366e0"
+    },
+    {
+      "from": "images/characters/dayu-detail.png",
+      "to": "assets/characters/dayu-detail.png",
+      "bytes": 3891665,
+      "sha256": "709b2e400bfd3f4f1c9e16b5cf9f0b092b7a95c83f4470c7a96171bcb014a0e7"
+    },
+    {
+      "from": "images/characters/dorothea-1slot.png",
+      "to": "assets/characters/dorothea-1slot.png",
+      "bytes": 3757026,
+      "sha256": "2ea22262abf211cf1cde859032b71cc52fb6d21eb3bc2b5956fa8a955ba94c64"
+    },
+    {
+      "from": "images/characters/dorothea-detail.png",
+      "to": "assets/characters/dorothea-detail.png",
+      "bytes": 3739002,
+      "sha256": "77103bfc181c8d807a5ff36b3e8bd99cdacbad108b292eb281e3a420779151a2"
+    },
+    {
+      "from": "images/characters/dusa-1slot.png",
+      "to": "assets/characters/dusa-1slot.png",
+      "bytes": 2985437,
+      "sha256": "ab980eff7b13f5b884e094dec10068d159c1e8b9709acd19f8e514b98fb5b68d"
+    },
+    {
+      "from": "images/characters/dusa-detail.png",
+      "to": "assets/characters/dusa-detail.png",
+      "bytes": 2966456,
+      "sha256": "ba3b45c9bed0842a2afc8b9ded91c0925e363b7b8fba6ba26cd1118ce4691df0"
+    },
+    {
+      "from": "images/characters/galannai-2slot.png",
+      "to": "assets/characters/galannai-2slot.png",
+      "bytes": 2669239,
+      "sha256": "02af76d4f33919e80b2c90203b778afbb26aa016c6a4da83290dc127adffab41"
+    },
+    {
+      "from": "images/characters/galannai-detail.png",
+      "to": "assets/characters/galannai-detail.png",
+      "bytes": 3427319,
+      "sha256": "016cf69172f549e28e26f4ce2ea54cd8ee3ad3ee214ed9cea85f6d4a29dbd6aa"
+    },
+    {
+      "from": "images/characters/grenna-1slot.png",
+      "to": "assets/characters/grenna-1slot.png",
+      "bytes": 3576518,
+      "sha256": "58a9c085fa324e919228d08c483d69640d7867d07d6250621985b485489e33f9"
+    },
+    {
+      "from": "images/characters/grenna-detail.png",
+      "to": "assets/characters/grenna-detail.png",
+      "bytes": 3633735,
+      "sha256": "02bc1c90646c97865f3e7c20fb0a8ced6c0b0b08e71dba5de6268f1dc2f45381"
+    },
+    {
+      "from": "images/characters/huarui-2slot.png",
+      "to": "assets/characters/huarui-2slot.png",
+      "bytes": 3801701,
+      "sha256": "9fe3b3a3842b373f0fc124070ce24fcb20d4e0a604e53edb8fad458c3c0fa3e0"
+    },
+    {
+      "from": "images/characters/huarui-detail.png",
+      "to": "assets/characters/huarui-detail.png",
+      "bytes": 3274731,
+      "sha256": "d8644be2e73011e98a4babcc2c9bc9381964591c91a5fe60a57bc07297763433"
+    },
+    {
+      "from": "images/characters/isabelle-3slot.png",
+      "to": "assets/characters/isabelle-3slot.png",
+      "bytes": 3386572,
+      "sha256": "00cb84d09ade1894a90268c2c275983135cf8ddb35cff5f2c027fdd0fbd6e340"
+    },
+    {
+      "from": "images/characters/isabelle-detail.png",
+      "to": "assets/characters/isabelle-detail.png",
+      "bytes": 3960917,
+      "sha256": "953b3466a821ca2601ae27a44e90ad738d3e895142e921133ab83db99be9f64f"
+    },
+    {
+      "from": "images/characters/jenny-2slot.png",
+      "to": "assets/characters/jenny-2slot.png",
+      "bytes": 3935795,
+      "sha256": "3475d759ae099a3a31b1b9713db2debe2775cbe8bbb224ec24e4f229beee5823"
+    },
+    {
+      "from": "images/characters/jenny-detail.png",
+      "to": "assets/characters/jenny-detail.png",
+      "bytes": 3755007,
+      "sha256": "aac27cc41e82566631a6c166eb3f437e434c99986d3c382269f0ea4bb5c419b0"
+    },
+    {
+      "from": "images/characters/keman-2slot.png",
+      "to": "assets/characters/keman-2slot.png",
+      "bytes": 3658826,
+      "sha256": "19d4037c36245ed30c3902a80f806594ad3fc68ee907f71dd00e7c6c51bbd085"
+    },
+    {
+      "from": "images/characters/keman-detail.png",
+      "to": "assets/characters/keman-detail.png",
+      "bytes": 3172841,
+      "sha256": "a115d3343b3f0bdd180bd945828807d51e98bf6fb8c1a7b31dea49e0cf074ba0"
+    },
+    {
+      "from": "images/characters/lena-2slot.png",
+      "to": "assets/characters/lena-2slot.png",
+      "bytes": 3660582,
+      "sha256": "fdacd9357c0a4a54fa8b9662430c5fe4297148c5dd0de0c985d86427dd661706"
+    },
+    {
+      "from": "images/characters/lena-detail.png",
+      "to": "assets/characters/lena-detail.png",
+      "bytes": 3180997,
+      "sha256": "b1e220243a1e7d5643fe44cda9bf10bb938105b6341f33bda0bee42d85264d88"
+    },
+    {
+      "from": "images/characters/lide-1slot.png",
+      "to": "assets/characters/lide-1slot.png",
+      "bytes": 3779368,
+      "sha256": "778b1f89220f1c47dd1e992ee1fcf4e221ebb0c505527f2a6f69c330ec0bee28"
+    },
+    {
+      "from": "images/characters/lide-detail.png",
+      "to": "assets/characters/lide-detail.png",
+      "bytes": 3942076,
+      "sha256": "9af28e523831e3c5a5ad950dee20e8740b1acd3bffded46945c414d3cc6a15c3"
+    },
+    {
+      "from": "images/characters/lucia-2slot.png",
+      "to": "assets/characters/lucia-2slot.png",
+      "bytes": 3340574,
+      "sha256": "5ce2955223882630f170f626fdc4d40a7689bb160aad99f46f08ddad66c749b3"
+    },
+    {
+      "from": "images/characters/lucia-detail.png",
+      "to": "assets/characters/lucia-detail.png",
+      "bytes": 3012161,
+      "sha256": "5901d15541fbe2e2d0d57225f177ca61e82d9e78257cb4f758003b2842328bcc"
+    },
+    {
+      "from": "images/characters/luolin-2slot.png",
+      "to": "assets/characters/luolin-2slot.png",
+      "bytes": 3936529,
+      "sha256": "5d1f8d873aab7d6c639b436d37ed03e8816fce17ab6b573c39e85f5bf007b465"
+    },
+    {
+      "from": "images/characters/luolin-detail.png",
+      "to": "assets/characters/luolin-detail.png",
+      "bytes": 3530878,
+      "sha256": "2b6831ca165f61c2594635d71a0c37e3c52a67fbf863c6ccf096562290c300bf"
+    },
+    {
+      "from": "images/characters/luomi-2slot.png",
+      "to": "assets/characters/luomi-2slot.png",
+      "bytes": 4044700,
+      "sha256": "13a2214d1027ca59a531e0f97bc239f5881e808f44d90296ec35bce2ba78c8a5"
+    },
+    {
+      "from": "images/characters/luomi-detail.png",
+      "to": "assets/characters/luomi-detail.png",
+      "bytes": 3483489,
+      "sha256": "8d92912488bc915efb91ccd74c2096315d7e4da6286f508215b5de59457f5463"
+    },
+    {
+      "from": "images/characters/maluo-2slot.png",
+      "to": "assets/characters/maluo-2slot.png",
+      "bytes": 3740236,
+      "sha256": "79fb2270edbcdc3a3eba5fcf05bf8eac8423e098888d4b83ef98898481a43b4a"
+    },
+    {
+      "from": "images/characters/maluo-detail.png",
+      "to": "assets/characters/maluo-detail.png",
+      "bytes": 3666190,
+      "sha256": "862e3d12d0965bca5673c06a8d7553d5580f5421ae0672b8140f10db00fa5152"
+    },
+    {
+      "from": "images/characters/meikeke-3slot.png",
+      "to": "assets/characters/meikeke-3slot.png",
+      "bytes": 3134326,
+      "sha256": "16be44a81a96a310a9fcafb61ace64d2ea5e024dfe0b8121c5a723c3ff432d0d"
+    },
+    {
+      "from": "images/characters/meikeke-detail.png",
+      "to": "assets/characters/meikeke-detail.png",
+      "bytes": 3129229,
+      "sha256": "b69154c8099ab7383aa48a423be41fd7fef53b356999d7ce6b2c965ca6d79cd9"
+    },
+    {
+      "from": "images/characters/pesexue-1slot.png",
+      "to": "assets/characters/pesexue-1slot.png",
+      "bytes": 3966060,
+      "sha256": "4e5ad7a66655db7e7f26af2289e59d70da13f401000174a3ac4f2f72ee06498c"
+    },
+    {
+      "from": "images/characters/pesexue-detail.png",
+      "to": "assets/characters/pesexue-detail.png",
+      "bytes": 3929623,
+      "sha256": "c95bdcdacfe83e2946f06924c52b2fbec91ce9de870c4375719b9c02bbd3f292"
+    },
+    {
+      "from": "images/characters/petra-2slot.png",
+      "to": "assets/characters/petra-2slot.png",
+      "bytes": 3917905,
+      "sha256": "3d5af41208aacb75b7b82f2ab4c5e074d8394efe7fac92d7605a004382c631df"
+    },
+    {
+      "from": "images/characters/petra-detail.png",
+      "to": "assets/characters/petra-detail.png",
+      "bytes": 3637650,
+      "sha256": "85baf5f6b343a2c6ef0b99d26823e7577ee6c1ad16abc96378018b187a47cdac"
+    },
+    {
+      "from": "images/characters/qingqing-1slot.png",
+      "to": "assets/characters/qingqing-1slot.png",
+      "bytes": 3516648,
+      "sha256": "b212ff63da6b4a8a15ad67d3f42869415b5a7682ce632de89a52ae010a46a852"
+    },
+    {
+      "from": "images/characters/qingqing-detail.png",
+      "to": "assets/characters/qingqing-detail.png",
+      "bytes": 3509111,
+      "sha256": "8636fa6286bee23969c7a61c9e118c50f6e9279ea16b03a2c6110288ad9c629f"
+    },
+    {
+      "from": "images/characters/xini-1slot.png",
+      "to": "assets/characters/xini-1slot.png",
+      "bytes": 3801175,
+      "sha256": "64c7693b046a2802afa802117bb1c6fd0836c88ba86f789bf462d54aba9c5fb4"
+    },
+    {
+      "from": "images/characters/xini-detail.png",
+      "to": "assets/characters/xini-detail.png",
+      "bytes": 3910629,
+      "sha256": "3086e7fc64f037aee8bfba72b6c019627d08cf1411890410c3f7e94742d41b1a"
+    },
+    {
+      "from": "images/characters/xinzi-2slot.png",
+      "to": "assets/characters/xinzi-2slot.png",
+      "bytes": 3028110,
+      "sha256": "2d1c571068c587b2bfba912833270ea2056527de5ab054aefbf9b01bae529dff"
+    },
+    {
+      "from": "images/characters/xinzi-detail.png",
+      "to": "assets/characters/xinzi-detail.png",
+      "bytes": 3011849,
+      "sha256": "10ef3f85e3f12dfbcf7d6f6142fc1dba2dc1ae21548a69ead95f2252ce4248d9"
+    },
+    {
+      "from": "images/characters/xuanji-2slot.png",
+      "to": "assets/characters/xuanji-2slot.png",
+      "bytes": 4161565,
+      "sha256": "e7d67042d179c79d6b18f66002383b8d3fe4e376f30625ba3c82bde67c1b72f1"
+    },
+    {
+      "from": "images/characters/xuanji-detail.png",
+      "to": "assets/characters/xuanji-detail.png",
+      "bytes": 4147479,
+      "sha256": "c9698bd10606a9b52ce36126ca7ade5aacb9b154887925c9dfd08fa5b0145ffb"
+    },
+    {
+      "from": "images/characters/youmeng-1slot.png",
+      "to": "assets/characters/youmeng-1slot.png",
+      "bytes": 4019692,
+      "sha256": "108e0bb6271c014934132579a687febc32a2527f0365e8aa74d21f946e3463a7"
+    },
+    {
+      "from": "images/characters/youmeng-detail.png",
+      "to": "assets/characters/youmeng-detail.png",
+      "bytes": 3024645,
+      "sha256": "9abc2a21c6f69f204a9c7f1108437711caad6ece811124b5229cb173f6ebcf52"
+    },
+    {
+      "from": "images/characters/yuhong-2slot.png",
+      "to": "assets/characters/yuhong-2slot.png",
+      "bytes": 3496724,
+      "sha256": "c68d769acdd4f07ff20093c1d7bbad5d32476abb838a979dfa84d09c9a358bb5"
+    },
+    {
+      "from": "images/characters/yuhong-detail.png",
+      "to": "assets/characters/yuhong-detail.png",
+      "bytes": 3539677,
+      "sha256": "9c1a4ccb8bf01be1b9db319f4f2aaa316812d5a30298d479fd45760010722353"
+    },
+    {
+      "from": "images/characters/yun-2slot.png",
+      "to": "assets/characters/yun-2slot.png",
+      "bytes": 3339596,
+      "sha256": "d6c568b5ec7ee60af35b64a00b20593e79f3f890498bb9aed302dfce14a286ab"
+    },
+    {
+      "from": "images/characters/yun-detail.png",
+      "to": "assets/characters/yun-detail.png",
+      "bytes": 4242331,
+      "sha256": "74e43fdd2a6d499d19e93af454252dd0dc4d8e5801199f71cad90d46033bcfa1"
+    },
+    {
+      "from": "images/characters/zhijie-2slot.png",
+      "to": "assets/characters/zhijie-2slot.png",
+      "bytes": 4177780,
+      "sha256": "51c565494ea40199d92aff47baa319400f57ecb9a3d4160540959a9104f61f0b"
+    },
+    {
+      "from": "images/characters/zhijie-detail.png",
+      "to": "assets/characters/zhijie-detail.png",
+      "bytes": 3929358,
+      "sha256": "30ebabb0769cc79673e44765fee8bd26fbf57dbc638f801c76ec17c4fb2c78a6"
+    },
+    {
+      "from": "images/raw/伊莎貝.webp",
+      "to": "docs/art-style/references/characters/伊莎貝.webp",
+      "bytes": 77770,
+      "sha256": "1339d50f5af6d24516cb3e16c93e866acb48e858f4d095ca7419ab152f735e26"
+    },
+    {
+      "from": "images/raw/伽嵐奈.jpg",
+      "to": "docs/art-style/references/characters/伽嵐奈.jpg",
+      "bytes": 64212,
+      "sha256": "7a9b4da15b0a676240bc2cc8cbb3bff0c44817db97dc54ead29965d1cd19f47d"
+    },
+    {
+      "from": "images/raw/伽嵐奈2.jpg",
+      "to": "docs/art-style/references/characters/伽嵐奈2.jpg",
+      "bytes": 166716,
+      "sha256": "e5db398f4de906c788bda0339f61a3793f93d51356db01ffd468913561fcb857"
+    },
+    {
+      "from": "images/raw/佩瑟雪.jpg",
+      "to": "docs/art-style/references/characters/佩瑟雪.jpg",
+      "bytes": 60020,
+      "sha256": "98ce8dc99b05a40c145a02e1e08675512b7399a69346c85c5138d9a038641f96"
+    },
+    {
+      "from": "images/raw/佩瑟雪2.jpg",
+      "to": "docs/art-style/references/characters/佩瑟雪2.jpg",
+      "bytes": 87208,
+      "sha256": "b153fef2f5dcf13631800d8a3174182d391dc9a746abb744900e2efdf77add33"
+    },
+    {
+      "from": "images/raw/佩脫拉.jpg",
+      "to": "docs/art-style/references/characters/佩脫拉.jpg",
+      "bytes": 63130,
+      "sha256": "a3776248cacd9926b7cb9ca8ab0006a81ca88229da0855f7fb1b946c120875a0"
+    },
+    {
+      "from": "images/raw/佩脫拉2.jpg",
+      "to": "docs/art-style/references/characters/佩脫拉2.jpg",
+      "bytes": 83452,
+      "sha256": "7b9379c223f7bca25fd35a122292f67455a2aed21ab539b92a9d9bf972e577a5"
+    },
+    {
+      "from": "images/raw/友萌.webp",
+      "to": "docs/art-style/references/characters/友萌.webp",
+      "bytes": 121410,
+      "sha256": "3b8e308f577021b28c2379b21cb960b5972ca89d24b8ce426d19613e7e12e1ce"
+    },
+    {
+      "from": "images/raw/友萌2.webp",
+      "to": "docs/art-style/references/characters/友萌2.webp",
+      "bytes": 436462,
+      "sha256": "c6fb8096b616afcd5d212432b552e7c2a2f2dacaac21273130875637845cc33e"
+    },
+    {
+      "from": "images/raw/多蘿亞.webp",
+      "to": "docs/art-style/references/characters/多蘿亞.webp",
+      "bytes": 128324,
+      "sha256": "e8dbc608d475926c89dddee1688dc389b6e4850b94e7bc83198027574d81e3d4"
+    },
+    {
+      "from": "images/raw/多蘿亞2.webp",
+      "to": "docs/art-style/references/characters/多蘿亞2.webp",
+      "bytes": 36972,
+      "sha256": "fc6f6c3c10130f02324d9e3bfd23f0566a44c4c09240e2d52da3485e2a0aa175"
+    },
+    {
+      "from": "images/raw/妲玉.webp",
+      "to": "docs/art-style/references/characters/妲玉.webp",
+      "bytes": 123782,
+      "sha256": "a838b28e272ddbebfc4ef3289f8807c4da8e709e5854f1d2e0d625ae63d481e6"
+    },
+    {
+      "from": "images/raw/妲玉2.webp",
+      "to": "docs/art-style/references/characters/妲玉2.webp",
+      "bytes": 64004,
+      "sha256": "1ab273f5e1281716869e1eb34e0b58cb95d0d78a81c14fdfc3b213a9f437e56a"
+    },
+    {
+      "from": "images/raw/安瑪莉.webp",
+      "to": "docs/art-style/references/characters/安瑪莉.webp",
+      "bytes": 91136,
+      "sha256": "6744e6e08b3f1fd2a79b1cf3079feddb323038c040983265caa1be4f55bce150"
+    },
+    {
+      "from": "images/raw/布荻.webp",
+      "to": "docs/art-style/references/characters/布荻.webp",
+      "bytes": 74616,
+      "sha256": "00fd4c496e873e4f88d343114f1d6fe50d19883b29d1d76bfb525e5a079e0b30"
+    },
+    {
+      "from": "images/raw/希霓.jpg",
+      "to": "docs/art-style/references/characters/希霓.jpg",
+      "bytes": 74736,
+      "sha256": "fe347cb644c0c30199d54554b632b66c9b5e11dd21c142b08e84ae6a46d424ce"
+    },
+    {
+      "from": "images/raw/御虹.webp",
+      "to": "docs/art-style/references/characters/御虹.webp",
+      "bytes": 84376,
+      "sha256": "caf0053915dd295ece6149c9f4f11a49edf9fe8d073ebe18701a802df52a5325"
+    },
+    {
+      "from": "images/raw/御虹2.webp",
+      "to": "docs/art-style/references/characters/御虹2.webp",
+      "bytes": 119636,
+      "sha256": "e1cfd2c8de8e910c09989b453386366004f43a2bb3a7ec930ad13223bc6aca56"
+    },
+    {
+      "from": "images/raw/愛莉絲.jpg",
+      "to": "docs/art-style/references/characters/愛莉絲.jpg",
+      "bytes": 33305,
+      "sha256": "703be6d7c207d7102402e779d550dd82e512a331a8036b837091a42902f06d8c"
+    },
+    {
+      "from": "images/raw/愛莉絲.webp",
+      "to": "docs/art-style/references/characters/愛莉絲.webp",
+      "bytes": 140176,
+      "sha256": "5c3c532b5a08f6385f5c67fc15245dae8a41afb6c45eb2995fd403a557196b23"
+    },
+    {
+      "from": "images/raw/愛莉絲3.jpg",
+      "to": "docs/art-style/references/characters/愛莉絲3.jpg",
+      "bytes": 65531,
+      "sha256": "904e31306c71580612f3bf9b1dc55a1cd8c25d54f69109b3d241e2526f225a3f"
+    },
+    {
+      "from": "images/raw/旋姬.jpg",
+      "to": "docs/art-style/references/characters/旋姬.jpg",
+      "bytes": 249230,
+      "sha256": "7d90d2d789ddb412907197cb2c123029e1e5e2ed97de4458d1cd94b311316fc8"
+    },
+    {
+      "from": "images/raw/旋姬2.jpg",
+      "to": "docs/art-style/references/characters/旋姬2.jpg",
+      "bytes": 361206,
+      "sha256": "4b577de350095e28aa0bd09a5cbece83efb0ae9a462a69192d804b08a05bdf06"
+    },
+    {
+      "from": "images/raw/杜薩.webp",
+      "to": "docs/art-style/references/characters/杜薩.webp",
+      "bytes": 76054,
+      "sha256": "1187503114e6eb85b3d2fad20800439d0bf4ca3514c5a0547372bc6abf27eddc"
+    },
+    {
+      "from": "images/raw/杜薩2.webp",
+      "to": "docs/art-style/references/characters/杜薩2.webp",
+      "bytes": 111534,
+      "sha256": "025dcfdce6b7723d9956dd054437b559a7b5865d722f01e39a9570b8bb98f3c6"
+    },
+    {
+      "from": "images/raw/格瑞娜.jpg",
+      "to": "docs/art-style/references/characters/格瑞娜.jpg",
+      "bytes": 51044,
+      "sha256": "b5b11e6e025fc1303490375798bbb0497ffa1e428b6fcd177a31484a7e762b63"
+    },
+    {
+      "from": "images/raw/樂娜.jpg",
+      "to": "docs/art-style/references/characters/樂娜.jpg",
+      "bytes": 46653,
+      "sha256": "8043676675ff899ab6ad927fefdf41da4437e7760dfb791ccf662912e73ba218"
+    },
+    {
+      "from": "images/raw/樂娜2.jpg",
+      "to": "docs/art-style/references/characters/樂娜2.jpg",
+      "bytes": 104632,
+      "sha256": "396b18f1b2bfaa10b1cc1cbba9d7eb792941f143232b104e4e1de53045086f89"
+    },
+    {
+      "from": "images/raw/洛米.webp",
+      "to": "docs/art-style/references/characters/洛米.webp",
+      "bytes": 66832,
+      "sha256": "7ea9dd9d2427104e729a7a8f0818810d58762f5bd806461cb778a2d3030c2dc4"
+    },
+    {
+      "from": "images/raw/玫可可.webp",
+      "to": "docs/art-style/references/characters/玫可可.webp",
+      "bytes": 92940,
+      "sha256": "d9f31712329bb34bbc661903e0d72b8ddb725c11d33f2b934efff4d2b0db8f49"
+    },
+    {
+      "from": "images/raw/珂漫.webp",
+      "to": "docs/art-style/references/characters/珂漫.webp",
+      "bytes": 35318,
+      "sha256": "9bcf22e2e46ba46ee8f1cb3e73088deceff7ba49158874a652b59f58cd5b209e"
+    },
+    {
+      "from": "images/raw/珍妮.jpg",
+      "to": "docs/art-style/references/characters/珍妮.jpg",
+      "bytes": 127868,
+      "sha256": "0be33c97fc27d62c63aff079a67e0d1a7da0811c4113dacc864248182f0a2fa0"
+    },
+    {
+      "from": "images/raw/珍妮2.jpg",
+      "to": "docs/art-style/references/characters/珍妮2.jpg",
+      "bytes": 124930,
+      "sha256": "b61beac6c7f29120dfd437a2d31bad493f8f5bfa08fdad3ed1acc56d99fac599"
+    },
+    {
+      "from": "images/raw/瑪蘿.jpg",
+      "to": "docs/art-style/references/characters/瑪蘿.jpg",
+      "bytes": 58090,
+      "sha256": "53f88d61865094c9fe616465fd667ce00ea648107db83f6c42b219f7ad0b2c91"
+    },
+    {
+      "from": "images/raw/瑪蘿2.jpg",
+      "to": "docs/art-style/references/characters/瑪蘿2.jpg",
+      "bytes": 86982,
+      "sha256": "3436a046c2d9333a2875be3f5958497facadb839a8ce0bd5b32cdb2aad9dbc6a"
+    },
+    {
+      "from": "images/raw/芝潔.webp",
+      "to": "docs/art-style/references/characters/芝潔.webp",
+      "bytes": 71128,
+      "sha256": "776e44fe7f61d26dd242095bb7ad7111fca11c9a30d22f38857694854f03aed5"
+    },
+    {
+      "from": "images/raw/芭朵莉.webp",
+      "to": "docs/art-style/references/characters/芭朵莉.webp",
+      "bytes": 281660,
+      "sha256": "f53d0072c9aae22f43c917c9f7142907df1131920911ded90bb374b98f97408d"
+    },
+    {
+      "from": "images/raw/芭朵莉2.webp",
+      "to": "docs/art-style/references/characters/芭朵莉2.webp",
+      "bytes": 100278,
+      "sha256": "eca1552c4b2a5e365ca138c725ed7a0fa18700752da20399564fd510c2ccbd78"
+    },
+    {
+      "from": "images/raw/莉德.webp",
+      "to": "docs/art-style/references/characters/莉德.webp",
+      "bytes": 96374,
+      "sha256": "1bdf1dbcbeca9c08431813da82741a1b32f183ed85b2db736e5f30d6f418c0a7"
+    },
+    {
+      "from": "images/raw/莉德2.webp",
+      "to": "docs/art-style/references/characters/莉德2.webp",
+      "bytes": 59242,
+      "sha256": "ca16b675dbbc57992537c3b6e65dddb060dd369c867baabf651edfa6d3fce21f"
+    },
+    {
+      "from": "images/raw/華蕊.jpg",
+      "to": "docs/art-style/references/characters/華蕊.jpg",
+      "bytes": 48954,
+      "sha256": "f99cb9ee0c0a10fe6a56fe985cb94c66abd5df32b7c00ef550b79d90769b3cb5"
+    },
+    {
+      "from": "images/raw/華蕊2.jpg",
+      "to": "docs/art-style/references/characters/華蕊2.jpg",
+      "bytes": 108578,
+      "sha256": "ee0cca9976940b7297b7c47dc76e68cc7dfd823e391e9bf971eb461316a7ece0"
+    },
+    {
+      "from": "images/raw/蓓拉綺.webp",
+      "to": "docs/art-style/references/characters/蓓拉綺.webp",
+      "bytes": 81624,
+      "sha256": "79fb5ba0e99411c89fe8be1205483b32ba5dfc2a322986f03fc1f1a6d321d1d2"
+    },
+    {
+      "from": "images/raw/蓓拉綺2.webp",
+      "to": "docs/art-style/references/characters/蓓拉綺2.webp",
+      "bytes": 341388,
+      "sha256": "3e04b5a7286e3aaf1d6edda2b1080ecb99bd25f2fac42d48ab29401bdd2f43c5"
+    },
+    {
+      "from": "images/raw/蘿琳.webp",
+      "to": "docs/art-style/references/characters/蘿琳.webp",
+      "bytes": 313174,
+      "sha256": "a2b1444989226b9554648c5b51e802ff353543665b50f5c504ad6dfe3aa83d03"
+    },
+    {
+      "from": "images/raw/蘿琳2.webp",
+      "to": "docs/art-style/references/characters/蘿琳2.webp",
+      "bytes": 144264,
+      "sha256": "f1d6e88047b8f5b6b7f551a5d5c584d65305e439ed661f3585904adca2f20790"
+    },
+    {
+      "from": "images/raw/辛子.webp",
+      "to": "docs/art-style/references/characters/辛子.webp",
+      "bytes": 140496,
+      "sha256": "5e9b264001b18a7858e367357286df049aef59e86852de4ccd728f384d770f6a"
+    },
+    {
+      "from": "images/raw/辛子2.webp",
+      "to": "docs/art-style/references/characters/辛子2.webp",
+      "bytes": 234484,
+      "sha256": "16b31130c1a20f4aead20e97f0ff4235022623afe7231e38c9a35db4135f1d8f"
+    },
+    {
+      "from": "images/raw/雲.jpg",
+      "to": "docs/art-style/references/characters/雲.jpg",
+      "bytes": 112774,
+      "sha256": "3820906135006a290a8ed62b11b257de4a4df1385d57297bf0c190c7d20469a7"
+    },
+    {
+      "from": "images/raw/雲2.jpg",
+      "to": "docs/art-style/references/characters/雲2.jpg",
+      "bytes": 48018,
+      "sha256": "2a2ae7e023a96d2102985be089e12fc2b23ae456875f88960813be4fcb227988"
+    },
+    {
+      "from": "images/raw/露西亞.webp",
+      "to": "docs/art-style/references/characters/露西亞.webp",
+      "bytes": 47428,
+      "sha256": "c5400f3730ec4bf3a7740a259e83750813654f629cf1c8f1783c5d5190d1ffd3"
+    },
+    {
+      "from": "images/raw/露西亞2.webp",
+      "to": "docs/art-style/references/characters/露西亞2.webp",
+      "bytes": 149116,
+      "sha256": "dace40fd94cacbfc0868c6576295ea2730fb97e7634bad4efec6e5ff99ba79ce"
+    },
+    {
+      "from": "images/raw/青青.jpg",
+      "to": "docs/art-style/references/characters/青青.jpg",
+      "bytes": 54864,
+      "sha256": "645499ec7e9956af6ad5da6270917c2c44e6c919ff0f2bbffb0151e313ba4058"
+    },
+    {
+      "from": "images/raw/青青2.jpg",
+      "to": "docs/art-style/references/characters/青青2.jpg",
+      "bytes": 94354,
+      "sha256": "3ccacf9ec60d8871e87bd57137c553023b589551683ac7a862e7c2c6c9210dea"
+    },
+    {
+      "from": "assets/ui/title-plaque-v2.png",
+      "to": "docs/ui-style/archive/legacy-runtime/title-plaque-v2.png",
+      "bytes": 1589846,
+      "sha256": "8c7ac51d354f4681c436409d5dda5adecf20c145cdc15a948e64950f0169e8fe"
+    },
+    {
+      "from": "assets/ui/capsule-button-v2.png",
+      "to": "docs/ui-style/archive/legacy-runtime/capsule-button-v2.png",
+      "bytes": 1715769,
+      "sha256": "8680e0f72f4d576da56d33ffad235ba12851365dd10bd7dadaea082a7e8e4f6f"
+    },
+    {
+      "from": "assets/ui/battle-board/slate-ten-slots.png",
+      "to": "docs/ui-style/archive/legacy-runtime/slate-ten-slots.png",
+      "bytes": 753359,
+      "sha256": "a42574e167bbe1561de2c03bf81439ad0b87ac2b3904960ca7681b7e736c253c"
+    },
+    {
+      "from": "assets/ui/map/v1/standees/battle.png",
+      "to": "docs/ui-style/archive/legacy-runtime/map-standees-v1/battle.png",
+      "bytes": 2160605,
+      "sha256": "b718ff2a5b0a6240ed2840bef8be1a034d002e81a2e004907addcb857efc0a55"
+    },
+    {
+      "from": "assets/ui/map/v1/standees/boss.png",
+      "to": "docs/ui-style/archive/legacy-runtime/map-standees-v1/boss.png",
+      "bytes": 1635258,
+      "sha256": "42b571c4e84dd5faba1ce41c6b152470c54178bcb9c53fedf14ab084323badca"
+    },
+    {
+      "from": "assets/ui/map/v1/standees/camp.png",
+      "to": "docs/ui-style/archive/legacy-runtime/map-standees-v1/camp.png",
+      "bytes": 1790879,
+      "sha256": "7c92cda12faa54b7d82b14a9164e82116bbee944ddb0a626edf5dd7d76391450"
+    },
+    {
+      "from": "assets/ui/map/v1/standees/elite.png",
+      "to": "docs/ui-style/archive/legacy-runtime/map-standees-v1/elite.png",
+      "bytes": 1719397,
+      "sha256": "db50b3cff59627452f48f73f676bf379a74669e60e36aae158435e94ea977fa8"
+    },
+    {
+      "from": "assets/ui/map/v1/standees/shop.png",
+      "to": "docs/ui-style/archive/legacy-runtime/map-standees-v1/shop.png",
+      "bytes": 1799930,
+      "sha256": "2af6f2fa1fcb6e9e66eee0981a1449c82f01bb327a4455ad4fbda0a3ad81b55f"
+    },
+    {
+      "from": "assets/ui/battle/v1/battle-background-7.png",
+      "to": "docs/ui-style/archive/legacy-runtime/battle-background-7.png",
+      "bytes": 2884543,
+      "sha256": "5f13e2d4186e94a3f655a114f5bcb8afa73106a87448d9b404d18936398644d4"
+    },
+    {
+      "from": "assets/ui/capsule-button-v3.png",
+      "to": "assets/ui/common/capsule-button-v3.png",
+      "bytes": 1538340,
+      "sha256": "4c98166e06526d47485ba16c2e1d25fd8ce681bf535dc101fb06f5219c9c18de"
+    },
+    {
+      "from": "assets/ui/detail-border.svg",
+      "to": "assets/ui/common/detail-border.svg",
+      "bytes": 1330,
+      "sha256": "bd9b68708974d601215c452f7f225c0ed6508558d7474a5e50bc143d22e4d9f7"
+    },
+    {
+      "from": "assets/ui/divider-engraved-bluegray-v2.png",
+      "to": "assets/ui/common/divider-engraved-bluegray-v2.png",
+      "bytes": 61334,
+      "sha256": "2cc36ac4aab5896c8153a49eefe705988af99e3bdf7375bd55fa8f1daefcfab9"
+    },
+    {
+      "from": "assets/ui/gear-book.png",
+      "to": "assets/ui/common/gear-book.png",
+      "bytes": 1176409,
+      "sha256": "0eccd0b20d2f7e2bcdfab6f03fd0213184deb72bdd5ab2edd550f502fa77a184"
+    },
+    {
+      "from": "assets/ui/parchment-panel-v2.png",
+      "to": "assets/ui/common/parchment-panel-v2.png",
+      "bytes": 2522110,
+      "sha256": "8deb840e0153a0d9dfbf87040eb9f1830b079c7c598db63ade35362eac875b21"
+    },
+    {
+      "from": "assets/ui/selection-mineral-muted-v2.png",
+      "to": "assets/ui/common/selection-mineral-muted-v2.png",
+      "bytes": 200015,
+      "sha256": "318fe9e9903a0fa6f87bde73cb1414e55d9495b43b9bdd301e1efbd5df76e8a7"
+    },
+    {
+      "from": "assets/ui/title-plaque-v3.png",
+      "to": "assets/ui/common/title-plaque-v3.png",
+      "bytes": 1360030,
+      "sha256": "90d9997d728f3e101d81d867def093e5025b8a6fa3a5625b8a43a2c295b2762f"
+    }
+  ]
+}

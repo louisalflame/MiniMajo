@@ -1,0 +1,23 @@
+/* Approved foreground-free background and continuous ten-slot slate underlay.
+   Buttons, labels, character frames and reward option cards retain their own skin. */
+body.battle-page{
+ min-height:100dvh;
+}
+body.battle-page .battlefield{background:transparent}
+body.battle-page .battlefield::before,body.battle-page .battlefield::after{display:none}
+.units,.expedition-dialog .roster-grid{
+ position:relative;isolation:isolate;
+ /* The grid is the card/drop area. Reserve an outer rim without padding the
+    grid itself, so ten-column drag math and internal seam positions agree. */
+ margin:calc(100% * 32 / 1404);
+ margin-block:max(calc(100% * 32 / 1404),calc(var(--preview-card-height,0px) * 32 / 288),calc(var(--roster-card-height,0px) * 32 / 288));
+ background:transparent;
+}
+.units::before,.expedition-dialog .roster-grid::before{
+ content:"";position:absolute;z-index:-1;pointer-events:none;
+ inset:calc(-100% * 32 / 288) calc(-100% * 32 / 1340);
+ background:transparent url("../assets/ui/battle-board/slate-ten-slots-thin-v2.png") 40.70241656902886% 49.4602422327541% / 99.67096092079044% 134.38971387178557% no-repeat;
+}
+.units>.empty-slot,body .expedition-dialog[data-mode] .roster-grid>.roster-tile.vacant{
+ border:0;background:transparent;box-shadow:none;
+}

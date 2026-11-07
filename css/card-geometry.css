@@ -1,0 +1,12 @@
+/* One slot 134 × 288. Team boards have no gutters; reward options retain
+   their independent 7px reference spacing and established card proportions. */
+:root{--card-reference-width:134;--card-reference-height:288;--card-reference-gap:7;--card-board-width:1403}
+.units,.roster-grid{container-type:inline-size;column-gap:calc(100% * var(--card-reference-gap) / var(--card-board-width))}
+.units,.expedition-dialog .roster-grid{--card-reference-gap:0;--card-board-width:1340;gap:0}
+.units{height:auto;grid-template-rows:auto}
+.units>.unit,.units>.empty-slot{height:var(--preview-card-height,calc(100cqi * var(--card-reference-height) / var(--card-board-width)));min-height:0;max-height:none}
+.expedition-dialog[data-mode] .roster-grid>.roster-tile{height:var(--roster-card-height,calc(100cqi * var(--card-reference-height) / var(--card-board-width)));min-height:0}
+body dialog.ui-panel#journey-reward button.reward-card{
+ aspect-ratio:calc((var(--reward-space,1) * (var(--card-reference-width) + var(--card-reference-gap)) - var(--card-reference-gap)) / var(--card-reference-height));
+ height:auto;min-height:0;box-sizing:border-box;
+}

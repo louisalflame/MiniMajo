@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-07",
+  "retainedStyleReferences": 3,
+  "retainedToolSourceImages": 20,
+  "retainedSourceJSON": 4,
+  "removedPreviewPages": 2,
+  "retiredPreviewBrowserScripts": 12,
+  "backup": ".local-archives/development-docs-before-prune-2026-11-07.zip",
+  "fixedJSONWasNotWritten": true,
+  "currentDataVerification": "b3face65fee3d135159db3a083a65462e0ca4dd582b7d14bf694d297e9a6c101",
+  "before": {
+    "files": 2005,
+    "MiB": 1685.5,
+    "images": 1262
+  },
+  "after": {
+    "files": 45,
+    "MiB": 21.8,
+    "images": 23,
+    "htmlFiles": 0
+  },
+  "validation": {
+    "nodeTests": 469,
+    "passed": 469,
+    "browserProductionPages": 4,
+    "decodedFormalImages": 186,
+    "cardLayoutScenarios": 24,
+    "cards": 72,
+    "fileMasks": true,
+    "regeneratedImagesPixelMatched": 40,
+    "retainedSourceHashesVerified": 24,
+    "cssMetadataGenerators": 3,
+    "manualFullJourney": false
+  }
+}

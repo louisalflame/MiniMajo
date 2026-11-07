@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d0c15"><title>MiniMajo · 月蝕聖所</title>
+<link rel="stylesheet" href="css/battle.css">
+<script src="js/dialog-dismiss.js" defer></script><script src="js/storage.js" defer></script><script src="js/saved-data.js?v=20261106-volume" defer></script><script src="js/config.js?v=20261106-volume" defer></script><script src="js/statuses.js?v=20261106-status-art" defer></script><script src="js/effects.js" defer></script><script src="js/status-loader.js" defer></script><script src="js/enums.js" defer></script><script src="js/character-art.js" defer></script><script src="js/ui-icons.js?v=20261107-status-imagepath" defer></script><script src="js/character-details.js?v=20261106-status-icons" defer></script><script src="js/database.js" defer></script><script src="js/laws.js?v=20261104-ultimate" defer></script><script src="js/skills.js?v=20261104-ultimate" defer></script><script src="js/battle.js" defer></script><script src="js/reward-mask-data.js?v=20261030-posture-b" defer></script><script src="js/character-card-skin.js?v=20261030-posture-b" defer></script><script src="js/battle-audio.js?v=20261106-volume" defer></script><script src="js/game.js?v=20261106-status-bounds" defer></script>
+<link rel="stylesheet" href="css/character-art.css"><link rel="stylesheet" href="css/character-details.css?v=20261106-status-icons"><link rel="stylesheet" href="css/battle-cards.css?v=20261106-support-cues"><link rel="stylesheet" href="css/card-geometry.css?v=20261030-no-gap"><link rel="stylesheet" href="css/character-card-skin.css?v=20261106-status-bounds"><link rel="stylesheet" href="css/battle-board.css?v=20261101-thin-slate"><link rel="stylesheet" href="css/gear-button.css"><link rel="stylesheet" href="css/scene-layout.css?v=20261031-law-stacked"><link rel="stylesheet" href="css/battle-art.css?v=20261106-result-title-only"><link rel="stylesheet" href="css/ui-panels.css"><link rel="stylesheet" href="css/ui-raster-dialogs.css"><link rel="stylesheet" href="css/scene-help.css"><script src="js/scene-help.js?v=20261103-backdrop" defer></script></head>
+<body class="battle-page">
+<header class="game-header"><a href="index.html" class="back">‹ <span>返回首頁</span></a><a class="brand" href="index.html">☽ <span>MiniMajo</span></a><span class="build">戰鬥場景 · 第三版</span></header>
+<main class="game-shell">
+<section class="battlefield" aria-labelledby="stage-name">
+<div class="stage-heading"><div><p class="eyebrow">CHAPTER I / THE ECLIPSED SANCTUM</p><h1 id="stage-name">月蝕聖所</h1><p class="stage-subtitle">十格陣列，容納不同體型的契約者。</p></div><button id="battle-sound" type="button" aria-pressed="true" aria-label="音效已開啟，點擊靜音" title="切換戰鬥音效"><span class="battle-button-skin" aria-hidden="true"><i></i><i></i><i></i></span><span id="battle-sound-label">音效</span></button><div class="system-controls"><div class="battle-actions" id="battle-actions"><button id="play" class="primary">開始戰鬥 <span aria-hidden="true">▷</span></button><div class="minor-actions"><button id="speed" aria-label="切換戰鬥速度，目前 1 倍"><span class="battle-button-skin" aria-hidden="true"><i></i><i></i><i></i></span><span id="speed-label">1× »</span></button><button id="auto-cast" type="button" aria-pressed="false" aria-label="極式模式：手動，點擊切換為自動" title="切換極式手動／自動施放"><span class="battle-button-skin" aria-hidden="true"><i></i><i></i><i></i></span><span id="auto-cast-label">手動</span></button><button id="battle-help-open" type="button" data-scene-help aria-label="戰鬥說明" title="戰鬥說明" aria-controls="battle-help-dialog" aria-expanded="false"><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="11"/><path d="M10.5 10a3.6 3.6 0 1 1 5.8 2.9c-1.9 1-2.3 1.7-2.3 3.6M14 20v.2"/></svg></button><button id="battle-gear" type="button" class="gear-icon-button" aria-label="整備隊伍" title="整備隊伍" hidden><span class="battle-button-skin" aria-hidden="true"><i></i><i></i><i></i></span><span class="battle-book" aria-hidden="true"></span><span>整備</span></button><button id="battle-stats" hidden aria-pressed="false"><span class="battle-button-skin" aria-hidden="true"><i></i><i></i><i></i></span><span id="battle-stats-label">戰鬥統計</span></button><button id="reset">重新試煉</button></div></div><div class="clock"><span>試煉時限</span><strong id="timer">02:00</strong><span id="phase">等待開戰</span></div></div></div>
+<p id="battle-stats-note" class="stats-note" hidden></p><div class="arena-scroll" tabindex="0" role="region" aria-label="雙方十格陣容，小螢幕可左右捲動"><div class="arena">
+<div class="formation enemy-formation"><div class="side-label"><span class="side-dot"></span> 敵方 <span>THE HOLLOW</span><small id="enemy-count">6 人 · 9 / 10 格</small></div><div class="slot-ruler" aria-hidden="true"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span></div><div class="units" id="enemy-units" aria-label="敵方站位"></div></div>
+<div class="versus" aria-hidden="true"><span></span><b>✧</b><span></span></div>
+<div class="formation ally-formation"><div class="slot-ruler" aria-hidden="true"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span></div><div class="units" id="ally-units" aria-label="我方站位"></div><div class="side-label"><span class="side-dot"></span> 我方 <span>THE COVEN</span><small id="ally-count">6 人 · 9 / 10 格</small></div></div>
+</div></div>
+<section id="battle-bottom-controls" class="combat-skill" aria-label="我方極式">
+<p class="inspect-hint">點選角色查看能力 <span>· 查看時暫停戰鬥</span></p>
+<div class="skill-control" id="skill-control">
+<div class="skill-copy"><p class="eyebrow">我方契約 / ACTIVE SKILL</p><h2 id="skill-name">月蝕之契</h2><small id="cast-state">開戰後可施放</small></div>
+<span id="cast-hover" class="cast-hover" tabindex="0" aria-label="查看極式" aria-describedby="skill-tooltip"><button id="cast" class="skill-orb" aria-label="施放月蝕之契" disabled><span id="skill-art-fallback" aria-hidden="true">✧</span><img id="skill-art" alt="" hidden><span class="sr-only" id="cast-label">施放契約</span><svg viewBox="0 0 80 80" aria-hidden="true"><circle class="ring-base" cx="40" cy="40" r="31"/><circle id="skill-progress" cx="40" cy="40" r="31" pathLength="100"/></svg></button></span>
+<button id="skill-help" class="skill-help" aria-label="查看極式說明" aria-controls="skill-tooltip" aria-expanded="false">?</button>
+<div id="skill-tooltip" class="skill-tooltip" role="tooltip" hidden><strong id="skill-tooltip-title">月蝕之契 · 冷卻 8 秒</strong><p id="skill-description"></p><small>由最左側存活角色施放；各效果依各自射程判定，超出射程會略過攻擊並消耗冷卻。</small></div>
+</div></section>
+<div id="battle-start-dock"></div><div class="stage-bottom"><span>Ⅰ — MOONBOUND</span><p id="battle-message" role="status">契約已締結。準備迎戰。</p><span>每方 10 格 / 圖片槽預覽</span></div>
+</section>
+
+<section class="battle-notes"><p><span>✦</span> 角色自動行動 · 手動施放極式 · 失衡滿值觸發倒地</p><details><summary>戰鬥紀錄</summary><ol id="log"></ol></details></section>
+<footer>VISUAL STUDY 03 <span>圖片槽預覽 · 1–3 格角色，多格佔位與移動試打</span></footer>
+</main>
+<dialog id="character-detail" class="character-detail" tabindex="-1" aria-labelledby="detail-name" hidden>
+
+<h2 class="detail-dialog-title">角色詳情</h2>
+<div class="detail-layout"><figure class="detail-card"><div id="detail-art"></div><figcaption class="detail-nameplate"><span id="detail-name"></span><span id="detail-stars"></span></figcaption></figure><div class="detail-content" tabindex="0" role="region" aria-label="角色能力、行動效果、狀態與法則">
+<section class="detail-basic-section"><h3>基本能力</h3><dl id="detail-stats" class="detail-stats"></dl></section><section class="detail-effects-section"><h3>行動效果</h3><ul id="detail-effects"></ul></section>
+<section id="detail-state-section" hidden><h3>目前狀態</h3><ul id="detail-statuses"></ul></section>
+<section id="detail-law-section" hidden><h3>法則</h3><ul id="detail-laws"></ul></section></div></div></dialog>
+<noscript>此戰鬥畫面需要啟用 JavaScript。</noscript>
+<dialog id="battle-help-dialog" class="ui-panel reward-dialog scene-help-dialog" tabindex="-1" aria-labelledby="battle-help-title">
+<h2 id="battle-help-title" class="ui-panel-title">戰鬥說明</h2><div class="ui-panel-body" tabindex="0">
+<section><h3>開戰與速率</h3><p>開戰前可用整備調整隊伍（旅程戰鬥）。開戰後角色會自動行動。按開始戰鬥的按鈕可暫停或繼續，速率按鈕可在 1 倍與 2 倍之間切換。</p></section>
+<section><h3>極式與角色詳情</h3><p>極式圓框的進度填滿後，點擊即可施放已裝備的極式。點選角色可查看能力、狀態和法則。查看角色或開啟本說明時會暫停戰鬥，關閉後可手動繼續。</p></section>
+<section><h3>戰鬥結束</h3><p>我方勝利或平手後可查看戰鬥統計。旅程中返回地圖後會依戰鬥結果結算。</p></section>
+</div></dialog>
+<div id="battle-overtime" aria-hidden="true" hidden><div class="overtime-vignette"></div><div id="overtime-entry"></div><div id="overtime-pulse"></div><div id="overtime-title"><span>侵蝕加劇</span></div></div>
+<dialog id="battle-result" class="battle-result" aria-labelledby="battle-result-title" hidden><button id="battle-result-confirm" type="button"><span class="battle-result-banner"><span id="battle-result-title"></span></span></button></dialog>
+</body></html>

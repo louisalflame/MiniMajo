@@ -1,0 +1,100 @@
+/* Generated alpha borders overlay a window-masked portrait/HUD. Reward scope only. */
+body dialog.ui-panel#journey-reward button.reward-card,
+body dialog.ui-panel#journey-reward button.reward-card:hover{border:0;background:transparent}
+body dialog.ui-panel#journey-reward .reward-card-surface{position:absolute;inset:0;display:block;mask-size:100% 100%;mask-repeat:no-repeat;mask-position:center;mask-mode:luminance;background:#102333;pointer-events:none}
+body dialog.ui-panel#journey-reward .reward-card .roster-art{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+body dialog.ui-panel#journey-reward .reward-card .roster-art .character-image{object-fit:cover;object-position:50% 28%}
+body dialog.ui-panel#journey-reward .reward-card{container-type:inline-size;--star-footprint:var(--reward-space,1)}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-hud{position:absolute;inset:auto 0 0;z-index:2;display:flex;flex-direction:column;gap:8px;box-sizing:border-box;max-width:100%;padding:36px 17px 19px;background:linear-gradient(0deg,#081420fa,#0b1b2ce6 57%,#0b1b2c99 77%,transparent);font-family:"Noto Serif TC","PMingLiU","Songti TC",serif;letter-spacing:0;text-shadow:0 1px 2px #000;pointer-events:none}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-heading{gap:2px;min-height:18px}
+body dialog.ui-panel#journey-reward .reward-card .roster-name{font-size:12px;font-weight:700;line-height:1.5;color:#f3e3c4}
+body dialog.ui-panel#journey-reward .reward-card .roster-stars{display:inline-flex;align-items:center;gap:1px;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+body dialog.ui-panel#journey-reward .reward-symbol{display:inline-flex;align-items:center;justify-content:center;flex:0 0 13px;width:13px;height:15px;color:#ead8b5}
+body dialog.ui-panel#journey-reward .reward-symbol img{display:block;width:100%;height:100%;object-fit:contain}
+body dialog.ui-panel#journey-reward .roster-stars .reward-symbol{flex-basis:10px;width:10px;height:12px}
+body dialog.ui-panel#journey-reward .reward-symbol svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+body dialog.ui-panel#journey-reward .roster-health .reward-symbol{color:#e58f91}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-values{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px;min-height:20px}
+body dialog.ui-panel#journey-reward .reward-card .roster-extra{display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:13px;font-weight:700;line-height:1.5;font-variant-numeric:tabular-nums;color:#f3e3c4}
+body dialog.ui-panel#journey-reward .roster-card-values .reward-symbol{flex-basis:16px;width:16px;height:18px}
+body dialog.ui-panel#journey-reward .reward-card .roster-extra::before{content:none}
+body dialog.ui-panel#journey-reward .reward-card-frame{position:absolute;inset:0;z-index:3;display:block;width:100%;height:100%;max-width:none;object-fit:fill;pointer-events:none}
+body dialog.ui-panel#journey-reward .reward-card:hover .reward-card-frame{filter:brightness(1.12)}
+/* Grow the typography with usable card width, including a wide card wrapped on mobile. */
+@container (min-width:180px){
+ body dialog.ui-panel#journey-reward .reward-card .roster-card-hud{padding-inline:20px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-card-heading{gap:4px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-name{font-size:14px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-stars{font-size:13px;gap:3px}
+ body dialog.ui-panel#journey-reward .reward-symbol{flex-basis:16px;width:16px;height:18px}
+ body dialog.ui-panel#journey-reward .roster-stars .reward-symbol{flex-basis:12px;width:12px;height:14px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-extra{font-size:15px;gap:6px}
+ body dialog.ui-panel#journey-reward .roster-card-values .reward-symbol{flex-basis:19px;width:19px;height:21px}
+}
+/* Selection marker geometry is owned by ui-raster-dialogs.css. */
+/* Actual star count, vertical in the upper right; no space reserved in the name row. */
+body dialog.ui-panel#journey-reward [data-star-layout=pending]>.card-star-column{visibility:hidden}
+body dialog.ui-panel#journey-reward .reward-card>.roster-stars.card-star-column{position:absolute;top:var(--card-star-top,clamp(18px,calc(15cqi / var(--star-footprint,1)),30px));right:var(--card-star-right,clamp(8px,7cqi,18px));z-index:4;display:flex;flex-direction:column;align-items:center;align-self:auto;gap:var(--card-star-gap,1px);padding:0;margin:0;border:0;pointer-events:none;filter:drop-shadow(0 1px 2px #000d)}
+body dialog.ui-panel#journey-reward .reward-card>.roster-stars.card-star-column>.reward-symbol{display:block;flex:none;width:var(--card-star-size,clamp(4px,calc(8cqi / var(--star-footprint,1)),14px));height:var(--card-star-size,clamp(4px,calc(8cqi / var(--star-footprint,1)),14px));padding:0;border:0}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-heading{padding-right:var(--card-star-clearance,calc(clamp(4px,calc(8cqi / var(--star-footprint,1)),14px) + 3px))}
+
+/* Shared approved reward layout: same heading and separators in play and preview. */
+body dialog.ui-panel#journey-reward .reward-card .roster-card-hud{
+ gap:12px;background:linear-gradient(0deg,#07151ff7,#0a1a26eb 54%,#0a1a2699 77%,transparent);
+}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-heading{position:relative;gap:2px}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-heading::after{
+ content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;
+ background:linear-gradient(90deg,#dac49c99 calc(50% - 5px),transparent calc(50% - 5px),transparent calc(50% + 5px),#dac49c99 calc(50% + 5px));
+ pointer-events:none;
+}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-heading::before{
+ content:"";position:absolute;left:50%;bottom:-8px;width:4px;height:4px;box-sizing:border-box;
+ border:1px solid #e2cba4;transform:translateX(-50%) rotate(45deg);pointer-events:none;
+}
+body dialog.ui-panel#journey-reward .reward-card .roster-name{font-size:11px;text-align:center}
+body dialog.ui-panel#journey-reward .reward-card .reward-symbol{flex-basis:12px;width:12px;height:15px}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-heading>.reward-symbol:first-child{
+ box-sizing:content-box;padding-right:3px;border-right:1px solid #dac49c80;
+}
+body dialog.ui-panel#journey-reward .reward-card .roster-stars{
+ align-self:stretch;border-left:1px solid #dac49c80;padding-left:3px;font-size:10px;
+}
+body dialog.ui-panel#journey-reward .reward-card .roster-stars .reward-symbol{flex-basis:9px;width:9px;height:12px}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-values{position:relative;gap:10px}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-values::after{
+ content:"";position:absolute;left:50%;top:1px;bottom:1px;width:1px;background:#dac49c80;pointer-events:none;
+}
+body dialog.ui-panel#journey-reward .reward-card .roster-extra{justify-content:center;gap:3px}
+body dialog.ui-panel#journey-reward .reward-card .roster-card-values .reward-symbol{flex-basis:16px;width:16px;height:18px}
+/* Health now uses the selected yellow droplet PNG, like the other card icons. */
+@container (min-width:180px){
+ body dialog.ui-panel#journey-reward .reward-card .roster-card-heading{gap:6px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-name{font-size:14px}
+ body dialog.ui-panel#journey-reward .reward-card .reward-symbol{flex-basis:16px;width:16px;height:18px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-card-heading>.reward-symbol:first-child{padding-right:6px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-stars{padding-left:6px;font-size:13px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-stars .reward-symbol{flex-basis:12px;width:12px;height:14px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-extra{gap:7px}
+ body dialog.ui-panel#journey-reward .reward-card .roster-card-values .reward-symbol{flex-basis:20px;width:20px;height:22px}
+}
+
+/* Approved icon palette, shared by actual rewards and preview. PNG alpha owns the shape. */
+body dialog.ui-panel#journey-reward .roster-card-hud{--card-icon-size:12px;--card-icon-height:15px}
+body dialog.ui-panel#journey-reward .reward-card .reward-symbol[data-card-icon]{
+ position:relative;flex-basis:var(--card-icon-size);width:var(--card-icon-size);height:var(--card-icon-height);
+ --card-icon-color:#d8c4a1;
+}
+body dialog.ui-panel#journey-reward .reward-symbol[data-card-icon] img{opacity:0}
+body dialog.ui-panel#journey-reward .reward-symbol[data-card-icon]::before{
+ content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+ width:var(--card-icon-size);height:var(--card-icon-height);background:var(--card-icon-color);
+ mask-image:var(--card-icon-mask);mask-size:contain;mask-repeat:no-repeat;mask-position:center;mask-mode:alpha;
+ pointer-events:none;
+}
+body dialog.ui-panel#journey-reward .reward-card .reward-symbol[data-card-icon=health]{--card-icon-color:#c78f82}
+body dialog.ui-panel#journey-reward .reward-card .reward-symbol[data-card-icon=attack]{--card-icon-color:#83a9b9}
+@container (min-width:180px){
+ body dialog.ui-panel#journey-reward .roster-card-hud{--card-icon-size:16px;--card-icon-height:18px}
+}
+

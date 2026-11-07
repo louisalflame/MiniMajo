@@ -1,0 +1,76 @@
+{
+  "status": "split candidates awaiting review; no production application",
+  "method": "Original generated PNG bytes, no crop/repaint/resize. CSS uses measured artwork bounds.",
+  "files": [
+    {
+      "file": "sidebar-panel.png",
+      "width": 793,
+      "height": 1983,
+      "bounds": [
+        131,
+        54,
+        663,
+        1931
+      ],
+      "transparentPixels": 594026,
+      "opaquePixels": 2102,
+      "sha256": "1cec80c9fbab6c4ab1e439e18ab9db8e41115f55d05bd380e9c4feda2fb28e71"
+    },
+    {
+      "file": "button-paper.png",
+      "width": 2098,
+      "height": 749,
+      "bounds": [
+        99,
+        208,
+        2000,
+        542
+      ],
+      "transparentPixels": 938504,
+      "opaquePixels": 67,
+      "sha256": "92063f1703ed470891cb93b932870e5ca1199b447715b65b27dcda7688fd4c17"
+    },
+    {
+      "file": "button-navy.png",
+      "width": 1983,
+      "height": 793,
+      "bounds": [
+        73,
+        257,
+        1907,
+        531
+      ],
+      "transparentPixels": 1069243,
+      "opaquePixels": 211,
+      "sha256": "09aef211d5b113c2eb85b1c75bf4f351726c2c6798ca7dd1786b2ed18afb589a"
+    },
+    {
+      "file": "exit-button.png",
+      "width": 1278,
+      "height": 1230,
+      "bounds": [
+        289,
+        270,
+        988,
+        944
+      ],
+      "transparentPixels": 1108830,
+      "opaquePixels": 52,
+      "sha256": "c3b2f2890f9b9fd5f3819f12e2aed12932920a6f38929566612a6f80f03d3430"
+    },
+    {
+      "file": "currency-crystal.png",
+      "width": 1310,
+      "height": 1200,
+      "bounds": [
+        480,
+        227,
+        827,
+        945
+      ],
+      "transparentPixels": 1383757,
+      "opaquePixels": 490,
+      "sha256": "038e0be8d43985abd445e3ce10848c43b00db18aea1d2776f8118cb58b0423fc"
+    }
+  ]
+}

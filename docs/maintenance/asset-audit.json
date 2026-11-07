@@ -1,0 +1,36 @@
+{
+  "note": "Exact duplicate images often intentionally preserve adopted sources. Historical JSON records retain their original paths; consult cleanup move maps. No automatic deletion.",
+  "totals": {
+    "(root)": {
+      "files": 10,
+      "bytes": 648897
+    },
+    "assets": {
+      "files": 191,
+      "bytes": 279297609
+    },
+    "css": {
+      "files": 25,
+      "bytes": 220992
+    },
+    "docs": {
+      "files": 45,
+      "bytes": 22834101
+    },
+    "js": {
+      "files": 50,
+      "bytes": 696586
+    },
+    "tests": {
+      "files": 100,
+      "bytes": 651715
+    },
+    "tools": {
+      "files": 9,
+      "bytes": 47461
+    }
+  },
+  "mediaFiles": 209,
+  "duplicateGroups": [],
+  "missing": []
+}
