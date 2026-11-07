@@ -4,7 +4,11 @@ html[data-assets-loading] body>*:not(#asset-loading):not(script){visibility:hidd
 #asset-loading[hidden]{display:none!important}
 #asset-loading{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 40%,#32263688,transparent 62%),#100e15;color:#ddc9a4;text-align:center;font-family:Georgia,"PMingLiU",serif;visibility:visible}
 .asset-loading-panel{width:min(100%,420px)}
-#asset-loading h1{font-size:27px;font-weight:400;letter-spacing:.18em;margin:0}
+#asset-loading h1{font-size:27px;font-weight:400;letter-spacing:.18em;margin:0;animation:loading-breathe 1.8s ease-in-out infinite}
+#asset-loading-progress{width:min(100%,280px);height:5px;margin:28px auto 0;border:1px solid #9e826159;background:#ffffff06;overflow:hidden;border-radius:3px;--progress:0}
+#asset-loading-progress>span{display:block;height:100%;background:linear-gradient(90deg,#867153,#ddc9a4);transform:scaleX(var(--progress));transform-origin:left;transition:transform .18s ease-out}
+@keyframes loading-breathe{0%,100%{opacity:.45}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){#asset-loading h1{animation:none}#asset-loading-progress>span{transition:none}}
 #asset-loading-status{font-size:15px;line-height:1.8;color:#c0b5c1;margin:24px 0 16px}
 #asset-loading-retry{padding:9px 22px;border:1px solid #9e8261;background:#221b27;color:#ddc9a4;font:inherit;cursor:pointer}
 #asset-loading-retry:focus-visible{outline:2px solid #ddc9a4;outline-offset:5px}

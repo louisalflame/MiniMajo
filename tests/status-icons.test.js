@@ -20,6 +20,7 @@ test('imagePath is the only artwork source: changes are honored and blank/broken
  const before=Statuses.snapshot();try{
   const lib=Statuses.snapshot();lib.statuses.find(s=>s.id==='power').imagePath='images/statuses/custom.png';Statuses.configure(lib);
   const host=Icons.createStatus(document,'power','強化'),img=host.children[0];assert.equal(img.src,'images/statuses/custom.png');assert.equal(host.attributes['aria-label'],'強化');
+  assert.equal(img.hidden,true);assert.equal(host.children[1].className,'ui-icon');img.onload();assert.equal(img.hidden,false);assert.equal(host.children[1].hidden,true);
   img.onerror();assert.equal(host.children[0].className,'ui-icon');assert.ok(host.children[0].innerHTML.includes('<svg'));assert.equal(host.children[0].children.length,0);
   lib.statuses.find(s=>s.id==='power').imagePath='assets/ui/status-icons/v1/regen.png';Statuses.configure(lib);assert.equal(Icons.createStatus(document,'power').children[0].src,'assets/ui/status-icons/v1/regen.png');
   lib.statuses.find(s=>s.id==='power').imagePath='';Statuses.configure(lib);const blank=Icons.createStatus(document,'power');assert.equal(blank.className,'ui-icon');

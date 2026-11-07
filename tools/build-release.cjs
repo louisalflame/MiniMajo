@@ -48,11 +48,16 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
  }
  function configuredImages(value){if(!value||typeof value!=='object')return;for(const [key,item] of Object.entries(value)){if(['imageFile','detailImageFile','imagePath'].includes(key)&&typeof item==='string'&&item.trim())reference('index.html',key==='imagePath'?item:'assets/characters/'+item);if(item&&typeof item==='object')configuredImages(item);}}
  configuredImages(file.data);
+ const images=[...files.keys()].filter(name=>/\.(png|jpe?g|webp|svg|gif|avif)$/i.test(name)).sort();
+ const deferred=new Set(images.filter(name=>/^assets\/(?:characters\/|ui\/(?:status-icons|law-icons|ultimate-icons)\/)/.test(name)));
+ // Editable artwork follows its data field, even if it lives outside the usual folders.
+ for(const library of [file.data.statuses.statuses,file.data.laws.laws,file.data.skills.skills])for(const entry of library)if(entry.imagePath)deferred.add(entry.imagePath);
+ const criticalImages=images.filter(name=>!deferred.has(name)),backgroundImages=images.filter(name=>deferred.has(name));
  const digest=crypto.createHash('sha256').update(JSON.stringify(file));
+ digest.update(JSON.stringify({criticalImages,backgroundImages}));
  for(const [name,bytes] of [...files].sort(([a],[b])=>a.localeCompare(b)))digest.update(name).update(bytes);
  const version=digest.digest('hex').slice(0,20),dataName='data/game-'+version+'.js';
- const images=[...files.keys()].filter(name=>/\.(png|jpe?g|webp|svg|gif|avif)$/i.test(name)).sort();
- files.set(dataName,Buffer.from('globalThis.MiniMajoRelease='+JSON.stringify({format:'minimajo-public',version,rulesVersion:2,images,file}).replace(/</g,'\\u003c')+';\n'));
+ files.set(dataName,Buffer.from('globalThis.MiniMajoRelease='+JSON.stringify({format:'minimajo-public',version,rulesVersion:2,images,criticalImages,backgroundImages,file}).replace(/</g,'\\u003c')+';\n'));
  for(const name of ['play.html','battle.html']){
   let html=files.get(name).toString().replace('<html ','<html data-public-release ');
   html=html.replace('<script src="js/storage.js"',`<script src="${dataName}" defer></script><script src="js/storage.js"`);
@@ -62,7 +67,7 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
     .replace('</head>','<link rel="stylesheet" href="css/asset-loading.css"></head>')
     .replace('<script src="js/public-data.js" defer></script>','<script src="js/public-data.js" defer></script><script src="js/asset-preloader.js" defer></script>')
     .replace(/(<iframe\b[^>]*?)\bsrc=/g,'$1data-src=')
-    .replace(/(<body\b[^>]*>)/,'$1<section id="asset-loading" role="region" aria-labelledby="asset-loading-title" aria-busy="true"><div class="asset-loading-panel"><h1 id="asset-loading-title">Loading</h1><p id="asset-loading-status" role="status" hidden></p><button id="asset-loading-retry" type="button" hidden>重試載入</button></div></section>');
+    .replace(/(<body\b[^>]*>)/,'$1<section id="asset-loading" role="region" aria-labelledby="asset-loading-title" aria-busy="true"><div class="asset-loading-panel"><h1 id="asset-loading-title">Loading</h1><div id="asset-loading-progress" role="progressbar" aria-label="遊戲載入進度" aria-valuemin="0" aria-valuemax="'+criticalImages.length+'" aria-valuenow="0"><span></span></div><p id="asset-loading-status" role="status" hidden></p><button id="asset-loading-retry" type="button" hidden>重試載入</button></div></section>');
   }
   files.set(name,Buffer.from(html));
  }
