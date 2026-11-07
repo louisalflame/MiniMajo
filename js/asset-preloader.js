@@ -15,7 +15,7 @@
   });
  }
  const api={loadImages};if(typeof module!=='undefined')module.exports=api;
- else if(root.document?.documentElement.hasAttribute('data-assets-loading')){
+ else if(!root.MiniMajoViewport?.host&&root.document?.documentElement.hasAttribute('data-assets-loading')){
   const d=root.document,$=id=>d.getElementById(id),panel=$('asset-loading');
   root.MiniMajoAssetsReady=new Promise(resolve=>{
    let pending=root.MiniMajoRelease?.criticalImages??root.MiniMajoRelease?.images,busy=false;

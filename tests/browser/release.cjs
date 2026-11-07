@@ -1,3 +1,4 @@
+const {gamePage}=require('./game-page.cjs');
 // Run against dist with a fresh browser; no editor service or saved browser data.
 const {chromium}=require(process.env.MINIMAJO_PLAYWRIGHT_MODULE||'playwright');
 const fs=require('node:fs'),http=require('node:http'),path=require('node:path'),assert=require('node:assert/strict');
@@ -8,7 +9,7 @@ const server=http.createServer((req,res)=>{try{const name=decodeURIComponent(new
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));let browser;
  try{
   fs.mkdirSync(out,{recursive:true});browser=await chromium.launch({channel:'msedge',headless:true});
-  const context=await browser.newContext({viewport:{width:1366,height:768},reducedMotion:'reduce'}),page=await context.newPage(),errors=[],failed=[];
+  const context=await browser.newContext({viewport:{width:1366,height:768},reducedMotion:'reduce'}),page=gamePage(await context.newPage()),errors=[],failed=[];
   page.setDefaultTimeout(90000);
   page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failed.push(r.url());});
   await page.addInitScript(()=>{
@@ -55,7 +56,7 @@ const server=http.createServer((req,res)=>{try{const name=decodeURIComponent(new
   const frame=page.frameLocator('#journey-frame');await frame.locator('#play').waitFor({state:'visible'});await frame.locator('#play').click();await page.waitForFunction(()=>releaseRun.encounter?.started===true);
   await page.screenshot({path:path.join(out,'battle-desktop.png')});
   await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(out,'battle-mobile.png')});
-  const missing=await context.newPage();await missing.route('**/data/game-*.js',route=>route.abort());await missing.goto(url+'/play.html');await missing.waitForFunction(()=>document.getElementById('journey-message').textContent.includes('無法開始旅程'));
+  const missing=gamePage(await context.newPage());await missing.route('**/data/game-*.js',route=>route.abort());await missing.goto(url+'/play.html');await missing.waitForFunction(()=>document.getElementById('journey-message').textContent.includes('無法開始旅程'));
   assert.match(await missing.locator('#journey-message').textContent(),/公開遊戲設定/);assert.equal(await missing.locator('#journey-gear').isDisabled(),true);
   assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
   console.log('PASS: static release, fresh/old cache isolation, preparation, real battle iframe, desktop/mobile screenshots, missing settings fail closed.');

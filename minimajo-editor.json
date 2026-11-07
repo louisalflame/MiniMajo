@@ -6,9 +6,9 @@
     "config": {
       "version": 1,
       "battleVolume": 80,
-      "downSlowPercent": 20,
-      "shopRerollBase": 10,
-      "shopRerollIncrement": 2,
+      "downSlowPercent": 50,
+      "shopRerollBase": 5,
+      "shopRerollIncrement": 1,
       "battleSeconds": 30,
       "overtimeDamage": 1,
       "overtimeInterval": 5,
@@ -18,9 +18,12 @@
       "bossReward": 0,
       "shopCount": 10,
       "sellPercent": 50,
+      "srExtraStarSellPrice": 5,
+      "ssrExtraStarSellPrice": 15,
+      "urExtraStarSellPrice": 30,
       "postureLimit": 100,
       "posturePercent": 50,
-      "downMultiplier": 1.5,
+      "downMultiplier": 2,
       "overtimePulse": 1,
       "overtimeGrowth": 2,
       "weakDuration": 4,
@@ -2243,7 +2246,7 @@
               ]
             }
           ],
-          "description": "對敵方單體造成0.8倍攻擊力\n使極式前進0.5秒\n\n常式：使用極式後，對隨機敵人造成0.2倍攻擊力傷害，重複3次",
+          "description": "對敵方單體造成0.8倍攻擊力\n使極式前進0.5秒\n\n常式：使用極式後，對隨機敵人造成1倍攻擊力傷害，重複3次",
           "passives": [
             {
               "when": "playerSkill",
@@ -2332,7 +2335,7 @@
                     {
                       "type": "damage",
                       "amount": {
-                        "multiplier": 0.2,
+                        "multiplier": 1,
                         "formula": "0",
                         "constant": 0
                       }
@@ -2485,7 +2488,7 @@
                 },
                 {
                   "type": "status",
-                  "amount": 6,
+                  "amount": 3,
                   "status": "poison",
                   "target": "self",
                   "duration": {
@@ -2496,7 +2499,7 @@
               ]
             }
           ],
-          "description": "對敵方單體造成0.5倍攻擊力與6【中毒】3秒\n\n常式：敵方任意角色倒地時，賦予該目標5【永續中毒】",
+          "description": "對敵方單體造成0.5倍攻擊力與3【中毒】3秒\n\n常式：敵方任意角色倒地時，賦予該目標3【永續中毒】",
           "passives": [
             {
               "when": "down",
@@ -2521,7 +2524,7 @@
                   "actions": [
                     {
                       "type": "status",
-                      "amount": 5,
+                      "amount": 3,
                       "status": "enhancedPoison",
                       "target": "self",
                       "duration": {
@@ -7344,7 +7347,7 @@
               ]
             }
           ],
-          "description": "賦予我方全體人類等同50%最大血量的護盾\n賦予我方全體人類等同20%已損失血量的治療",
+          "description": "賦予我方全體人類等同40%最大血量的護盾\n賦予我方全體人類等同20%已損失血量的治療",
           "imagePath": "assets/ui/ultimate-icons/v1/human2.png",
           "effects": [
             {
@@ -7369,7 +7372,7 @@
                 {
                   "type": "shield",
                   "amount": {
-                    "formula": "target.maxHp*0.5",
+                    "formula": "target.maxHp*0.4",
                     "constant": 0
                   }
                 },
@@ -7544,7 +7547,7 @@
               ]
             }
           ],
-          "description": "賦予我方全體人類等同最大血量的護盾\n賦予我方全體人類等同30%已損失血量的治療",
+          "description": "賦予我方全體人類等同50%最大血量的護盾\n賦予我方全體人類等同30%已損失血量的治療",
           "imagePath": "assets/ui/ultimate-icons/v1/human3.png",
           "effects": [
             {
@@ -7569,7 +7572,7 @@
                 {
                   "type": "shield",
                   "amount": {
-                    "formula": "target.maxHp",
+                    "formula": "target.maxHp*0.5",
                     "constant": 0
                   }
                 },
@@ -7739,7 +7742,7 @@
               ]
             }
           ],
-          "description": "賦予我方最左側物理角色3【永續強化】與【閃避】",
+          "description": "賦予我方最左側物理角色6【永續強化】與【閃避】",
           "imagePath": "assets/ui/ultimate-icons/v1/physic1.png",
           "effects": [
             {
@@ -7763,7 +7766,7 @@
               "actions": [
                 {
                   "type": "status",
-                  "amount": 3,
+                  "amount": 6,
                   "status": "enhancedPower",
                   "target": "self",
                   "duration": {
@@ -7804,7 +7807,7 @@
               ]
             }
           ],
-          "description": "賦予我方最左側物理角色6【永續強化】、【閃避】與【急速】5秒",
+          "description": "賦予我方最左側物理角色15【永續強化】、【閃避】與【急速】5秒",
           "imagePath": "assets/ui/ultimate-icons/v1/physic2.png",
           "effects": [
             {
@@ -7829,7 +7832,7 @@
                 {
                   "type": "status",
                   "amount": {
-                    "formula": "6"
+                    "formula": "15"
                   },
                   "status": "enhancedPower",
                   "target": "self",
@@ -7881,7 +7884,7 @@
               ]
             }
           ],
-          "description": "賦予我方最左側魔法角色2【永續再生】並前進10秒",
+          "description": "賦予我方最左側魔法角色3【永續再生】並前進10秒",
           "imagePath": "assets/ui/ultimate-icons/v1/magic1.png",
           "effects": [
             {
@@ -7905,7 +7908,7 @@
               "actions": [
                 {
                   "type": "status",
-                  "amount": 2,
+                  "amount": 3,
                   "status": "enhancedRegen",
                   "target": "self",
                   "duration": {
@@ -7940,7 +7943,7 @@
               ]
             }
           ],
-          "description": "賦予我方最左側魔法角色4【永續再生】、10【鎮靜】3秒並前進10秒",
+          "description": "賦予我方最左側魔法角色6【永續再生】、10【鎮靜】3秒並前進10秒",
           "imagePath": "assets/ui/ultimate-icons/v1/magic2.png",
           "effects": [
             {
@@ -7964,7 +7967,7 @@
               "actions": [
                 {
                   "type": "status",
-                  "amount": 4,
+                  "amount": 6,
                   "status": "enhancedRegen",
                   "target": "self",
                   "duration": {
@@ -8009,7 +8012,7 @@
               ]
             }
           ],
-          "description": "對我方最左側精神角色賦予3【永續反擊】",
+          "description": "對我方最左側精神角色賦予10【永續反擊】",
           "imagePath": "assets/ui/ultimate-icons/v1/mind1.png",
           "effects": [
             {
@@ -8033,7 +8036,7 @@
               "actions": [
                 {
                   "type": "status",
-                  "amount": 3,
+                  "amount": 10,
                   "status": "status-1793837750192",
                   "target": "self",
                   "duration": {
@@ -8064,7 +8067,7 @@
               ]
             }
           ],
-          "description": "對我方最左側精神角色賦予6【永續反擊】\n對敵方最左側角色賦予10【虛弱】3次",
+          "description": "對我方最左側精神角色賦予30【永續反擊】\n對敵方最左側角色賦予10【虛弱】3次",
           "imagePath": "assets/ui/ultimate-icons/v1/mind2.png",
           "effects": [
             {
@@ -8088,7 +8091,7 @@
               "actions": [
                 {
                   "type": "status",
-                  "amount": 3,
+                  "amount": 30,
                   "status": "status-1793837750192",
                   "target": "self",
                   "duration": {
@@ -8112,7 +8115,7 @@
               "actions": [
                 {
                   "type": "status",
-                  "amount": 10,
+                  "amount": 11,
                   "status": "weakness",
                   "target": "self",
                   "duration": {
@@ -8447,7 +8450,7 @@
           "name": "傷害法則",
           "description": "傷害 + 5",
           "imagePath": "assets/ui/law-icons/v1/01-law.png",
-          "shopPrice": 50,
+          "shopPrice": 20,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -8469,7 +8472,7 @@
           "name": "治癒法則",
           "description": "治療 + 3",
           "imagePath": "assets/ui/law-icons/v1/02-law.png",
-          "shopPrice": 50,
+          "shopPrice": 20,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -8491,7 +8494,7 @@
           "name": "守護法則",
           "description": "護盾 + 4",
           "imagePath": "assets/ui/law-icons/v1/03-law.png",
-          "shopPrice": 50,
+          "shopPrice": 20,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -8513,7 +8516,7 @@
           "name": "急速法則",
           "description": "行動間隔 - 0.5",
           "imagePath": "assets/ui/law-icons/v1/04-law.png",
-          "shopPrice": 100,
+          "shopPrice": 50,
           "shopWeight": 50,
           "stats": {
             "maxHp": 0,
@@ -8557,7 +8560,7 @@
           "name": "均衡法則",
           "description": "血量 + 5；傷害 + 2；治療 + 2；護盾 + 2",
           "imagePath": "assets/ui/law-icons/v1/06-law.png",
-          "shopPrice": 200,
+          "shopPrice": 50,
           "shopWeight": 30,
           "stats": {
             "maxHp": 5,
@@ -8579,7 +8582,7 @@
           "name": "威壓法則",
           "description": "失衡效果 + 5",
           "imagePath": "assets/ui/law-icons/v1/07-law.png",
-          "shopPrice": 100,
+          "shopPrice": 30,
           "shopWeight": 50,
           "stats": {
             "maxHp": 0,
@@ -8601,7 +8604,7 @@
           "name": "矢量法則",
           "description": "攻擊距離 + 1",
           "imagePath": "assets/ui/law-icons/v1/08-law.png",
-          "shopPrice": 200,
+          "shopPrice": 50,
           "shopWeight": 30,
           "stats": {
             "maxHp": 0,
@@ -8623,7 +8626,7 @@
           "name": "空間法則",
           "description": "移動距離 + 1",
           "imagePath": "assets/ui/law-icons/v1/09-law.png",
-          "shopPrice": 50,
+          "shopPrice": 30,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -8645,7 +8648,7 @@
           "name": "甦醒法則",
           "description": "倒地時間 - 0.5",
           "imagePath": "assets/ui/law-icons/v1/10-law.png",
-          "shopPrice": 100,
+          "shopPrice": 30,
           "shopWeight": 50,
           "stats": {
             "maxHp": 0,
@@ -8667,7 +8670,7 @@
           "name": "復仇法則",
           "description": "被攻擊時，前進 0.5 秒",
           "imagePath": "assets/ui/law-icons/v1/11-law.png",
-          "shopPrice": 100,
+          "shopPrice": 30,
           "shopWeight": 50,
           "stats": {
             "maxHp": 0,
@@ -8718,7 +8721,7 @@
           "name": "寧靜法則",
           "description": "我方同伴行動後，失衡值 - 5",
           "imagePath": "assets/ui/law-icons/v1/12-law.png",
-          "shopPrice": 100,
+          "shopPrice": 20,
           "shopWeight": 50,
           "stats": {
             "maxHp": 0,
@@ -8772,7 +8775,7 @@
           "name": "遠攻法則",
           "description": "血量 - 10；傷害 - 5；攻擊距離 + 2",
           "imagePath": "assets/ui/law-icons/v1/13-law.png",
-          "shopPrice": 50,
+          "shopPrice": 20,
           "shopWeight": 100,
           "stats": {
             "maxHp": -10,
@@ -8850,7 +8853,7 @@
           "name": "返控法則",
           "description": "倒地時，賦予對面敵方目標【僵直】3秒",
           "imagePath": "assets/ui/law-icons/v1/15-law.png",
-          "shopPrice": 100,
+          "shopPrice": 30,
           "shopWeight": 50,
           "stats": {
             "maxHp": 0,
@@ -8907,7 +8910,7 @@
           "name": "常返法則",
           "description": "使用極式後，賦予3【永續反擊】",
           "imagePath": "assets/ui/law-icons/v1/16-law.png",
-          "shopPrice": 120,
+          "shopPrice": 30,
           "shopWeight": 40,
           "stats": {
             "maxHp": 0,
@@ -8963,7 +8966,7 @@
           "name": "負生法則",
           "description": "獲得負面狀態後，賦予1【永續再生】",
           "imagePath": "assets/ui/law-icons/v1/17-law.png",
-          "shopPrice": 50,
+          "shopPrice": 20,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -9022,7 +9025,7 @@
           "name": "閃現法則",
           "description": "被攻擊後，與隨機同伴互換位置",
           "imagePath": "assets/ui/law-icons/v1/18-law.png",
-          "shopPrice": 30,
+          "shopPrice": 10,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -9073,7 +9076,7 @@
           "name": "療毒法則",
           "description": "被治療後，賦予對面敵方目標1【永續中毒】",
           "imagePath": "assets/ui/law-icons/v1/19-law.png",
-          "shopPrice": 50,
+          "shopPrice": 30,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -9129,7 +9132,7 @@
           "name": "左進法則",
           "description": "攻擊使敵人倒地後，使左側全體同伴前進1秒",
           "imagePath": "assets/ui/law-icons/v1/20-law.png",
-          "shopPrice": 50,
+          "shopPrice": 30,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -9180,7 +9183,7 @@
           "name": "左閃法則",
           "description": "發動治療後，賦予最左側同伴【閃避】",
           "imagePath": "assets/ui/law-icons/v1/21-law.png",
-          "shopPrice": 200,
+          "shopPrice": 50,
           "shopWeight": 30,
           "stats": {
             "maxHp": 0,
@@ -9238,7 +9241,7 @@
           "name": "左反法則",
           "description": "主動換位置後，賦予左側全體同伴2【永續反擊】",
           "imagePath": "assets/ui/law-icons/v1/22-law.png",
-          "shopPrice": 100,
+          "shopPrice": 30,
           "shopWeight": 50,
           "stats": {
             "maxHp": 0,
@@ -9295,7 +9298,7 @@
           "name": "右靜法則",
           "description": "攻擊後，右側全體同伴失衡值 - 5",
           "imagePath": "assets/ui/law-icons/v1/23-law.png",
-          "shopPrice": 50,
+          "shopPrice": 30,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -9408,7 +9411,7 @@
           "name": "閃虛法則",
           "description": "機人同伴閃避成功後，賦予最左側敵方2【永續虛弱】",
           "imagePath": "assets/ui/law-icons/v1/25-law.png",
-          "shopPrice": 50,
+          "shopPrice": 10,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -9469,7 +9472,7 @@
           "name": "右換法則",
           "description": "血量 + 5；被攻擊後，與我方最右側同伴互換位置，",
           "imagePath": "assets/ui/law-icons/v1/26-law.png",
-          "shopPrice": 50,
+          "shopPrice": 20,
           "shopWeight": 100,
           "stats": {
             "maxHp": 5,
@@ -9520,7 +9523,7 @@
           "name": "互混法則",
           "description": "互換位置後，使對面目標失衡值 + 15",
           "imagePath": "assets/ui/law-icons/v1/27-law.png",
-          "shopPrice": 50,
+          "shopPrice": 20,
           "shopWeight": 100,
           "stats": {
             "maxHp": 5,
@@ -9574,7 +9577,7 @@
           "name": "左換法則",
           "description": "傷害 + 3；被攻擊後；獲得正面狀態後，與我方最左側同伴互換位置",
           "imagePath": "assets/ui/law-icons/v1/28-law.png",
-          "shopPrice": 50,
+          "shopPrice": 30,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -9624,7 +9627,7 @@
           "name": "長時法則",
           "description": "狀態秒數  + 2",
           "imagePath": "assets/ui/law-icons/v1/29-law.png",
-          "shopPrice": 50,
+          "shopPrice": 40,
           "shopWeight": 50,
           "stats": {
             "maxHp": 0,
@@ -9646,7 +9649,7 @@
           "name": "層疊法則",
           "description": "狀態層數 + 1",
           "imagePath": "assets/ui/law-icons/v1/30-law.png",
-          "shopPrice": 150,
+          "shopPrice": 40,
           "shopWeight": 30,
           "stats": {
             "maxHp": 0,
@@ -9668,7 +9671,7 @@
           "name": "混換法則",
           "description": "失衡效果 + 3；攻擊後，與我方血量最低同伴互換位置",
           "imagePath": "assets/ui/law-icons/v1/31-law.png",
-          "shopPrice": 50,
+          "shopPrice": 30,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -9718,7 +9721,7 @@
           "name": "亂時法則",
           "description": "行動間隔 - 0.5；被攻擊後，與隨機我方同伴互換位置",
           "imagePath": "assets/ui/law-icons/v1/32-law.png",
-          "shopPrice": 100,
+          "shopPrice": 50,
           "shopWeight": 100,
           "stats": {
             "maxHp": 0,
@@ -18226,23 +18229,23 @@
       "version": 1,
       "levels": [
         {
-          "SR": 90,
-          "SSR": 10,
+          "SR": 80,
+          "SSR": 20,
           "UR": 0
         },
         {
-          "SR": 70,
-          "SSR": 30,
-          "UR": 0
-        },
-        {
-          "SR": 50,
+          "SR": 60,
           "SSR": 40,
-          "UR": 10
+          "UR": 0
         },
         {
           "SR": 40,
-          "SSR": 45,
+          "SSR": 50,
+          "UR": 10
+        },
+        {
+          "SR": 35,
+          "SSR": 50,
           "UR": 15
         },
         {

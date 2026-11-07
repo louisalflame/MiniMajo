@@ -1,4 +1,4 @@
-document.querySelectorAll('[data-scene-help]').forEach(trigger => {
+if(!globalThis.MiniMajoViewport?.host)document.querySelectorAll('[data-scene-help]').forEach(trigger => {
  const dialog = document.getElementById(trigger.getAttribute('aria-controls'));
  const close = () => { if (dialog.open) dialog.close(); };
 

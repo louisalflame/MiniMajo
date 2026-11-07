@@ -9,7 +9,7 @@ test('economy fields are required, accept zero, reject invalid values',()=>{
 test('shops draw weighted characters with replacement, exclude zero and use configured prices',()=>{
  const s=X.create([actor('never',{shopWeight:0}),actor('a',{shopWeight:1,shopPrice:83}),actor('b',{shopWeight:3,shopPrice:20})],undefined,config());
  const low=X.shop(s,'low',()=>.24),high=X.shop(s,'high',()=>.26);assert.ok(low.filter(Boolean).every(u=>u.id==='a'&&u.price===83));assert.ok(high.filter(Boolean).every(u=>u.id==='b'));assert.equal(low.filter(Boolean).length,8);
- const slot=X.buy(s,'low',0,'reserve',0);assert.equal(s.gold,217);assert.equal(X.sell(s,'reserve',slot),41);assert.equal(s.gold,258);
+ const slot=X.buy(s,'low',0,'reserve',0);assert.equal(s.gold,217);assert.equal(X.sell(s,'reserve',slot),83);assert.equal(s.gold,300);
  const empty=X.create([actor('disabled',{shopWeight:0})],undefined,config());assert.equal(X.shop(empty,'empty').filter(Boolean).length,0);
 });
 test('enemy categories have separate weighted pools and enforce valid references and footprints',()=>{

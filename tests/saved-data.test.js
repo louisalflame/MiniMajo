@@ -12,6 +12,21 @@ test('battle volume defaults per field and preserves a legal zero through config
  const old={...C.defaults};delete old.battleVolume;assert.equal(R.config(old,[]).battleVolume,60);
  const silent=R.config({...C.defaults,battleVolume:0},[]);assert.equal(C.validate(JSON.parse(JSON.stringify(silent))).battleVolume,0);
 });
+
+test('rarity sale bonuses repair per field and preserve zero through reads and full backups',()=>{
+ const keys=['srExtraStarSellPrice','ssrExtraStarSellPrice','urExtraStarSellPrice'];
+ for(const key of keys)for(const invalid of [undefined,null,false,[], '20',NaN,Infinity,-1,.5,1000001]){
+  const source={...C.defaults,startingGold:0,[key]:invalid},before=structuredClone(source),warnings=[];
+  const repaired=R.config(source,warnings);assert.equal(repaired[key],0);assert.equal(repaired.startingGold,0);assert(warnings.some(w=>w.includes('config.'+key)));assert.deepEqual(source,before);
+ }
+ const source=B.collect({getItem:()=>null});const copy=structuredClone(source);
+ for(const key of keys)delete copy.data.config[key];const before=structuredClone(copy),warnings=B.prepare(copy);
+ assert(keys.every(key=>warnings.file.data.config[key]===0));assert.deepEqual(copy,before);assert.equal(warnings.warnings.filter(w=>keys.some(k=>w.includes(k))).length,3);
+ const values={...C.defaults,srExtraStarSellPrice:0,ssrExtraStarSellPrice:40,urExtraStarSellPrice:90};source.data.config=values;
+ assert.deepEqual(B.validate(JSON.parse(JSON.stringify(source))).data.config,values);
+ const storage=new Map();B.restore({getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},source);
+ assert.deepEqual(C.read({getItem:k=>storage.get(k)??null}),values);
+});
 test('corrupt character field keeps valid sibling fields and records',()=>{
  const source=D.validate({version:2,items:D.defaults}),before=structuredClone(source);source.items[0].maxHp='broken';source.items[0].shopWeight=0;source.items[0].effects=[];
  const warnings=[],result=R.characters(source,warnings);assert.equal(result.items[0].maxHp,1);assert.equal(result.items[0].shopWeight,0);assert.deepEqual(result.items[0].effects,[]);assert.equal(result.items[0].name,before.items[0].name);assert.deepEqual(result.items.slice(1),before.items.slice(1));assert.equal(source.items[0].maxHp,'broken');

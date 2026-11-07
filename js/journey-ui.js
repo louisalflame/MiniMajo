@@ -1,4 +1,5 @@
 (() => {
+ if(globalThis.MiniMajoViewport?.host)return;
  function startJourneyUI(){
  'use strict';
  const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
@@ -251,7 +252,7 @@
  });
  $('journey-new').addEventListener('click',()=>{if(!state.complete||rewardUI.pending())return;run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(dataStorage),Laws.read(dataStorage).laws,EchoLevels.read(dataStorage));historyClient=makeHistoryClient();state=run.map;selected=state.current;angle=0;cameraOrigin=JourneyView.world(state.map.cells[state.current]);ExpeditionUI.bind(run.roster);redraw();});
  const requestReady=()=>$('journey-frame').contentWindow.postMessage({type:'minimajo-request-ready'},'*');
- globalThis.addEventListener('resize',()=>redraw());
+ globalThis.addEventListener('resize',()=>{drag=null;redraw();});
  $('journey-frame').addEventListener('load',requestReady);
  requestReady();
  redraw();

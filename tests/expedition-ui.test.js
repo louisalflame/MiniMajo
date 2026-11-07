@@ -54,10 +54,11 @@ test('pointer dragging buys, swaps, sells and cancels without extra transactions
  function drop(source,target,cancel=false){source.handlers.pointerdown(event);d.hit=target;d.handlers.pointermove({...event,clientX:150});d.handlers[cancel?'pointercancel':'pointerup'](event);}
  drop(e.get('roster-top').children[0],e.get('roster-reserve').children[4]);assert.equal(e.get('expedition-gold').textContent,'270 金幣');assert.equal(e.get('roster-reserve-count').textContent,'1 / 10 格');
  const old=e.get('roster-bottom').children[0].getAttribute('aria-label'),incoming=e.get('roster-reserve').children[4].getAttribute('aria-label');drop(e.get('roster-bottom').children[0],e.get('roster-reserve').children[4]);assert.equal(e.get('roster-bottom').children[0].getAttribute('aria-label'),incoming.replace('第 5 格','第 1 格'));assert.equal(e.get('roster-reserve').children[4].getAttribute('aria-label'),old.replace('第 1 格','第 5 格'));
- const sell=e.get('roster-sell-zone');sell.setAttribute('data-drop-area','sell');drop(e.get('roster-reserve').children[4],sell);assert.equal(e.get('expedition-gold').textContent,'285 金幣');assert.equal(e.get('roster-reserve-count').textContent,'0 / 10 格');
- drop(e.get('roster-top').children[1],e.get('roster-bottom').children[0]);assert.equal(e.get('expedition-gold').textContent,'285 金幣');assert.match(e.get('expedition-message').textContent,/返回原位/);
- drop(e.get('roster-top').children[1],e.get('roster-bottom').children[5],true);assert.equal(e.get('expedition-gold').textContent,'285 金幣');
- drop(e.get('roster-top').children[1],null);assert.equal(e.get('expedition-gold').textContent,'285 金幣');
+ const sell=e.get('roster-sell-zone');sell.setAttribute('data-drop-area','sell');drop(e.get('roster-reserve').children[4],sell);assert.equal(e.get('expedition-gold').textContent,'300 金幣');assert.equal(e.get('roster-reserve-count').textContent,'0 / 10 格');
+ const mismatch=state.active.findIndex(u=>u&&u.id!==state.shops.drag[1].id);
+ drop(e.get('roster-top').children[1],e.get('roster-bottom').children.find(el=>Number(el.getAttribute('data-drop-slot'))===mismatch));assert.equal(e.get('expedition-gold').textContent,'300 金幣');assert.match(e.get('expedition-message').textContent,/返回原位/);
+ drop(e.get('roster-top').children[1],e.get('roster-bottom').children[5],true);assert.equal(e.get('expedition-gold').textContent,'300 金幣');
+ drop(e.get('roster-top').children[1],null);assert.equal(e.get('expedition-gold').textContent,'300 金幣');
 });
 test('skill drafts preserve equipment until confirmation, reject stale choices and handle empty lists and missing icons',()=>{
  const {nodes:e,ui}=setup(),state=X.create(D.defaults,S.defaults);ui.bind(state);ui.open('gear');
@@ -115,6 +116,38 @@ test('preparation exposes selling and owned drag targets merge manually in prepa
   d.handlers.pointerup(event);assert.equal(cue.removed,true);
   assert.equal(state.active[0],null);assert.equal(state.active[1].instanceId,targetId);assert.notEqual(state.active[1].instanceId,sourceId);assert.equal(state.active[1].stars,2);assert.match(e.get('expedition-message').textContent,/升至 2 星/);
   const sell=e.get('roster-sell-zone');sell.setAttribute('data-drop-area','sell');drop(e.get('roster-bottom').children[1],sell);assert.equal(state.active[1],null);assert.equal(state.gold,315);
+ }
+});
+
+test('shop drag previews and commits buying plus merging in active and reserve teams on both pages',()=>{
+ for(const page of ['editor.html','play.html'])for(const area of ['active','reserve']){
+  const {nodes:e,ui,document:d}=setup(page),state=X.create(),unit=state.active[0];
+  const target={...structuredClone(unit),instanceId:'merge-target'};state[area][0]=target;
+  state.shops['buy-merge']=[{...structuredClone(target),instanceId:'stock-merge',price:40},...Array(9).fill(null)];
+  ui.bind(state);ui.open('shop','buy-merge');
+  const source=e.get('roster-top').children[0],destination=e.get(area==='active'?'roster-bottom':'roster-reserve').children[0];
+  const event={button:0,pointerId:1,clientX:40,clientY:50,preventDefault(){}};
+  source.handlers.pointerdown(event);d.hit=destination;d.handlers.pointermove({...event,clientX:100});
+  const cue=byClass(e.get('expedition-dialog'),'roster-merge-cue');assert.equal(cue.getAttribute('aria-label'),'放開以購買並合成，1 星升至 2 星');
+  assert.equal(state.gold,300);assert.equal(state[area][0].stars,1);assert(state.shops['buy-merge'][0]);
+  d.handlers.pointerup(event);assert.equal(cue.removed,true);assert.equal(state.gold,260);assert.equal(state[area][0].stars,2);
+  assert.equal(state[area][0].instanceId,'merge-target');assert.equal(state.shops['buy-merge'][0],null);
+ }
+});
+
+test('shop merge drag with insufficient gold or cancellation leaves the whole expedition unchanged',()=>{
+ for(const cancel of [false,true]){
+  const {nodes:e,ui,drop,document:d}=setup(),state=X.create(),unit=state.active[0];
+  state.shops.fail=[{...structuredClone(unit),instanceId:'stock-fail',price:cancel?40:400},...Array(9).fill(null)];ui.bind(state);ui.open('shop','fail');
+  const before=structuredClone(state),source=e.get('roster-top').children[0],target=e.get('roster-bottom').children[0];
+  if(cancel){
+   const event={button:0,pointerId:1,clientX:40,clientY:50,preventDefault(){}};
+   source.handlers.pointerdown(event);d.hit=target;d.handlers.pointermove({...event,clientX:100});
+   const cue=byClass(e.get('expedition-dialog'),'roster-merge-cue');assert.equal(cue.popoverOpen,true);
+   d.handlers.pointercancel(event);assert.equal(cue.removed,true);
+  }
+  else{drop(source,target);assert.match(e.get('expedition-message').textContent,/不足/);}
+  assert.deepEqual(state,before);
  }
 });
 

@@ -47,7 +47,7 @@ body #expedition-dialog[data-mode=gear] #roster-sell-zone{
 }
 body #expedition-dialog[data-mode=gear] #roster-sell-zone::before,
 body #expedition-dialog[data-mode=gear] #roster-sell-zone::after{
- content:"";position:absolute;pointer-events:none;top:0;bottom:0;width:var(--cap-width);
+ content:"";position:absolute;pointer-events:none;top:0;bottom:0;width:calc(var(--cap-width) + 3px);
  background:transparent url("../assets/ui/preparation/v1/sell-zone.png") 1.3031% 50.1099%/calc(var(--art-height) * 2172 / 269) calc(var(--art-height) * 724 / 269) no-repeat;
 }
 body #expedition-dialog[data-mode=gear] #roster-sell-zone::before{left:0}
@@ -109,17 +109,7 @@ body #roster-skill-menu #skill-picker-error:empty{display:none}
 body #roster-skill-menu .skill-picker-actions{display:flex;justify-content:center;gap:12px;flex:none;flex-wrap:wrap}
 body #roster-skill-menu .skill-picker-actions button:disabled{opacity:.4;cursor:not-allowed}
 body #roster-skill-menu :focus-visible{outline:2px solid #955c30;outline-offset:2px}
-/* Keep native scroll behavior while theming both list and description rails. */
-body #roster-skill-menu :is(#roster-skill-options,.skill-selected-details){scrollbar-width:thin;scrollbar-color:#345364 #dbc49a;scrollbar-gutter:stable}
-@supports selector(::-webkit-scrollbar){
- body #roster-skill-menu :is(#roster-skill-options,.skill-selected-details){scrollbar-width:auto;scrollbar-color:auto}
- body #roster-skill-menu :is(#roster-skill-options,.skill-selected-details)::-webkit-scrollbar{width:22px;background:transparent}
- body #roster-skill-menu :is(#roster-skill-options,.skill-selected-details)::-webkit-scrollbar-track{border:0;border-radius:0;box-shadow:none;background:transparent url("../assets/ui/skill-picker/v1/scroll-track.png") center/990% 104% no-repeat}
- body #roster-skill-menu :is(#roster-skill-options,.skill-selected-details)::-webkit-scrollbar-thumb{min-height:48px;border:0;border-radius:0;background:transparent url("../assets/ui/skill-picker/v1/scroll-thumb.png") center/215% 116% no-repeat}
- body #roster-skill-menu :is(#roster-skill-options,.skill-selected-details)::-webkit-scrollbar-thumb:hover{background:transparent url("../assets/ui/skill-picker/v1/scroll-thumb.png") center/215% 116% no-repeat}
- body #roster-skill-menu :is(#roster-skill-options,.skill-selected-details)::-webkit-scrollbar-button{display:none;width:0;height:0}
-}
-@media(forced-colors:active){body #roster-skill-menu :is(#roster-skill-options,.skill-selected-details){scrollbar-color:auto}}
+/* Scroll rails are shared with other game dialogs in ui-scrollbars.css. */
 @media(max-width:650px){
  body dialog#expedition-dialog[data-mode=gear]{width:94vw;padding:38px 17px 16px}
  body #expedition-dialog[data-mode=gear] .roster-row{min-width:720px}

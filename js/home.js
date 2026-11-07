@@ -1,5 +1,6 @@
 (() => {
  'use strict';
+ if(globalThis.MiniMajoViewport?.host)return;
  const start=document.querySelector('a.start'),sigil=document.querySelector('.sigil');
  const curtain=document.getElementById('home-transition');
  if(!start||!sigil||!curtain)return;
