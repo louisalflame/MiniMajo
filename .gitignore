@@ -1,0 +1,38 @@
+# 本機測試輸出與可還原封存；保留暫存目錄說明
+/tmp/*
+!/tmp/README.md
+/.local-archives/
+
+# 產生的發布目錄、Cloudflare 本機狀態與工具依賴
+/dist/
+/.wrangler/
+/node_modules/
+# 本機環境與機密；可提交不含真實機密的範例
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.env
+.env.*
+!.env.example
+
+# 工具日誌與測試報告
+*.log
+/coverage/
+/playwright-report/
+/test-results/
+
+# Python 素材工具快取
+__pycache__/
+*.pyc
+*.pyo
+/.venv/
+
+# 作業系統與編輯器暫存
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+
+# 保留 minimajo-editor.json、assets/、docs/（含候選與來源）、tests/
+# wrangler 設定、資料庫 migration 與套件鎖定檔也應納入版本控制
