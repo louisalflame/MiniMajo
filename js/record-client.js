@@ -53,7 +53,7 @@
   };
  }
  const api={createTransport,create,outboxKey};if(typeof module!=='undefined')module.exports=api;
- else{
+ else if(!root.MiniMajoViewport?.host){
   let storage;try{storage=root.sessionStorage;}catch{}
   const transport=createTransport({fetch:(...args)=>root.fetch(...args),storage});
   root.PlayerRecordClient={create:options=>create({...options,transport})};

@@ -85,10 +85,31 @@ test('exact purchase destinations reject overlaps and boundaries atomically',()=
  assert.throws(()=>X.buy(s,'exact',0,'reserve',8));assert.deepEqual(s,before);
  X.buy(s,'exact',0,'reserve',5);assert.equal(s.reserve[5].id,'wide');assert.equal(s.gold,230);
 });
-test('selling refunds half price once and clears invalid equipped skill',()=>{
+test('selling a one-star SR refunds full price once and clears invalid equipped skill',()=>{
  const s=create([unit('hero',3)],undefined,['hero']);assert.equal(s.skillId,null);X.equip(s,X.eligible(s)[0].id);assert.ok(s.skillId);const gold=s.gold;
- assert.equal(X.sell(s,'active',0),35);assert.equal(s.gold,gold+35);assert.equal(s.active[0],null);assert.equal(s.skillId,null);
+ assert.equal(X.sell(s,'active',0),70);assert.equal(s.gold,gold+70);assert.equal(s.active[0],null);assert.equal(s.skillId,null);
  const before=structuredClone(s);assert.throws(()=>X.sell(s,'active',0));assert.deepEqual(s,before);assert.throws(()=>X.sell(s,'stock',0));assert.deepEqual(s,before);
+});
+
+test('sale value adds rarity bonus per star above one after flooring the base refund',()=>{
+ const config={...C.defaults,sellPercent:33,srExtraStarSellPrice:7,ssrExtraStarSellPrice:13,urExtraStarSellPrice:29};
+ for(const [rarity,bonus] of [['SR',7],['SSR',13],['UR',29]])for(let stars=1;stars<=6;stars++){
+  const actor={...unit('sale'),shopPrice:31,rarity,stars};
+  assert.equal(X.sellValue(actor,config),rarity==='SR'&&stars===1?31:10+(stars-1)*bonus);
+ }
+ assert.equal(X.sellValue({...unit('zero'),shopPrice:0,rarity:'SR',stars:1},config),0);
+ assert.equal(X.sellValue({...unit('zero'),rarity:'UR',stars:6},{...config,sellPercent:0,urExtraStarSellPrice:0}),0);
+ assert.equal(X.sellValue({...unit('maximum'),shopPrice:1000000,rarity:'UR',stars:6},{...config,sellPercent:100,urExtraStarSellPrice:1000000}),6000000);
+});
+
+test('active and reserve sales use the run snapshot, ignore laws and pay only once',()=>{
+ for(const area of ['active','reserve']){
+  const config={...C.defaults,srExtraStarSellPrice:12,startingActive:['sale',...Array(9).fill(null)]};
+  const state=X.create([unit('sale')],[],config);config.srExtraStarSellPrice=999;
+  const actor={...state.active[0],stars:4,laws:[{name:'不增加賣價'}]};state.active[0]=null;state[area][0]=actor;
+  const gold=state.gold;assert.equal(X.sellValue(actor,state.config),51);assert.equal(X.sell(state,area,0),51);assert.equal(state.gold,gold+51);
+  const before=structuredClone(state);assert.throws(()=>X.sell(state,area,0));assert.deepEqual(state,before);
+ }
 });
 
 const L=require('../js/laws.js');
@@ -143,9 +164,55 @@ test('invalid merge is atomic and merging can invalidate equipped team skill',()
  const law=shopLaw({stats:{maxHp:'bad'}});s.active[0].laws=[law];const before=structuredClone(s);assert.throws(()=>X.transfer(s,'active',0,'active',1));assert.deepEqual(s,before);
  s.active[0].laws=[];X.transfer(s,'active',0,'active',1);assert.equal(s.skillId,null);
 });
-test('buying onto an identical owned role never merges, while recruitment needs contiguous space',()=>{
+test('ordinary buy never auto-merges and recruitment still needs contiguous space',()=>{
  const s=create([unit('a',2)],[],['a']);X.shop(s,'no-auto',()=>0);const before=structuredClone(s);assert.throws(()=>X.buy(s,'no-auto',0,'active',0));assert.deepEqual(s,before);
  X.buy(s,'no-auto',0,'reserve',0);assert.equal(s.active[0].stars,1);assert.equal(s.reserve[0].stars,1);
  const item=s.library[0];for(const area of ['active','reserve'])s[area]=Array.from({length:10},(_,i)=>i%2===0?{...unit('block'),instanceId:area+i}:null);
  const full=structuredClone(s);assert.throws(()=>X.recruit(s,item),/整備隊伍/);assert.deepEqual(s,full);
+});
+
+test('explicit shop merge works with both teams full, preserves the target identity and inherits all laws',()=>{
+ for(const area of ['active','reserve']){
+  const char={...unit('merge-buy',2),growth:Array.from({length:5},()=>({maxHp:10,damage:2}))};
+  const items=D.validate({version:2,items:[char],jobGrowth:{破陣:char.growth}}).items;
+  const full=['merge-buy',null,'merge-buy',null,'merge-buy',null,'merge-buy',null,'merge-buy',null];
+  const state=create(items,[],full,full),stock=X.shop(state,'merge-buy',()=>0),law=shopLaw({stats:{maxHp:3,damage:1}});
+  state[area][0]=L.attach(state[area][0],Array(60).fill(law));stock[0]=L.attach(stock[0],Array(60).fill(law));
+  const identity=state[area][0].instanceId,gold=state.gold,serial=state.serial,price=stock[0].price,others=state[area].slice(2);
+  const upgraded=X.buyAndMerge(state,'merge-buy',0,area,1); // Covered null cell resolves to its owner.
+  assert.equal(upgraded,state[area][0]);assert.equal(upgraded.instanceId,identity);assert.equal(upgraded.stars,2);
+  assert.equal(upgraded.laws.length,120);assert.equal(upgraded.maxHp,char.maxHp+10+360);assert.equal(upgraded.outputBonuses.damage,122);
+  assert.equal(state.gold,gold-price);assert.equal(state.serial,serial);assert.equal(stock[0],null);assert.equal(upgraded.price,undefined);
+  assert.deepEqual(state[area].slice(2),others);assert.equal(state[area][1],null);assert(X.valid(state.active)&&X.valid(state.reserve));
+  const before=structuredClone(state);assert.throws(()=>X.buyAndMerge(state,'merge-buy',0,area,0));assert.deepEqual(state,before);
+ }
+});
+
+test('shop merge failures preserve gold, serial, inventory, both teams and skill selection',()=>{
+ const cases=[
+  s=>s.gold=0,
+  s=>s.active[0].id='b',
+  s=>s.active[0].stars=2,
+  s=>{s.active[0].stars=6;s.shops.atomic[0].stars=6;},
+  s=>s.active[0]=null,
+  s=>s.shops.atomic[0]=null,
+  s=>s.active[0].laws=[shopLaw({stats:{maxHp:'invalid'}})],
+  s=>s.shops.atomic[0].laws=[shopLaw({stats:{maxHp:'invalid'}})],
+  s=>s.library=[]
+ ];
+ for(const alter of cases){
+  const state=create([unit('a'),unit('b')],[],['a']);X.shop(state,'atomic',()=>0);alter(state);
+  const before=structuredClone(state);assert.throws(()=>X.buyAndMerge(state,'atomic',0,'active',0));assert.deepEqual(state,before);
+ }
+ const wide=create([unit('a',2)],[],['a']);X.shop(wide,'wide',()=>0);wide.active[9]={...wide.active[0],space:1};wide.active[0]=null;
+ const before=structuredClone(wide);assert.throws(()=>X.buyAndMerge(wide,'wide',0,'active',9),/無法放入/);assert.deepEqual(wide,before);
+ assert.throws(()=>X.buyAndMerge(wide,'unopened',0,'active',9));assert.deepEqual(wide,before);
+ for(const [area,slot] of [['stock',0],['active',10],['reserve',-1]]){assert.throws(()=>X.buyAndMerge(wide,'wide',0,area,slot));assert.deepEqual(wide,before);}
+});
+
+test('free explicit shop merge upgrades five to six stars and rechecks equipped skills',()=>{
+ const state=create([{...unit('a'),shopPrice:0}],[],['a']);X.shop(state,'free-merge',()=>0);state.gold=0;
+ state.skills=S.validate({version:1,skills:[{...S.defaults[0],conditions:[{kind:'count',field:'stars',value:'5',op:'gte',count:1}]}]}).skills;
+ state.active[0].stars=5;state.shops['free-merge'][0].stars=5;X.equip(state,state.skills[0].id);
+ X.buyAndMerge(state,'free-merge',0,'active',0);assert.equal(state.active[0].stars,6);assert.equal(state.gold,0);assert.equal(state.skillId,null);
 });

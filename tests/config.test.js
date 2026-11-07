@@ -17,7 +17,12 @@ test('Config editor saves, reloads and rejects invalid drafts without replacing 
  function element(){return {children:[],append(...n){this.children.push(...n);},replaceChildren(...n){this.children=n;},setAttribute(){},addEventListener(k,fn){this[k]=fn;}};}
  const fs=require('node:fs'),vm=require('node:vm'),store=new Map(),nodes=new Map([...C.fields.map(f=>f[1]),'config-starting-active','config-overtime-example','config-message','config-form'].map(id=>[id,element()]));let changes=0;
  const boot=()=>vm.runInNewContext(fs.readFileSync('js/config-editor.js','utf8'),{GameConfig:C,CharacterLibrary:{getItems:()=>D.defaults},document:{getElementById:id=>nodes.get(id),createElement:element},localStorage:{getItem:k=>store.get(k),setItem:(k,v)=>store.set(k,v)},window:{addEventListener(){},dispatchEvent(){changes++;}},Event:class{}});
- boot();nodes.get('config-time').value=45;nodes.get('config-form').submit({preventDefault(){}});assert.equal(changes,1);assert.equal(JSON.parse(store.get(C.key)).battleSeconds,45);boot();assert.equal(nodes.get('config-time').value,45);nodes.get('config-damage').value=0;nodes.get('config-form').submit({preventDefault(){}});assert.equal(changes,1);assert.equal(JSON.parse(store.get(C.key)).overtimeDamage,10);
+ boot();nodes.get('config-time').value=45;
+ for(const [rarity,value] of [['sr',0],['ssr',25],['ur',50]])nodes.get('config-'+rarity+'-extra-star-sell-price').value=value;
+ nodes.get('config-form').submit({preventDefault(){}});assert.equal(changes,1);assert.equal(JSON.parse(store.get(C.key)).battleSeconds,45);boot();assert.equal(nodes.get('config-time').value,45);
+ for(const [rarity,value] of [['sr',0],['ssr',25],['ur',50]])assert.equal(nodes.get('config-'+rarity+'-extra-star-sell-price').value,value);
+ const beforeInvalid=store.get(C.key);nodes.get('config-ur-extra-star-sell-price').value='';nodes.get('config-form').submit({preventDefault(){}});assert.equal(store.get(C.key),beforeInvalid);nodes.get('config-ur-extra-star-sell-price').value=50;
+ nodes.get('config-damage').value=0;nodes.get('config-form').submit({preventDefault(){}});assert.equal(changes,1);assert.equal(JSON.parse(store.get(C.key)).overtimeDamage,10);
  nodes.get('config-damage').value=10;let select=nodes.get('config-starting-active').children[0].children[0];select.value='axe';select.onchange();nodes.get('config-form').submit({preventDefault(){}});assert.equal(JSON.parse(store.get(C.key)).startingActive[0],'axe');
  select=nodes.get('config-starting-active').children[0].children[0];select.value='herb';select.onchange();nodes.get('config-form').submit({preventDefault(){}});boot();assert.equal(nodes.get('config-starting-active').children[0].children[0].value,'herb');
  const saved=store.get(C.key);select=nodes.get('config-starting-active').children[0].children[0];select.value='missing';select.onchange();nodes.get('config-form').submit({preventDefault(){}});assert.equal(store.get(C.key),saved);assert.match(nodes.get('config-message').textContent,/不存在/);
@@ -31,7 +36,9 @@ test('all tuning fields validate ranges and initial roster constraints',()=>{
 test('economy tuning snapshots control initial formation, shop count, sale rounding and zero stock',()=>{
  const X=require('../js/expedition.js'),config={...C.defaults,startingGold:19,startingActive:['short-sword',...Array(9).fill(null)],shopCount:2,sellPercent:33};
  const roster=X.create(D.defaults,[],config);config.sellPercent=100;assert.equal(roster.gold,19);assert.equal(roster.active.filter(Boolean).length,1);assert.equal(roster.reserve.filter(Boolean).length,0);
- assert.equal(X.shop(roster,'a',()=>0).filter(Boolean).length,2);assert.equal(X.sell(roster,'active',0),9);assert.equal(roster.gold,28);
+ assert.equal(X.shop(roster,'a',()=>0).filter(Boolean).length,2);
+ assert.equal(X.sellValue({...D.defaults[0],rarity:'SSR'},roster.config),9);
+ assert.equal(X.sell(roster,'active',0),30);assert.equal(roster.gold,49);
  const empty=X.create(D.defaults,[],{...C.defaults,startingActive:Array(10).fill(null),shopCount:0});assert.equal(empty.active.filter(Boolean).length,0);assert.equal(X.shop(empty,'empty').filter(Boolean).length,0);
 });
 test('custom base journey rewards settle once for each encounter category',()=>{

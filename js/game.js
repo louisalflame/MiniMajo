@@ -1,5 +1,6 @@
 (() => {
   'use strict';
+  if(globalThis.MiniMajoViewport?.host)return;
   const $ = id => document.getElementById(id);
   // A self-contained visual trial: editor drafts and browser saves are not modified.
   const slotCount = 10;
@@ -87,7 +88,7 @@
     for(const el of [veil,halo,flash,healSweep,shieldGlow])el.setAttribute('aria-hidden','true');
     root.querySelector('.reward-card-surface').append(veil,flash,healSweep);root.append(halo,shieldGlow,status);
     const motions=new Map();hp.motions=motions;
-    return {root,portrait,position,hp,stagger,action,status,hud,headingArea,totals,attack,halo,flash,healSweep,shieldGlow,motions};
+    return {root,portrait,position,hp,stagger,action,status,statusBadges:new Map(),hud,headingArea,totals,attack,halo,flash,healSweep,shieldGlow,motions};
   }
   function reset(){
     clearBattleDrag();repositionPending=null;
@@ -148,6 +149,27 @@
   function statusBadge(kind,label,text){
     const badge=node('span','unit-status-badge');badge.title=label;badge.setAttribute('role','img');badge.setAttribute('aria-label',label);
     badge.append(kind==='posture'?CharacterCardSkin.icon(document,'posture','失衡'):UIIcons.create(document,kind));if(text!==undefined)badge.append(node('span','',String(text)));return badge;
+  }
+  function renderStatusBadges(card,unit){
+    const badges=[],keys=new Set();
+    function reuse(key,label,create){
+      let badge=card.statusBadges.get(key);
+      if(!badge){badge=create();card.statusBadges.set(key,badge);}
+      if(badge.title!==label){badge.title=label;badge.setAttribute('aria-label',label);}
+      keys.add(key);badges.push(badge);
+    }
+    if(unit.hp===0)reuse('system:down','已倒下',()=>statusBadge('down','已倒下'));
+    else if(unit.weakUntil>state.tick){
+      const label='失衡倒地 · '+((unit.weakUntil-state.tick)/10).toFixed(1)+' 秒';
+      reuse('system:posture',label,()=>statusBadge('posture',label));
+    }
+    for(const status of unit.statuses){
+      const label=Statuses.label(status,state.tick),key='status:'+status.kind+':'+(Statuses.imagePath(status.kind)||'');
+      reuse(key,label,()=>{const badge=node('span','unit-status-badge');badge.setAttribute('role','img');badge.append(UIIcons.createStatus(document,status.kind));return badge;});
+    }
+    for(const key of card.statusBadges.keys())if(!keys.has(key))card.statusBadges.delete(key);
+    // Keep loaded image nodes attached while countdowns and amounts change.
+    if(card.status.children.length!==badges.length||badges.some((badge,i)=>card.status.children[i]!==badge))card.status.replaceChildren(...badges);
   }
   function fitStatusIcons(card){
     if(!card.status.getBoundingClientRect||typeof getComputedStyle!=='function')return;
@@ -211,11 +233,7 @@
         c.action.fill.style.height=progress+'%';
         c.action.el.setAttribute('aria-valuenow',String(Math.round(progress)));
         c.action.el.setAttribute('aria-valuetext',Math.round(progress)+'%');
-        const badges=[];
-        if(unit.hp===0)badges.push(statusBadge('down','已倒下'));
-        else if(unit.weakUntil>state.tick)badges.push(statusBadge('posture','失衡倒地 · '+((unit.weakUntil-state.tick)/10).toFixed(1)+' 秒'));
-        badges.push(...unit.statuses.map(x=>{const label=Statuses.label(x,state.tick),badge=node('span','unit-status-badge');badge.title=label;badge.setAttribute('role','img');badge.setAttribute('aria-label',label);badge.append(UIIcons.createStatus(document,x.kind));return badge;}));
-        c.status.replaceChildren(...badges);
+        renderStatusBadges(c,unit);
         fitStatusIcons(c);
         c.hud.hidden=false;c.status.hidden=statsMode;c.totals.hidden=!statsMode;c.root.classList.toggle('show-stats',statsMode);
         if(statsMode)c.totals.replaceChildren(...[['傷害',unit.stats.damage],['護盾',unit.stats.shield],['治療',unit.stats.heal],['行動',unit.stats.actions]].map(([name,value])=>node('div','',name+' '+value)));

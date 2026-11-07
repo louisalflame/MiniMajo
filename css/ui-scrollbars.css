@@ -1,0 +1,21 @@
+/* Shared approved skill-picker rails for scrollable game dialog content. */
+/* Fixed 12x8 end caps and 4x14 grip. Only the plain middle grows with the
+   native thumb length, so short and tall rails share the same proportions. */
+:root{
+ --scroll-cap-top:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%230b2635' d='M0 8V5L5 0h2l5 5v3Z'/%3E%3Cpath fill='none' stroke='%23e8d1a0' d='M1.5 8V5.5L5.5 1.5h1l4 4V8'/%3E%3C/svg%3E");
+ --scroll-cap-bottom:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%230b2635' d='M0 0v3l5 5h2l5-5V0Z'/%3E%3Cpath fill='none' stroke='%23e8d1a0' d='M1.5 0v2.5l4 4h1l4-4V0'/%3E%3C/svg%3E");
+ --scroll-grip:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='14' viewBox='0 0 4 14'%3E%3Cg fill='%23e8d1a0'%3E%3Crect y='1' width='4' height='2' rx='1'/%3E%3Crect y='6' width='4' height='2' rx='1'/%3E%3Crect y='11' width='4' height='2' rx='1'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* Underpaint only the interior of paper shells. Border-image tiles can leave
+   subpixel gaps at their inner joins; the original outer corners stay clear. */
+:root body :is(dialog.ui-panel,dialog.character-detail)::before{background:linear-gradient(#e8d9b9,#e8d9b9) center/calc(100% - 48px) calc(100% - 48px) no-repeat;background-origin:border-box}
+body :is(#roster-skill-menu,#expedition-dialog,#character-detail,.ui-panel) :is(#roster-skill-options,.skill-selected-details,.detail-content,.shop-inspect-content,.law-card-copy,.reward-description-scroll,.ui-panel-body){scrollbar-width:thin;scrollbar-color:#345364 #dbc49a;scrollbar-gutter:stable}
+@supports selector(::-webkit-scrollbar){
+ body :is(#roster-skill-menu,#expedition-dialog,#character-detail,.ui-panel) :is(#roster-skill-options,.skill-selected-details,.detail-content,.shop-inspect-content,.law-card-copy,.reward-description-scroll,.ui-panel-body){scrollbar-width:auto;scrollbar-color:auto}
+ body :is(#roster-skill-menu,#expedition-dialog,#character-detail,.ui-panel) :is(#roster-skill-options,.skill-selected-details,.detail-content,.shop-inspect-content,.law-card-copy,.reward-description-scroll,.ui-panel-body)::-webkit-scrollbar{width:12px;height:12px;background:transparent}
+ body :is(#roster-skill-menu,#expedition-dialog,#character-detail,.ui-panel) :is(#roster-skill-options,.skill-selected-details,.detail-content,.shop-inspect-content,.law-card-copy,.reward-description-scroll,.ui-panel-body)::-webkit-scrollbar-track{border:0;border-radius:0;box-shadow:none;background:radial-gradient(circle,#345364 0 1.5px,transparent 2px) center top/6px 6px no-repeat,radial-gradient(circle,#345364 0 1.5px,transparent 2px) center bottom/6px 6px no-repeat,linear-gradient(#345364,#345364) center/1px calc(100% - 8px) no-repeat}
+ body :is(#roster-skill-menu,#expedition-dialog,#character-detail,.ui-panel) :is(#roster-skill-options,.skill-selected-details,.detail-content,.shop-inspect-content,.law-card-copy,.reward-description-scroll,.ui-panel-body)::-webkit-scrollbar-thumb{min-height:36px;border:0;border-radius:0;background:var(--scroll-grip) center/4px 14px no-repeat,var(--scroll-cap-top) center top/12px 8px no-repeat,var(--scroll-cap-bottom) center bottom/12px 8px no-repeat,linear-gradient(to right,#0b2635 0 1px,#e8d1a0 1px 2px,#0b2635 2px 10px,#e8d1a0 10px 11px,#0b2635 11px) center/12px calc(100% - 16px) no-repeat}
+ body :is(#roster-skill-menu,#expedition-dialog,#character-detail,.ui-panel) :is(#roster-skill-options,.skill-selected-details,.detail-content,.shop-inspect-content,.law-card-copy,.reward-description-scroll,.ui-panel-body)::-webkit-scrollbar-button{display:none;width:0;height:0}
+ body :is(#roster-skill-menu,#expedition-dialog,#character-detail,.ui-panel) :is(#roster-skill-options,.skill-selected-details,.detail-content,.shop-inspect-content,.law-card-copy,.reward-description-scroll,.ui-panel-body)::-webkit-scrollbar-corner{background:transparent}
+}
+@media(forced-colors:active){body :is(#roster-skill-menu,#expedition-dialog,#character-detail,.ui-panel) :is(#roster-skill-options,.skill-selected-details,.detail-content,.shop-inspect-content,.law-card-copy,.reward-description-scroll,.ui-panel-body){scrollbar-color:auto}}

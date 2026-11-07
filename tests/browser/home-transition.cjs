@@ -1,3 +1,4 @@
+const {gamePage}=require('./game-page.cjs');
 // Build dist first. Verify the real START navigation without editing saved data.
 const {chromium}=require(process.env.MINIMAJO_PLAYWRIGHT_MODULE||'playwright');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
@@ -10,7 +11,7 @@ const before=fs.readFileSync(path.join(root,'minimajo-editor.json'));
   fs.mkdirSync(out,{recursive:true});browser=await chromium.launch({channel:'msedge',headless:true});
   const url=`http://127.0.0.1:${server.address().port}`;
   for(const prefix of ['', '/dist'])for(const width of [1366,390]){
-   const context=await browser.newContext({viewport:{width,height:900}}),page=await context.newPage(),errors=[];
+   const context=await browser.newContext({viewport:{width,height:900}}),page=gamePage(await context.newPage()),errors=[];
    page.on('pageerror',error=>errors.push(error.message));
    let navigations=0;page.on('framenavigated',frame=>{if(frame===page.mainFrame()&&frame.url().endsWith('/play.html'))navigations++;});
    let releaseImage;const gate=new Promise(resolve=>releaseImage=resolve);

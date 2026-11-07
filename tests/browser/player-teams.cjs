@@ -1,3 +1,4 @@
+const {gamePage}=require('./game-page.cjs');
 // Requires a local `wrangler pages dev` server with DB migration applied.
 const {chromium}=require(process.env.MINIMAJO_PLAYWRIGHT_MODULE||'playwright');
 const assert=require('node:assert/strict');
@@ -6,7 +7,7 @@ const base=process.env.MINIMAJO_RECORD_TEST_URL||'http://127.0.0.1:4175';
  const browser=await chromium.launch({channel:'msedge',headless:true});
  const contexts=[],level=500000+Math.floor(Math.random()*400000),errors=[];
  async function player(){
-  const context=await browser.newContext({reducedMotion:'reduce'});contexts.push(context);const page=await context.newPage();page.setDefaultTimeout(90000);
+  const context=await browser.newContext({reducedMotion:'reduce'});contexts.push(context);const page=gamePage(await context.newPage());page.setDefaultTimeout(90000);
   page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(()=>{
    let api;Object.defineProperty(globalThis,'Journey',{configurable:true,get:()=>api,set(value){api=value;const create=value.create,start=value.start;value.create=(...args)=>globalThis.testRun=create(...args);value.start=(...args)=>globalThis.testPayload=start(...args);}});

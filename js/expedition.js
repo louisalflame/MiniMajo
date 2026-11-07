@@ -147,7 +147,24 @@
   const unit={...clone(item),instanceId:'owned-'+(++state.serial)};delete unit.price;
   state[area][target]=unit;state.gold-=item.price;stock[slot]=null;syncSkill(state);return target;
  }
- function sellValue(unit,config=Config.defaults){return Math.floor(unit.shopPrice*config.sellPercent/100);}
+ function buyAndMerge(state,key,slot,area,destination){
+  if(!ownedSlot(area,destination))throw Error('請選擇有效的隊伍格位。');
+  const stock=Object.hasOwn(state.shops,key)?state.shops[key]:null,item=stock?.[slot];if(!item)throw Error('商品已售出或不存在。');
+  const targetSlot=ownerSlot(state[area],destination),target=state[area][targetSlot];
+  if(!canMerge(item,target))throw Error('購買合成需要相同角色、相同星等，且未達六星。');
+  if(state.gold<item.price)throw Error('金幣不足，無法購買並升星。');
+  const upgraded=rebuildOwned(state,target,target.stars+1,[...(target.laws??[]),...(item.laws??[])]);
+  const draft={...state,...draftTeams(state)};draft[area][targetSlot]=upgraded;
+  if(!valid(draft.active)||!valid(draft.reserve))throw Error('合成後的角色無法放入此格位。');
+  syncSkill(draft);
+  state.active=draft.active;state.reserve=draft.reserve;state.skillId=draft.skillId;
+  state.gold-=item.price;stock[slot]=null;return upgraded;
+ }
+ function sellValue(unit,config=Config.defaults){
+  if(unit.rarity==='SR'&&unit.stars===1)return unit.shopPrice;
+  const bonusField={SR:'srExtraStarSellPrice',SSR:'ssrExtraStarSellPrice',UR:'urExtraStarSellPrice'}[unit.rarity];
+  return Math.floor(unit.shopPrice*config.sellPercent/100)+Math.max(0,(unit.stars??1)-1)*(config[bonusField]??0);
+ }
  function rollLawShop(state,random){
    const pool=state.lawLibrary.filter(l=>l.shopWeight>0),stock=[];
    for(let i=0;pool.length&&i<4;i++){
@@ -185,5 +202,5 @@
   if(!ownedSlot(area,slot)||!state[area][slot])throw Error('只能賣出自己隊伍中的角色。');
   const unit=state[area][slot],value=sellValue(unit,state.config);state[area][slot]=null;state.gold+=value;syncSkill(state);return value;
  }
- const api={size,create,fits,firstFit,ownerSlot,reposition,transferSlot,valid,eligible,syncSkill,transfer,canMerge,merge,recruit,equip,shop,buy,sell,sellValue,lawShop,findOwned,buyLaw,rerollCost,reroll,upgradeEcho};if(typeof module!=='undefined')module.exports=api;else root.Expedition=api;
+ const api={size,create,fits,firstFit,ownerSlot,reposition,transferSlot,valid,eligible,syncSkill,transfer,canMerge,merge,recruit,equip,shop,buy,buyAndMerge,sell,sellValue,lawShop,findOwned,buyLaw,rerollCost,reroll,upgradeEcho};if(typeof module!=='undefined')module.exports=api;else root.Expedition=api;
 })(globalThis);

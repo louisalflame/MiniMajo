@@ -160,7 +160,7 @@
    if(!board.some(Boolean)&&team.weight!==0){team.weight=0;note(w,p+'.weight','空隊伍已停用抽選，請在敵隊編輯器補入角色');}return team;});return E.validate({version:1,teams:rows});
  }
  function config(data,w=warnings,items){
-  // Numeric Config fields (including battleVolume) repair independently; zero volume is valid.
+  // Config fields, including rarity star-sale bonuses, repair independently; preserve valid zeroes.
   const C=get('config'),x=object(data),out={version:1};for(const [k,id,label,d,min,max,step] of C.fields)out[k]=number(x[k],d,min,max,step,w,'config.'+k);
   // The old overtime amount was also its growth increment.
   if(x.overtimeGrowth===undefined&&Number.isInteger(x.overtimeDamage)&&x.overtimeDamage>0&&x.overtimeDamage<=10000)out.overtimeGrowth=x.overtimeDamage;

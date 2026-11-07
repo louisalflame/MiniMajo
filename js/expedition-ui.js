@@ -1,5 +1,6 @@
 (() => {
  'use strict';
+ if(globalThis.MiniMajoViewport?.host)return;
  const $=id=>document.getElementById(id),names={active:'出戰隊伍',reserve:'儲存隊伍'};
  let expedition,mode='gear',shopKey='',bottom='active',selection=null,opener=null,drag=null,suppressClickUntil=0,shopTab='characters',lawTarget=null;
  const immersive=!!document.getElementById('journey-map');
@@ -45,7 +46,11 @@
     message='已賣出角色，獲得 '+Expedition.sell(expedition,source.area,source.slot)+' 金幣。';
    }else if(!['active','reserve'].includes(target.area))throw Error('請拖到出戰隊伍或儲存隊伍。');
    else if(source.area==='stock'){
-    Expedition.buy(expedition,shopKey,source.slot,target.area,target.slot);message='購買成功，已放入'+names[target.area]+'。';
+    const owner=Expedition.ownerSlot(expedition[target.area],target.slot),unit=expedition[target.area][owner];
+    if(Expedition.canMerge(source.unit,unit)){
+     const upgraded=Expedition.buyAndMerge(expedition,shopKey,source.slot,target.area,target.slot);
+     message='已購買並將 '+upgraded.name+' 升至 '+upgraded.stars+' 星，雙方全部法則已合併。';
+    }else{Expedition.buy(expedition,shopKey,source.slot,target.area,target.slot);message='購買成功，已放入'+names[target.area]+'。';}
    }else{
     const upgraded=Expedition.transfer(expedition,source.area,source.slot,target.area,target.slot);
     if(upgraded){if(lawTarget===source.unit.instanceId)lawTarget=upgraded.instanceId;message=upgraded.name+' 已升至 '+upgraded.stars+' 星，雙方全部法則已合併。';}else message='角色已移動／交換。';
@@ -69,7 +74,8 @@
    const cue=node('div','roster-merge-cue'),stars=node('span','roster-merge-stars'),star=node('img','');
    star.src='assets/ui/card-icons/approved-v1/star.png';star.alt='';star.setAttribute('aria-hidden','true');
    stars.append(star,node('span','',unit.stars+' → '+(unit.stars+1)));
-   cue.append(node('strong','','放開升星'),stars);cue.setAttribute('popover','manual');cue.setAttribute('role','status');cue.setAttribute('aria-live','polite');cue.setAttribute('aria-label','放開以合成，'+unit.stars+' 星升至 '+(unit.stars+1)+' 星');
+   const purchase=drag.area==='stock';
+   cue.append(node('strong','',purchase?'放開購買並升星':'放開升星'),stars);cue.setAttribute('popover','manual');cue.setAttribute('role','status');cue.setAttribute('aria-live','polite');cue.setAttribute('aria-label',(purchase?'放開以購買並合成，':'放開以合成，')+unit.stars+' 星升至 '+(unit.stars+1)+' 星');
    drag.mergeCue=cue;$('expedition-dialog').append(cue);cue.showPopover?.();
   }
   placeMergeCue();
@@ -82,7 +88,7 @@
   drag.source.classList.remove('drag-source');drag.target?.classList.remove('drop-hover');drag.target?.classList.remove('merge-hover');drag.ghost?.remove();drag.marker?.remove();
   if(drag.source.hasPointerCapture?.(drag.pointerId))drag.source.releasePointerCapture(drag.pointerId);
   drag=null;
-  $('roster-sell-zone').textContent=immersive?'出售':'拖曳自己的角色至此賣出 · 返還商店售價 '+expedition.config.sellPercent+'%';
+  $('roster-sell-zone').textContent=immersive?'出售':'拖曳自己的角色至此賣出 · 一星 SR 原價；其他為售價 '+expedition.config.sellPercent+'%＋星等加價';
  }
  function beginDrag(event,source,area,slot,unit){
   if(event.button!==0||drag)return;
@@ -100,7 +106,7 @@
    const gap=(parseFloat(gapValue)||0)*(gapValue.endsWith('%')?rect.width/100:1),pitch=(rect.width+gap)/10;
    if(pitch>0)slot=Math.round((event.clientX-drag.offsetX-rect.left)/pitch);
    const hitStart=Number(el.getAttribute('data-drop-slot')),hitUnit=expedition[area][hitStart];
-   if(drag.area!=='stock'&&hitUnit&&hitUnit.instanceId!==drag.unit.instanceId)slot=hitStart;
+   if(hitUnit&&hitUnit.instanceId!==drag.unit.instanceId)slot=hitStart;
    if(drag.area!==area)slot=Math.max(0,Math.min(9,slot));
   }
   return {el,area,slot,host};
@@ -120,7 +126,7 @@
    // Put the preview above the modal and outside its scrolling clip.
    drag.ghost.showPopover?.();
    drag.mergeCandidates=[];
-   if(drag.area!=='stock')for(const id of ['roster-top','roster-bottom','roster-reserve'])for(const el of $(id).children){
+   if(drag.area!=='stock'||expedition.gold>=drag.unit.price)for(const id of ['roster-top','roster-bottom','roster-reserve'])for(const el of $(id).children){
     const area=el.getAttribute('data-drop-area'),slot=Number(el.getAttribute('data-drop-slot'));
     if(['active','reserve'].includes(area)&&Expedition.canMerge(drag.unit,expedition[area][slot])){el.classList.add('merge-candidate');drag.mergeCandidates.push(el);}
    }
@@ -136,8 +142,11 @@
   }
   const owner=['active','reserve'].includes(area)?Expedition.ownerSlot(expedition[area],slot):-1;
   const targetUnit=owner>=0?expedition[area][owner]:null;
-  if(drag.area!=='stock'&&Expedition.canMerge(drag.unit,targetUnit)){showMergePreview(drag.target,targetUnit);status('放開以合成 '+targetUnit.name+'：'+targetUnit.stars+' → '+(targetUnit.stars+1)+' 星，保留目標位置並合併全部法則。');}
-  else{clearMergePreview();if(['active','reserve'].includes(area))status(targetUnit?'放開以交換角色；合成需要相同角色與星等，最高六星。':'放開以放置角色。');}
+  if(Expedition.canMerge(drag.unit,targetUnit)&&(drag.area!=='stock'||expedition.gold>=drag.unit.price)){
+   showMergePreview(drag.target,targetUnit);status((drag.area==='stock'?'放開以購買並合成 ':'放開以合成 ')+targetUnit.name+'：'+targetUnit.stars+' → '+(targetUnit.stars+1)+' 星，保留目標位置並合併全部法則。');
+  }else{
+   clearMergePreview();if(['active','reserve'].includes(area))status(drag.area==='stock'?(expedition.gold<drag.unit.price?'金幣不足，無法購買。':targetUnit?'請拖至空位，或相同角色與星等的角色（最高六星）。':'放開以購買角色。'):targetUnit?'放開以交換角色；合成需要相同角色與星等，最高六星。':'放開以放置角色。');
+  }
   const sellZone=$('roster-sell-zone');
   if(drag.area==='stock'){
    sellZone.textContent=immersive?'出售':'商品不能直接賣出';
@@ -316,7 +325,7 @@
   $('roster-top-title').textContent=mode==='shop'?(immersive?'角色':'店家販售角色'):'儲存隊伍';$('roster-bottom-title').textContent=names[bottom];
   $('expedition-dialog').setAttribute('data-mode',mode);$('roster-sell-zone').hidden=immersive&&lawMode;$('roster-reserve-section').hidden=mode!=='shop';
   $('expedition-dialog').setAttribute('aria-labelledby',mode==='gear'?'preparation-title':'expedition-title');
-  $('roster-sell-zone').textContent=immersive?'出售':'拖曳自己的角色至此賣出 · 返還商店售價 '+expedition.config.sellPercent+'%';
+  $('roster-sell-zone').textContent=immersive?'出售':'拖曳自己的角色至此賣出 · 一星 SR 原價；其他為售價 '+expedition.config.sellPercent+'%＋星等加價';
   if(mode==='shop')$('roster-reserve-count').textContent=board('roster-reserve','reserve')+' / 10 格';else $('roster-reserve').replaceChildren();
   $('expedition-gold').textContent=immersive?String(expedition.gold):expedition.gold+' 金幣';$('expedition-gold').setAttribute('aria-label','金幣：'+expedition.gold);$('expedition-shop-note').hidden=mode!=='shop';
   $('expedition-shop-note').textContent=lawMode?'先指定裝備角色，再購買法則。相同法則可以重複裝備，屬性加成累加。':'拖商品到隊伍空位購買；拖自己的角色到上方賣出區出售。';
