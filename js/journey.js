@@ -27,10 +27,33 @@
   const rolled=s.enemyRolls[id],enemy=structuredClone(rolled.board);
   const prior=s.map.path.length>1,from=prior?s.map.path.at(-2):s.map.current;
   const entry=s.battleEntry?.id===id?structuredClone(s.battleEntry):{id,from,steps:Math.max(0,s.map.steps-(prior?1:0)),path:prior?s.map.path.slice(0,-1):s.map.path.slice(),fromCollapsed:false,complete:false};
-  const token='encounter-'+(++s.serial);s.encounter={token,id,type,allies,entry,reward:H.rewardAt(s.map,id),enemyName:rolled.team.name};
+  const token='encounter-'+(++s.serial);s.encounter={token,id,type,allies,entry,reward:H.rewardAt(s.map,id),enemyName:rolled.team.name,matchLevel:s.playerLevel};
   const skill=s.roster.skills.find(x=>x.id===s.roster.skillId);
-  const enemySkill=category==='normal'?null:structuredClone(s.roster.skills.find(x=>x.id===rolled.team.skillId)??null);
+  const enemySkill=category==='normal'?null:structuredClone(rolled.historicalSkill??s.roster.skills.find(x=>x.id===rolled.team.skillId)??null);
+  s.encounter.skill=skill?structuredClone(skill):null;
   return {type:'minimajo-preview',config:structuredClone(s.config),statusLibrary:structuredClone(s.statusLibrary),token,enemyName:rolled.team.name,loadouts:[allies,enemy],skills:skill?[skill]:[],enemySkill,limits:[10,10],activeSkillsEnabled:true,campaign:true};
+ }
+ function markStarted(s){
+  const e=s.encounter;if(!e||e.started)return false;
+  e.victorySnapshot={matchLevel:e.matchLevel,category:e.type==='goal'?'boss':e.type==='elite'?'elite':'normal',board:structuredClone(e.allies),skill:structuredClone(e.skill)};
+  e.started=true;return true;
+ }
+ function lockHistoricalEnemy(s,record){
+  const id=s.map.pending,type=s.map.map.cells[id]?.type;
+  if(!['elite','goal'].includes(type)||s.encounter||s.enemyRolls[id])return false;
+  const records=typeof module!=='undefined'?require('./player-records.js'):root.PlayerRecords;
+  const clean=records.validate(record,{statuses:s.statusLibrary});
+  if(Math.abs(clean.matchLevel-s.playerLevel)>2)throw Error('歷史隊伍適配等級不符。');
+  // Artwork can change without changing combat compatibility. Refresh only paths,
+  // keeping all saved stats, effects, stars and each attached law instance intact.
+  for(const unit of clean.board.filter(Boolean)){
+   const art=s.roster.library.find(item=>item.id===unit.id);
+   if(art){unit.imageFile=art.imageFile;unit.detailImageFile=art.detailImageFile;}
+   for(const law of unit.laws){const current=s.roster.lawLibrary.find(item=>item.id===law.id);if(current)law.imagePath=current.imagePath;}
+  }
+  if(clean.skill){const art=s.roster.skills.find(item=>item.id===clean.skill.id);if(art)clean.skill.imagePath=art.imagePath;}
+  s.enemyRolls[id]={team:{id:'history-'+clean.runId,name:'旅人殘影',skillId:null,category:type==='goal'?'boss':'elite',matchLevel:clean.matchLevel},board:clean.board,historicalSkill:clean.skill,historical:true};
+  return true;
  }
  function prepare(s){
   if(!s.encounter||s.encounter.started)throw Error('只能在開戰前整備。');
@@ -59,7 +82,8 @@
    const entry=e.entry;s.map.current=entry.from;s.map.steps=entry.steps;s.map.path=entry.path.slice();s.map.pending=null;s.map.complete=entry.complete;
    if(entry.fromCollapsed)s.map.collapsed.add(entry.from);else s.map.collapsed.delete(entry.from);
   }
-  s.battleEntry=null;s.encounter=null;return {winner:result.winner,reward};
+  const victorySnapshot=result.winner===0&&e.victorySnapshot?structuredClone(e.victorySnapshot):null;
+  s.battleEntry=null;s.encounter=null;return {winner:result.winner,reward,...(victorySnapshot?{victorySnapshot}:{})};
  }
  function rollRewards(roster,random=Math.random,count=3){
   const Echo=typeof module!=='undefined'?require('./echo-levels.js'):root.EchoLevels;
@@ -88,5 +112,5 @@
   if(type==='rest'){if(!H.resolve(s.map,s.config))return false;X.upgradeEcho(s.roster);return true;}
   if(type==='shop')return H.resolve(s.map,s.config);return false;
  }
- const api={create,move,start,prepare,reposition,settle,resolve,rollRewards,claim,skipReward};if(typeof module!=='undefined')module.exports=api;else root.Journey=api;
+ const api={create,move,start,markStarted,lockHistoricalEnemy,prepare,reposition,settle,resolve,rollRewards,claim,skipReward};if(typeof module!=='undefined')module.exports=api;else root.Journey=api;
 })(globalThis);

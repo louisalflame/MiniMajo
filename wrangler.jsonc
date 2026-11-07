@@ -1,0 +1,33 @@
+{
+  "name": "minimajo",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-11-07",
+  // Local development defaults to an isolated local copy of the preview binding.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "minimajo-teams-preview",
+      "database_id": "8a750481-1eff-421e-810c-13c322bd3386"
+    }
+  ],
+  "env": {
+    "production": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "minimajo-teams",
+          "database_id": "554dedd3-2e0a-49f9-a6e8-201dc6495df4"
+        }
+      ]
+    },
+    "preview": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "minimajo-teams-preview",
+          "database_id": "8a750481-1eff-421e-810c-13c322bd3386"
+        }
+      ]
+    }
+  }
+}

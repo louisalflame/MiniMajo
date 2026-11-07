@@ -9,6 +9,8 @@
 
 ## 1. 專案定位與已確認方向
 
+2026-11-07 依已確認的 [玩家隊伍SPEC](PLAYER_TEAMS_SPEC.md) 實作歷史勝利隊伍：實際開戰記下最終十格／星等／法則／極式與升級前等級，僅有效勝利提交；一般戰只提交，菁英與BOSS共用池、同級優先、上下2級內最近／同距低級優先，排除同旅程並鎖定節點對手。失敗／無紀錄回編輯器敵隊，不做防作弊或登入。新增Functions、D1 migration及待傳佇列；正式與預覽D1已建立並完成migration，wrangler.jsonc分環境綁定；獨立預覽 https://player-teams-test.minimajo.pages.dev 已通過真實雲端驗證，正式網站尚待發布本次程式／設定。重複的同token iframe握手不再重設既有旅程（明確整備刷新除外），戰鬥腳本未完成初始化時開始按鈕預設停用。493項Node測試、官方Functions編譯、既有公開包瀏覽器回歸及本機／Cloudflare獨立預覽的四個隔離旅程真實勝敗／匹配／重試／BOSS回首頁提交通過；正式D1仍保持無測試隊伍，未做完整自然旅程與正式站驗收。設定見 [部署說明](DEPLOYMENT.md)。
+
 角色詳情的法則列表已改為「32px圖示＋法則名稱」，下方縮排列出法則敘述，每個非空換行各列一條「－」效果；整備與戰鬥共用，重複法則逐份顯示。使用角色持有的法則快照，不查庫替換既有快照；空／缺圖顯示通用符號，空敘述顯示「尚未填寫效果說明。」。桌面及390px已以隔離Edge驗證兩種入口、缺圖與無法則情境，未修改固定JSON。
 
 2026-11-07 已採用32張平面深藍黑／灰藍法則符文，正式素材為 assets/ui/law-icons/v1/01-law.png～32-law.png（256×256透明PNG）。已按法則ID透過editor-server儲存固定JSON的imagePath，商店沿用既有圖片欄位。存檔同時依既有讀檔規則補齊34隊缺少的skillId為null（無極式），其餘設定保留。新旅程載入新圖片；已開始旅程不即時改寫。隔離Edge驗證編輯器重載、32圖桌面／390px商店載入，未推送或部署。
@@ -35,7 +37,7 @@ MiniMajo 是原生 HTML／CSS／JavaScript 的可操作遊戲原型，包含首�
 
 所有獨立試看頁與專用控制器已退役，整備／商店卡框改由正式 play.html 載入記憶體測試，獎勵功能沿用正式 JourneyRewardUI。舊預覽專用測試退役，正式引擎及資料驗證保留。新測試輸出一律寫入 tmp/，避免重新累積到 docs/。詳細清理與本機還原封存見 [整理紀錄](maintenance/cleanup-2026-11-07/README.md)。
 
-角色圖與狀態圖案維持既有欄位管理。工坊仍以 editor-server.cjs 寫入 minimajo-editor.json，本機旅程從同來源快取建立開局快照。2026-11-07 新增 `node tools/build-release.cjs`，驗證後產生獨立 dist 發布包與唯讀設定；公開版不需要開工坊、不覆寫 localStorage 編輯資料。來源 JSON 不被建置改寫，失敗保留舊發布包。Cloudflare Pages 設定、資料版本及驗證見 [部署說明](DEPLOYMENT.md)。基礎公開版已部署至 minimajo.pages.dev；本次敵方極式改動尚未推送／部署。尚未實作通關隊伍上傳、玩家 BOSS 或旅程續玩存檔。
+角色圖與狀態圖案維持既有欄位管理。工坊仍以 editor-server.cjs 寫入 minimajo-editor.json，本機旅程從同來源快取建立開局快照。`node tools/build-release.cjs` 驗證後產生dist發布包與唯讀設定，公開版不需要開工坊、不覆寫localStorage編輯資料；來源JSON不被建置改寫，失敗保留舊發布包。基礎網站已部署至minimajo.pages.dev，歷史隊伍後端已在獨立雲端預覽驗證，正式資料庫已初始化，正式站仍待發布本次程式與綁定；旅程仍無續玩存檔。版本與連接方式見 [部署說明](DEPLOYMENT.md)。
 
 已採用的戰鬥回饋、手動／自動極式、狀態圖案及延後勝敗確認保留，規則詳見 README。正式圖片使用現有62張角色卡／詳情圖，不依舊候選頁決定採用狀態。
 

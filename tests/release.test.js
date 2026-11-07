@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
-const {build,sourceFile}=require('../tools/build-release.cjs');
+const {build,sourceFile,poolVersionFor}=require('../tools/build-release.cjs');
 test('release is independent, preserves source settings, and failed builds preserve the last output',()=>{
  const before=fs.readFileSync('minimajo-editor.json'),result=build(),dir=result.output;
  assert.deepEqual(fs.readFileSync('minimajo-editor.json'),before);
@@ -34,5 +34,11 @@ test('missing or incomplete public settings fail explicitly instead of using loc
   vm.runInNewContext(fs.readFileSync('js/public-data.js','utf8'),context);
   assert.match(context.publicDataError,/公開遊戲設定/);assert.equal(context.MiniMajoPublicData,undefined);
  }
+});
+test('historical team pools survive art and UI changes, but isolate balance and battle rule changes',()=>{
+ const data=JSON.parse(fs.readFileSync('minimajo-editor.json')).data,version=poolVersionFor(data),changed=structuredClone(data);
+ changed.characters.items[0].name='新名稱';changed.characters.items[0].imageFile='different.png';changed.characters.items[0].description='新介紹';changed.config.battleVolume=0;
+ assert.equal(poolVersionFor(changed),version);changed.characters.items[0].attack++;
+ assert.notEqual(poolVersionFor(changed),version);assert.notEqual(poolVersionFor(data,3),version);
 });
 

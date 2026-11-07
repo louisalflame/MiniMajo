@@ -4,6 +4,10 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const Backup=require('../js/editor-backup.js'),Journey=require('../js/journey.js'),Statuses=require('../js/statuses.js');
 const root=path.resolve(__dirname,'..');
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
+function poolVersionFor(data,rulesVersion=2){
+ const balance={rulesVersion,...Object.fromEntries(['config','characters','skills','statuses','laws','echo'].map(key=>[key,data[key]]))};
+ return hash(JSON.stringify(balance,(key,value)=>['imageFile','detailImageFile','imagePath','description','name','battleVolume'].includes(key)?undefined:value)).slice(0,32);
+}
 function sourceFile(name){
  const parts=name.split('/');
  if(parts.some(p=>!p||p==='.'||p==='..')||path.isAbsolute(name)||name.includes('\\'))throw Error('不合法發布路徑：'+name);
@@ -30,7 +34,7 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
  files.set('index.html',Buffer.from(files.get('index.html').toString().replace(/<a\b[^>]*class="workshop-link"[^>]*>[\s\S]*?<\/a>/g,'')));
  // All approved runtime image assets, including dynamic paths and unassigned icons.
  function assets(dir){for(const entry of fs.readdirSync(path.join(root,dir),{withFileTypes:true})){const name=dir+'/'+entry.name;if(entry.isSymbolicLink())throw Error('素材不可使用符號連結：'+name);if(entry.isDirectory())assets(name);else if(/\.(png|jpe?g|webp|svg|gif|avif|woff2?|mp3|ogg|wav)$/i.test(name))add(name);}}
- assets('assets');add('js/public-data.js');add('js/asset-preloader.js');add('css/asset-loading.css');
+ assets('assets');add('js/public-data.js');add('js/asset-preloader.js');add('css/asset-loading.css');add('js/player-records.js');add('js/record-client.js');
  function reference(from,url){
   if(/^(?:data:|https?:|\/\/|#|var\()/i.test(url))return;
   const clean=decodeURIComponent(url.split(/[?#]/)[0]);if(!clean)return;
@@ -53,11 +57,14 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
  // Editable artwork follows its data field, even if it lives outside the usual folders.
  for(const library of [file.data.statuses.statuses,file.data.laws.laws,file.data.skills.skills])for(const entry of library)if(entry.imagePath)deferred.add(entry.imagePath);
  const criticalImages=images.filter(name=>!deferred.has(name)),backgroundImages=images.filter(name=>deferred.has(name));
+ const poolVersion=poolVersionFor(file.data);
  const digest=crypto.createHash('sha256').update(JSON.stringify(file));
  digest.update(JSON.stringify({criticalImages,backgroundImages}));
  for(const [name,bytes] of [...files].sort(([a],[b])=>a.localeCompare(b)))digest.update(name).update(bytes);
  const version=digest.digest('hex').slice(0,20),dataName='data/game-'+version+'.js';
- files.set(dataName,Buffer.from('globalThis.MiniMajoRelease='+JSON.stringify({format:'minimajo-public',version,rulesVersion:2,images,criticalImages,backgroundImages,file}).replace(/</g,'\\u003c')+';\n'));
+ files.set(dataName,Buffer.from('globalThis.MiniMajoRelease='+JSON.stringify({format:'minimajo-public',version,rulesVersion:2,poolVersion,images,criticalImages,backgroundImages,file}).replace(/</g,'\\u003c')+';\n'));
+ files.set('data/record-policy.json',Buffer.from(JSON.stringify({format:'minimajo-record-policy',version:1,poolVersion,rulesVersion:2,statuses:file.data.statuses})));
+ files.set('index.html',Buffer.from(files.get('index.html').toString().replace('</head>','<script src="js/record-client.js" defer></script></head>')));
  for(const name of ['play.html','battle.html']){
   let html=files.get(name).toString().replace('<html ','<html data-public-release ');
   html=html.replace('<script src="js/storage.js"',`<script src="${dataName}" defer></script><script src="js/storage.js"`);
@@ -66,12 +73,14 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
    html=html.replace('<html data-public-release ','<html data-public-release data-assets-loading ')
     .replace('</head>','<link rel="stylesheet" href="css/asset-loading.css"></head>')
     .replace('<script src="js/public-data.js" defer></script>','<script src="js/public-data.js" defer></script><script src="js/asset-preloader.js" defer></script>')
+    .replace('<script src="js/journey-ui.js','<script src="js/player-records.js" defer></script><script src="js/record-client.js" defer></script><script src="js/journey-ui.js')
     .replace(/(<iframe\b[^>]*?)\bsrc=/g,'$1data-src=')
     .replace(/(<body\b[^>]*>)/,'$1<section id="asset-loading" role="region" aria-labelledby="asset-loading-title" aria-busy="true"><div class="asset-loading-panel"><h1 id="asset-loading-title">Loading</h1><div id="asset-loading-progress" role="progressbar" aria-label="遊戲載入進度" aria-valuemin="0" aria-valuemax="'+criticalImages.length+'" aria-valuenow="0"><span></span></div><p id="asset-loading-status" role="status" hidden></p><button id="asset-loading-retry" type="button" hidden>重試載入</button></div></section>');
   }
   files.set(name,Buffer.from(html));
  }
- files.set('release.json',Buffer.from(JSON.stringify({format:'minimajo-public',version,rulesVersion:2,data:dataName},null,2)+'\n'));
+ files.set('release.json',Buffer.from(JSON.stringify({format:'minimajo-public',version,rulesVersion:2,poolVersion,data:dataName},null,2)+'\n'));
+ files.set('_routes.json',Buffer.from(JSON.stringify({version:1,include:['/api/*'],exclude:[]},null,2)+'\n'));
  // Revalidate every request so updates cannot mix cached scripts/data from older releases.
  files.set('_headers',Buffer.from('/*\n  Cache-Control: no-cache, max-age=0, must-revalidate\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n'));
  files.set('404.html',Buffer.from('<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>找不到頁面 · MiniMajo</title><p>找不到這個頁面。</p><a href="/">返回 MiniMajo 首頁</a></html>'));
@@ -90,4 +99,4 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
  return {version,files:files.size,bytes:[...files.values()].reduce((sum,b)=>sum+b.length,0),output};
 }
 if(require.main===module){try{console.log(JSON.stringify(build(),null,2));}catch(error){console.error('發布建置失敗：'+error.message);process.exitCode=1;}}
-module.exports={build,sourceFile};
+module.exports={build,sourceFile,poolVersionFor};

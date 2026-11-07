@@ -6,7 +6,7 @@
 
 公開資料使用帶內容版本的 `data/game-<version>.js`，以 defer 順序先於狀態庫與旅程初始化。資料未載入或缺區時阻止開始，顯示重整提示，不使用玩家瀏覽器的舊設定。戰鬥 iframe 收取父頁的旅程快照；正式與工坊的結算界線保持不變。
 
-版本由資料與執行來源計算；`release.json` 記錄版本及 `rulesVersion: 2`。後續引擎相容性改變時需維護規則版本。這不是續玩存檔或玩家 BOSS 快照格式。
+版本由資料與執行來源計算；`release.json` 記錄發布版本、`rulesVersion: 2` 及歷史隊伍的 `poolVersion`。poolVersion只依規則版本與平衡資料計算，忽略圖片路徑、名稱、敘述與音量；美術／介面更新不清掉歷史池。修改引擎規則時須維護rulesVersion。這些版本不是旅程續玩存檔。
 
 ## 建置與部署
 
@@ -40,4 +40,44 @@ Loading 使用純黑底，文字以1.8秒循環明暗變化，進度條反映已
 
 ## 本階段界線
 
-已完成發布包與唯讀設定載入；Cloudflare 帳號設定、公開網址驗收、Functions／D1、通關提交及玩家 BOSS 均需後續完成。此包沒有帳號或續玩功能，也沒有開放編輯器寫入 API。
+已實作發布包、唯讀設定、Pages Functions、勝利隊伍提交及菁英／BOSS歷史匹配，規則見 [PLAYER_TEAMS_SPEC](PLAYER_TEAMS_SPEC.md)。2026-11-07正式與預覽D1已建立並完成migration，wrangler.jsonc已分別設定綁定；獨立預覽 https://player-teams-test.minimajo.pages.dev 已連接測試庫，正式網站尚待發布這次程式與設定。沒有綁定時遊戲會使用編輯器敵隊，尚未傳出的勝利暫存於分頁待傳佇列。沒有登入、旅程續玩或公開編輯器寫入API。
+
+## Cloudflare D1 連接
+
+目前 `minimajo-teams`（Production）與 `minimajo-teams-preview`（Preview）都已存在且資料表已初始化，無需重新建立。`wrangler.jsonc`是綁定設定來源，下一次Git部署包含此檔即套用；本機預設為預覽綁定的本機副本。不要再用Dashboard覆蓋成兩環境共用同一庫。以下步驟供移轉／重建時參考：
+
+1. 在Cloudflare的D1建立正式資料庫，例如 `minimajo-teams`；另建測試資料庫 `minimajo-teams-preview`。
+2. 分別在兩個資料庫的Console執行 [migrations/0001_player_teams.sql](../migrations/0001_player_teams.sql) 全文，建立player_teams與索引。此migration使用IF NOT EXISTS，可重跑，不會清除資料。
+3. 在wrangler.jsonc設定DB：env.production指向正式庫、env.preview指向測試庫，頂層本機預設採預覽庫的綁定。移轉時使用新帳號建立資料庫後取得的真實ID；不需另外到Dashboard覆蓋綁定。
+4. 重新部署包含wrangler.jsonc、functions/、server/、js/、migration與建置腳本的提交。Pages的Functions程式放在儲存庫根目錄functions/，不作為靜態檔案複製到dist；官方建置會一併編譯。dist的_routes.json只讓/api/*進入Functions。
+5. 開啟 `https://<網站>/api/health`，應回傳 `{"ok":true,"database":true}`。若503，檢查綁定、migration及Functions部署日誌。
+6. 用兩個獨立旅程在相同等級驗證：第一個一般戰勝利留下紀錄，另一個旅程菁英／BOSS抽到「旅人殘影」。普通戰鬥不發配對GET；敗北與平手不POST；同節點敗退重試不重抽。
+
+日後只需補套migration時，可使用：
+
+```powershell
+npx wrangler d1 execute DB --env production --remote --file migrations/0001_player_teams.sql --yes
+npx wrangler d1 execute DB --env preview --remote --file migrations/0001_player_teams.sql --yes
+```
+
+需要命令列代為建立／管理時，可執行 `npx wrangler login --scopes account:read user:read d1:write pages:write` 完成一次Cloudflare授權。不可把API token、登入資料放進儲存庫。D1資料庫ID不是API token，但未設定前不應提交虛構ID的正式wrangler設定。
+
+## 本機 Functions／D1 驗證
+
+純畫面預覽仍可用 `node tools/preview-release.cjs`；它不提供API，會自動使用原敵隊。測試完整後端需Wrangler，並先建立本機綁定設定，例如 `tmp/player-teams-local.json`：
+
+```json
+{"name":"minimajo-local","compatibility_date":"2026-11-07","d1_databases":[{"binding":"DB","database_name":"minimajo-local","database_id":"00000000-0000-4000-8000-000000000001"}]}
+```
+
+以上ID僅供本機測試，不是正式資料庫ID。在專案根目錄執行：
+
+```powershell
+node tools/build-release.cjs
+npx wrangler d1 execute DB --config tmp/player-teams-local.json --local --persist-to tmp/player-teams-d1 --file migrations/0001_player_teams.sql --yes
+npx wrangler pages dev dist --d1 DB=00000000-0000-4000-8000-000000000001 --persist-to tmp/player-teams-d1 --port 4175 --ip 127.0.0.1 --compatibility-date 2026-11-07
+```
+
+保持服務開啟，使用 `http://127.0.0.1:4175/`。`tests/browser/player-teams.cjs` 對此本機服務建立獨立瀏覽器旅程，可用MINIMAJO_RECORD_TEST_URL指定另一個本機測試網址；不要指向正式網站，測試會上傳刻意調整能力的隔離測試隊伍。Playwright使用方式與其他瀏覽器腳本相同。
+
+後端自動測試使用node:sqlite的記憶體資料庫（本機Node 24.15），包含migration、SQL匹配與去重；不是以假陣列模擬資料庫。正式免費Workers CPU上限與真實網路延遲仍需上線後觀察。
