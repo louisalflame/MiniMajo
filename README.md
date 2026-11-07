@@ -1,6 +1,6 @@
 # MiniMajo · 長夜之契
 
-以魔女組隊、自動戰鬥、手動極式與蜂窩地圖探索為核心的網頁遊戲原型。使用原生 HTML／CSS／JavaScript，無需安裝前端套件或執行建置。
+以魔女組隊、自動戰鬥、手動極式與蜂窩地圖探索為核心的網頁遊戲原型。使用原生 HTML／CSS／JavaScript，本機開發無需安裝前端套件；公開版使用 Node 腳本產生發布包。
 
 目前包含首頁、探索旅程、整備、角色與法則商店、戰後獎勵，以及本機資料編輯器。介面使用繁體中文，採神秘暗黑與紙面、版畫風格。
 
@@ -23,15 +23,35 @@ Windows 也可以雙擊 `啟動MiniMajo.cmd`，自動開啟編輯器。使用期
 ## 資料與目前限制
 
 - `minimajo-editor.json` 是編輯器的固定資料來源，應隨專案保留。儲存操作會透過 `editor-server.cjs` 覆蓋此檔；缺檔或損壞時會報錯，不會自動建立空資料。
-- localStorage 是同來源頁面的編輯資料快取；目前遊戲從這份快取建立本次旅程的快照。
+- 本機遊戲從同來源 localStorage 編輯資料快取建立旅程；公開發布包改讀唯讀設定，不需要先開工坊，也不覆寫編輯器快取。
 - 遊戲尚無持久續玩存檔。編輯器完整備份包含已儲存設定，不包含表單草稿或旅程進度。
 - 本機服務只監聽 `127.0.0.1`，供本機編輯與遊玩使用。
 
-## 網路版規劃
+## 公開發布包與 Cloudflare Pages
 
 預計使用 Cloudflare Pages 提供遊戲頁面與素材，Pages Functions（運行於 Workers）處理 API，D1 儲存通關隊伍，供其他玩家作為 BOSS 挑戰。
 
-**目前尚未實作公開資料載入、Cloudflare 部署與玩家 BOSS 功能。** 上線前需要先建立獨立發布目錄，並讓新玩家能直接讀取正式遊戲設定。`dist/` 保留給未來產生的發布內容，不代表已有建置指令。
+執行以下指令產生 `dist/`：
+
+```powershell
+node tools/build-release.cjs
+```
+
+建置驗證固定 JSON、初始隊伍、敵隊抽選池、檔案引用與路徑大小寫，將正式設定與執行所需檔案打包。驗證失敗保留上一份 `dist/`，不修改原始 JSON。公開包不含工坊、測試、工具或美術來源，首頁亦不提供工坊入口。
+
+Cloudflare Pages 的 Git 整合設定：
+
+| 欄位 | 值 |
+|---|---|
+| Production branch | `main` |
+| Framework preset | `None` |
+| Build command | `node tools/build-release.cjs` |
+| Build output directory | `dist` |
+| Root directory | 預設（儲存庫根目錄） |
+
+先將程式與固定 JSON commit／push，再部署。`dist/` 由 Cloudflare 在建置時產生，不提交 Git。每次更新設定需重新建置／發布；`release.json` 記錄內容版本與戰鬥規則版本。公開設定於頁面載入時固定，重新整理才取得新版；本局不即時更新。
+
+目前發布包與公開資料載入已實作，尚未完成 Cloudflare 線上部署、Pages Functions／D1 或玩家 BOSS 功能。詳細驗證與操作見 [部署說明](docs/DEPLOYMENT.md)。
 
 ## 檔案位置
 

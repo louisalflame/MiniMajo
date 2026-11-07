@@ -33,7 +33,7 @@
   let skills = SkillDB.validate({version:1,skills:[{id:'moon-pact',name:'月蝕之契',cooldown:8,mode:'all',conditions:[],effects:[{type:'damage',amount:32,range:3},{type:'posture',amount:20,range:3},{type:'heal',amount:12}]}]}).skills;
   let config=GameConfig.validate(GameConfig.defaults),configuredLoadouts=null, limits=[slotCount,slotCount], activeSkillsEnabled=true;
   const preview=typeof location!=='undefined'&&new URLSearchParams(location.search).has('preview');
-  if(!preview)try{config=GameConfig.read(globalThis.localStorage);}catch(error){$('battle-message').textContent='Config 設定無效：'+error.message+' 請回工坊修正。';$('play').disabled=true;$('cast').disabled=true;return;}
+  if(!preview)try{if(globalThis.publicDataError)throw Error(globalThis.publicDataError);config=GameConfig.read(globalThis.MiniMajoPublicData?.storage??globalThis.localStorage);}catch(error){$('battle-message').textContent='Config 設定無效：'+error.message;$('play').disabled=true;$('cast').disabled=true;return;}
   let previewReady=!preview,campaign=null,resultSent=false,preparing=false,resultAcknowledged=false;
   function notifyPreview(){if(preview)parent.postMessage({type:'minimajo-battle-state',started:state.started,token:campaign},'*');}
   let state, running=false, speed=1, autoCast=false, bank=0, last=0;

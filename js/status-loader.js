@@ -1,1 +1,1 @@
-(()=>{if(window.MiniMajoStorage?.readOnlyPreview)return;try{Statuses.configure(Statuses.read(localStorage));}catch(e){window.statusLibraryError=e.message;}})();
+(()=>{if(window.MiniMajoStorage?.readOnlyPreview)return;try{if(globalThis.publicDataError)throw Error(globalThis.publicDataError);Statuses.configure(Statuses.read(globalThis.MiniMajoPublicData?.storage??localStorage));}catch(e){window.statusLibraryError=e.message;}})();

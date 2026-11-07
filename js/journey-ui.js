@@ -43,10 +43,12 @@
  help.addEventListener('cancel',event=>{event.preventDefault();closeHelp();});
  help.addEventListener('close',()=>{helpTrigger.setAttribute('aria-expanded','false');helpTrigger.focus({preventScroll:true});});
  DialogDismiss.bind(help,closeHelp);
- const characters=ItemDB.read(localStorage).items,skills=SkillDB.read(localStorage).skills;
+ const publicRelease=!!document.documentElement?.hasAttribute('data-public-release');
+ const dataStorage=globalThis.MiniMajoPublicData?.storage??(publicRelease?{getItem:()=>null}:localStorage);
+ const characters=ItemDB.read(dataStorage).items,skills=SkillDB.read(dataStorage).skills;
  let settings=null,enemies=null,run;
- try{if(globalThis.statusLibraryError)throw Error(globalThis.statusLibraryError);settings=HexMap.read(localStorage);enemies=EnemyTeams.read(localStorage);run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(localStorage),Laws.read(localStorage).laws,EchoLevels.read(localStorage));}
- catch(error){$('journey-message').textContent='無法開始旅程：'+error.message+' 請回編輯器修正並儲存設定。';$('journey-gear').disabled=true;$('map-resolve').hidden=true;return;}
+ try{if(globalThis.publicDataError||globalThis.statusLibraryError)throw Error(globalThis.publicDataError||globalThis.statusLibraryError);settings=HexMap.read(dataStorage);enemies=EnemyTeams.read(dataStorage);run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(dataStorage),Laws.read(dataStorage).laws,EchoLevels.read(dataStorage));}
+ catch(error){$('journey-message').textContent='無法開始旅程：'+error.message+(publicRelease?' 請重新整理；若仍無法遊玩，請稍後再試。':' 請回編輯器修正並儲存設定。');$('journey-gear').disabled=true;$('map-resolve').hidden=true;return;}
  let state=run.map,selected=state.current,payload=null,frameReady=false,battleOpen=false,preparing=false,completedBattleToken=null;
  let angle=0,cameraOrigin=JourneyView.world(state.map.cells[state.current]),moving=false,drag=null;
  ExpeditionUI.bind(run.roster);
@@ -226,7 +228,7 @@
   if(!battleOpen||event.data?.type!=='minimajo-journey-result')return;
   try{const result=Journey.settle(run,event.data);if(!result)return;completedBattleToken=event.data.token;payload=null;const text=result.winner===0?'':result.winner==='draw'?'平手':'戰鬥敗北，可返回整備後重試。';$('journey-battle-status').textContent=text;$('journey-return').textContent='返回地圖';$('journey-return').hidden=false;$('journey-battle-gear').hidden=true;redraw();if(result.winner===0)rewardUI.show();else if(result.winner===1){selected=state.current;cameraOrigin=JourneyView.world(state.map.cells[state.current]);$('journey-return').click();}}catch(e){$('journey-battle-status').textContent=e.message;}
  });
- $('journey-new').addEventListener('click',()=>{if(!state.complete||rewardUI.pending())return;run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(localStorage),Laws.read(localStorage).laws,EchoLevels.read(localStorage));state=run.map;selected=state.current;angle=0;cameraOrigin=JourneyView.world(state.map.cells[state.current]);ExpeditionUI.bind(run.roster);redraw();});
+ $('journey-new').addEventListener('click',()=>{if(!state.complete||rewardUI.pending())return;run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(dataStorage),Laws.read(dataStorage).laws,EchoLevels.read(dataStorage));state=run.map;selected=state.current;angle=0;cameraOrigin=JourneyView.world(state.map.cells[state.current]);ExpeditionUI.bind(run.roster);redraw();});
  const requestReady=()=>$('journey-frame').contentWindow.postMessage({type:'minimajo-request-ready'},'*');
  globalThis.addEventListener('resize',()=>redraw());
  $('journey-frame').addEventListener('load',requestReady);

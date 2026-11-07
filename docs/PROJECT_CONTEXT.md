@@ -15,7 +15,7 @@ MiniMajo 是原生 HTML／CSS／JavaScript 的可操作遊戲原型，包含首�
 
 所有獨立試看頁與專用控制器已退役，整備／商店卡框改由正式 play.html 載入記憶體測試，獎勵功能沿用正式 JourneyRewardUI。舊預覽專用測試退役，正式引擎及資料驗證保留。新測試輸出一律寫入 tmp/，避免重新累積到 docs/。詳細清理與本機還原封存見 [整理紀錄](maintenance/cleanup-2026-11-07/README.md)。
 
-角色圖與狀態圖案維持既有欄位管理，固定 JSON 未變。工坊仍以 editor-server.cjs 寫入 minimajo-editor.json，旅程仍從同來源快取建立開局快照；尚未接入 Cloudflare、公用設定下載、通關隊伍上傳或玩家BOSS，也沒有旅程續玩存檔。
+角色圖與狀態圖案維持既有欄位管理。工坊仍以 editor-server.cjs 寫入 minimajo-editor.json，本機旅程從同來源快取建立開局快照。2026-11-07 新增 `node tools/build-release.cjs`，驗證後產生獨立 dist 發布包與唯讀設定；公開版不需要開工坊、不覆寫 localStorage 編輯資料。來源 JSON 不被建置改寫，失敗保留舊發布包。Cloudflare Pages 設定、資料版本及驗證見 [部署說明](DEPLOYMENT.md)。尚未完成線上部署、通關隊伍上傳或玩家 BOSS，也沒有旅程續玩存檔。
 
 已採用的戰鬥回饋、手動／自動極式、狀態圖案及延後勝敗確認保留，規則詳見 README。正式圖片使用現有62張角色卡／詳情圖，不依舊候選頁決定採用狀態。
 
