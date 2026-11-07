@@ -29,9 +29,11 @@
   if(!path)return create(document,'status',label);
   const host=document.createElement('span');host.className='status-art-icon';host.setAttribute('data-status-kind',kind);
   if(label){host.setAttribute('role','img');host.setAttribute('aria-label',label);host.title=label;}else host.setAttribute('aria-hidden','true');
-  const img=document.createElement('img');img.src=path;img.alt='';img.setAttribute('aria-hidden','true');
+  const img=document.createElement('img');img.hidden=true;img.alt='';img.setAttribute('aria-hidden','true');
+  const fallback=create(document,'status');
+  img.onload=()=>{img.hidden=false;fallback.hidden=true;};
   img.onerror=()=>{img.onerror=null;host.replaceChildren(create(document,'status'));};
-  host.append(img);return host;
+  host.append(img,fallback);img.src=path;return host;
  }
  const api={create,createStatus,job:job=>jobs[job]||'status'};
  if(typeof module!=='undefined')module.exports=api;else root.UIIcons=api;

@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
-const {build,sourceFile}=require('../tools/build-release.cjs');
+const {build,sourceFile,poolVersionFor}=require('../tools/build-release.cjs');
 test('release is independent, preserves source settings, and failed builds preserve the last output',()=>{
  const before=fs.readFileSync('minimajo-editor.json'),result=build(),dir=result.output;
  assert.deepEqual(fs.readFileSync('minimajo-editor.json'),before);
@@ -15,6 +15,12 @@ test('release is independent, preserves source settings, and failed builds prese
  for(const name of [manifest.data,'js/storage.js','js/saved-data.js','js/public-data.js','js/config.js','js/statuses.js','js/effects.js','js/status-loader.js','js/enums.js','js/character-art.js','js/database.js','js/skills.js','js/hex-map.js','js/laws.js','js/echo-levels.js','js/expedition.js','js/enemy-teams.js','js/journey.js'])vm.runInContext(fs.readFileSync(path.join(dir,name),'utf8'),context,{filename:name});
  function imageFiles(folder){return fs.readdirSync(path.join(dir,folder),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?imageFiles(folder+'/'+entry.name):/\.(png|jpe?g|webp|svg|gif|avif)$/i.test(entry.name)?[folder+'/'+entry.name]:[]);}
  assert.deepEqual([...context.MiniMajoRelease.images],imageFiles('assets').sort());
+ const release=context.MiniMajoRelease;
+ assert.deepEqual([...release.criticalImages,...release.backgroundImages].sort(),[...release.images]);
+ assert.equal(new Set([...release.criticalImages,...release.backgroundImages]).size,release.images.length);
+ assert.ok(release.backgroundImages.some(name=>name.startsWith('assets/characters/')));
+ assert.ok(release.criticalImages.every(name=>!name.startsWith('assets/characters/')));
+ for(const library of [release.file.data.statuses.statuses,release.file.data.laws.laws,release.file.data.skills.skills])for(const entry of library)if(entry.imagePath)assert.ok(release.backgroundImages.includes(entry.imagePath),entry.imagePath);
  const run=vm.runInContext(`(()=>{const s=MiniMajoPublicData.storage;return Journey.create(ItemDB.read(s).items,SkillDB.read(s).skills,'release-test',HexMap.read(s),EnemyTeams.read(s),GameConfig.read(s),Laws.read(s).laws,EchoLevels.read(s));})()`,context);
  assert.equal(context.publicDataError,undefined);assert.equal(context.statusLibraryError,undefined);
  assert.equal(run.roster.active.length,10);assert.ok(run.roster.active.some(Boolean));assert.equal(run.roster.gold,JSON.parse(before).data.config.startingGold);
@@ -28,5 +34,11 @@ test('missing or incomplete public settings fail explicitly instead of using loc
   vm.runInNewContext(fs.readFileSync('js/public-data.js','utf8'),context);
   assert.match(context.publicDataError,/公開遊戲設定/);assert.equal(context.MiniMajoPublicData,undefined);
  }
+});
+test('historical team pools survive art and UI changes, but isolate balance and battle rule changes',()=>{
+ const data=JSON.parse(fs.readFileSync('minimajo-editor.json')).data,version=poolVersionFor(data),changed=structuredClone(data);
+ changed.characters.items[0].name='新名稱';changed.characters.items[0].imageFile='different.png';changed.characters.items[0].description='新介紹';changed.config.battleVolume=0;
+ assert.equal(poolVersionFor(changed),version);changed.characters.items[0].attack++;
+ assert.notEqual(poolVersionFor(changed),version);assert.notEqual(poolVersionFor(data,3),version);
 });
 

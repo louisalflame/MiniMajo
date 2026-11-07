@@ -589,6 +589,9 @@
         if(repositionPending?.id===event.data.requestId&&repositionPending.token===event.data.token){repositionPending=null;draw();$('battle-message').textContent=event.data.message||'站位調整失敗。';}return;
       }
       if(event.data?.type!=='minimajo-preview')return;
+      // A late iframe ready/load handshake may repeat the same campaign payload.
+      // An accepted encounter is unchanged unless preparation explicitly refreshes it.
+      if(previewReady&&!preparing&&event.data.campaign&&event.data.token===campaign)return;
       try{
         const data=event.data;if(data.statusLibrary)Statuses.configure(data.statusLibrary);
         if(!Array.isArray(data.loadouts)||data.loadouts.length!==2||data.loadouts.some(a=>!Array.isArray(a)||a.length!==10))throw Error('需要雙方十格編隊');

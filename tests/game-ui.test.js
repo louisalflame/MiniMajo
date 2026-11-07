@@ -71,6 +71,7 @@ test('homepage opens journey and battle loads no editor controllers',()=>{
  const home=fs.readFileSync(path.join(root,'index.html'),'utf8'),battle=fs.readFileSync(path.join(root,'battle.html'),'utf8');
  assert.match(home,/href="play.html"/);assert.doesNotMatch(home,/editor.html#battle/);
  assert.doesNotMatch(battle,/js\/(?:app|skill-editor|tabs)\.js/);
+ assert.match(battle,/<button id="play"[^>]*\bdisabled\b/,'the raw battle page must not accept clicks before scripts initialize');
  assert.ok(battle.indexOf('id="enemy-units"')<battle.indexOf('id="ally-units"'));
  for(const match of battle.matchAll(/(?:src|href)="([^"#]+)"/g))assert.ok(fs.existsSync(path.join(root,match[1].split('?')[0])),match[1]);
 });
@@ -414,4 +415,13 @@ test('battle HUD and details show four-star output totals with live status bonus
  for(const [label,total] of [['攻擊力','43'],['治療力','29'],['護盾力','27'],['狀態秒數加成','+2 秒'],['狀態層數加成','+3']]){
   assert.equal(stats[stats.findIndex(n=>n.textContent===label)+1].textContent,total);
  }
+});
+
+test('late duplicate campaign payload never resets an already started battle',()=>{
+ const ui=setup(true),base=require('../js/database.js').defaults[0],row=u=>[u,...Array(9).fill(null)];
+ const payload={type:'minimajo-preview',campaign:true,token:'same-encounter',loadouts:[row(base),row(base)],skills:[],limits:[10,10]};
+ ui.send(payload);const waiting=ui.state;ui.send(payload);assert.equal(ui.state,waiting);
+ ui.elements.get('play').click();ui.advance(2);const before=ui.state;ui.send(payload);
+ assert.equal(ui.state,before);assert.equal(ui.state.started,true);assert.equal(ui.state.tick,2);
+ ui.send({...payload,token:'next-encounter'});assert.notEqual(ui.state,before);assert.equal(ui.state.tick,0);
 });

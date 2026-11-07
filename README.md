@@ -29,7 +29,7 @@ Windows 也可以雙擊 `啟動MiniMajo.cmd`，自動開啟編輯器。使用期
 
 ## 公開發布包與 Cloudflare Pages
 
-預計使用 Cloudflare Pages 提供遊戲頁面與素材，Pages Functions（運行於 Workers）處理 API，D1 儲存通關隊伍，供其他玩家作為 BOSS 挑戰。
+使用 Cloudflare Pages 提供遊戲頁面與素材；Pages Functions（運行於 Workers）與D1負責保存勝利隊伍，讓菁英及BOSS依適配等級挑選過去玩家的隊伍。只有有效勝利才上傳，一般戰不讀取歷史對手，未連接D1時沿用編輯器敵隊。
 
 執行以下指令產生 `dist/`：
 
@@ -51,7 +51,7 @@ Cloudflare Pages 的 Git 整合設定：
 
 先將程式與固定 JSON commit／push，再部署。`dist/` 由 Cloudflare 在建置時產生，不提交 Git。每次更新設定需重新建置／發布；`release.json` 記錄內容版本與戰鬥規則版本。公開設定於頁面載入時固定，重新整理才取得新版；本局不即時更新。
 
-目前發布包與公開資料載入已實作，尚未完成 Cloudflare 線上部署、Pages Functions／D1 或玩家 BOSS 功能。詳細驗證與操作見 [部署說明](docs/DEPLOYMENT.md)。
+基礎網站已上線；歷史隊伍後端已完成，正式／預覽D1已建立及初始化，綁定記錄於 `wrangler.jsonc`。後端目前部署在獨立預覽，正式網站仍待發布這次程式與設定。完整規則見 [玩家隊伍SPEC](docs/PLAYER_TEAMS_SPEC.md)，設定與驗證見 [部署說明](docs/DEPLOYMENT.md)。
 
 ## 檔案位置
 

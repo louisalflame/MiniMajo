@@ -50,6 +50,8 @@
  let settings=null,enemies=null,run;
  try{if(globalThis.publicDataError||globalThis.statusLibraryError)throw Error(globalThis.publicDataError||globalThis.statusLibraryError);settings=HexMap.read(dataStorage);enemies=EnemyTeams.read(dataStorage);run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(dataStorage),Laws.read(dataStorage).laws,EchoLevels.read(dataStorage));}
  catch(error){$('journey-message').textContent='無法開始旅程：'+error.message+(publicRelease?' 請重新整理；若仍無法遊玩，請稍後再試。':' 請回編輯器修正並儲存設定。');$('journey-gear').disabled=true;$('map-resolve').hidden=true;return;}
+ const makeHistoryClient=()=>publicRelease&&globalThis.PlayerRecordClient&&globalThis.MiniMajoRelease?.poolVersion?PlayerRecordClient.create({poolVersion:MiniMajoRelease.poolVersion,statuses:run.statusLibrary}):null;
+ let historyClient=makeHistoryClient(),fetchingEnemy=false;
  let state=run.map,selected=state.current,payload=null,frameReady=false,battleOpen=false,preparing=false,completedBattleToken=null;
  let angle=0,cameraOrigin=JourneyView.world(state.map.cells[state.current]),moving=false,drag=null;
  ExpeditionUI.bind(run.roster);
@@ -169,7 +171,18 @@
  function focusBattleReturn(){
   $('journey-frame').focus();$('journey-frame').contentWindow.postMessage({type:'minimajo-focus-return'},'*');
  }
- function enterBattle(){try{payload=Journey.start(run);completedBattleToken=null;battleOpen=true;$('journey-map').hidden=true;$('journey-battle').hidden=false;$('journey-battle-gear').hidden=false;$('journey-return').hidden=true;$('journey-battle-status').textContent='';sendBattle();$('journey-frame').focus();}catch(e){message(e.message);}}
+ function openBattle(){try{payload=Journey.start(run);completedBattleToken=null;battleOpen=true;$('journey-map').hidden=true;$('journey-battle').hidden=false;$('journey-battle-gear').hidden=false;$('journey-return').hidden=true;$('journey-battle-status').textContent='';sendBattle();$('journey-frame').focus();}catch(e){message(e.message);}}
+ function enterBattle(){
+  if(fetchingEnemy)return;
+  const id=state.pending,type=state.map.cells[id]?.type;
+  if(!historyClient||!['elite','goal'].includes(type)||run.enemyRolls[id]){openBattle();return;}
+  const requestedRun=run;fetchingEnemy=true;message('正在尋找對手…');
+  historyClient.pick(type==='goal'?'boss':'elite',run.playerLevel).then(record=>{
+   if(run!==requestedRun||state.pending!==id)return;
+   if(record)try{Journey.lockHistoricalEnemy(run,record);}catch{/* Use the configured opponent if the record cannot be restored. */}
+   fetchingEnemy=false;message('');openBattle();
+  }).finally(()=>fetchingEnemy=false);
+ }
  function slide(done){
   const from={...cameraOrigin},to=JourneyView.world(state.map.cells[state.current]);
   const reduced=globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -187,7 +200,7 @@
   redraw();
  }
  function travel(id){
-  if(moving||drag||battleOpen||rewardUI.pending()||!Journey.move(run,id))return false;
+  if(fetchingEnemy||moving||drag||battleOpen||rewardUI.pending()||!Journey.move(run,id))return false;
   message('');slide(arrive);return true;
  }
  const mapCanvas=$('hex-map-svg');
@@ -230,13 +243,13 @@
    return;
   }
   if(battleOpen&&event.data?.token===run.encounter?.token){
-   if(event.data.type==='minimajo-battle-state'&&event.data.started===true){run.encounter.started=true;$('journey-battle-gear').hidden=true;return;}
+   if(event.data.type==='minimajo-battle-state'&&event.data.started===true){Journey.markStarted(run);$('journey-battle-gear').hidden=true;return;}
    if(event.data.type==='minimajo-prepare-ready'&&event.data.allowed===true&&!run.encounter.started){preparing=true;ExpeditionUI.open('gear');return;}
   }
   if(!battleOpen||event.data?.type!=='minimajo-journey-result')return;
-  try{const result=Journey.settle(run,event.data);if(!result)return;completedBattleToken=event.data.token;payload=null;const text=result.winner===0?'':result.winner==='draw'?'平手':'戰鬥敗北，可返回整備後重試。';$('journey-battle-status').textContent=text;$('journey-return').textContent='返回地圖';$('journey-return').hidden=false;$('journey-battle-gear').hidden=true;redraw();if(result.winner===0&&state.complete){location.assign('index.html');return;}if(result.winner===0)rewardUI.show();else if(result.winner===1){selected=state.current;cameraOrigin=JourneyView.world(state.map.cells[state.current]);$('journey-return').click();}}catch(e){$('journey-battle-status').textContent=e.message;}
+  try{const result=Journey.settle(run,event.data);if(!result)return;if(result.victorySnapshot)historyClient?.submit(result.victorySnapshot);completedBattleToken=event.data.token;payload=null;const text=result.winner===0?'':result.winner==='draw'?'平手':'戰鬥敗北，可返回整備後重試。';$('journey-battle-status').textContent=text;$('journey-return').textContent='返回地圖';$('journey-return').hidden=false;$('journey-battle-gear').hidden=true;redraw();if(result.winner===0&&state.complete){location.assign('index.html');return;}if(result.winner===0)rewardUI.show();else if(result.winner===1){selected=state.current;cameraOrigin=JourneyView.world(state.map.cells[state.current]);$('journey-return').click();}}catch(e){$('journey-battle-status').textContent=e.message;}
  });
- $('journey-new').addEventListener('click',()=>{if(!state.complete||rewardUI.pending())return;run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(dataStorage),Laws.read(dataStorage).laws,EchoLevels.read(dataStorage));state=run.map;selected=state.current;angle=0;cameraOrigin=JourneyView.world(state.map.cells[state.current]);ExpeditionUI.bind(run.roster);redraw();});
+ $('journey-new').addEventListener('click',()=>{if(!state.complete||rewardUI.pending())return;run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(dataStorage),Laws.read(dataStorage).laws,EchoLevels.read(dataStorage));historyClient=makeHistoryClient();state=run.map;selected=state.current;angle=0;cameraOrigin=JourneyView.world(state.map.cells[state.current]);ExpeditionUI.bind(run.roster);redraw();});
  const requestReady=()=>$('journey-frame').contentWindow.postMessage({type:'minimajo-request-ready'},'*');
  globalThis.addEventListener('resize',()=>redraw());
  $('journey-frame').addEventListener('load',requestReady);
