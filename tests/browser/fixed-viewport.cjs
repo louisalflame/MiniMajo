@@ -20,6 +20,17 @@ const before=fs.readFileSync(path.join(root,'minimajo-editor.json')),server=requ
    assert(bounds.x>=-1&&bounds.y>=-1&&bounds.x+bounds.width<=width+1&&bounds.y+bounds.height<=height+1);
    await page.getByRole('link',{name:'START'}).click();await page.waitForFunction(()=>!!window.fixedJourney);await raw.waitForURL('**/play.html');
    assert.equal(await raw.evaluate(()=>typeof window.fixedJourney),'undefined','outer host never creates a second journey');
+   assert.equal(await page.locator('#hex-map-svg foreignObject').count(),0,'map textures stay in SVG coordinates');
+   await page.evaluate(()=>Promise.all([...new Set([...document.querySelectorAll('.map-floor-art>image')].map(el=>el.getAttribute('href')))].map(src=>{const img=new Image();img.src=src;return img.decode();})));
+   await raw.screenshot({path:path.join(out,`map-${width}.png`)});
+   const mapBox=await page.locator('#hex-map-svg').boundingBox(),cx=mapBox.x+mapBox.width/2,cy=mapBox.y+mapBox.height/2;
+   const originalFloor=await page.locator('.map-floor-art>image').first().getAttribute('transform');
+   await raw.mouse.move(cx,cy);await raw.mouse.down({button:'right'});
+   await raw.mouse.move(cx+(width<height?0:60),cy+(width<height?60:0),{steps:6});await raw.mouse.up({button:'right'});
+   assert.notEqual(await page.locator('.map-floor-art>image').first().getAttribute('transform'),originalFloor);
+   assert.equal(await page.locator('#hex-map-svg foreignObject').count(),0);
+   await raw.screenshot({path:path.join(out,`map-rotated-${width}.png`)});
+   await raw.mouse.down({button:'right'});await raw.mouse.move(cx,cy,{steps:6});await raw.mouse.up({button:'right'});
    async function touchDrag(source,target,{hold=false}={}){
     const a=await source.boundingBox(),b=await target.boundingBox(),x=a.x+a.width/2,y=a.y+a.height/2,tx=b.x+b.width/2,ty=b.y+b.height/2;
     const cdp=await context.newCDPSession(raw);await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});

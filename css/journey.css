@@ -138,7 +138,7 @@ body.immersive-game{max-width:none;padding:0;background:radial-gradient(ellipse 
 
 /* Floor art is projected in world space. Event cutouts stay upright. */
 #journey-map .map-floor-art{overflow:visible;pointer-events:none}
-#journey-map .map-floor-art>div{transform-origin:0 0;pointer-events:none}
+#journey-map .map-floor-art>image{pointer-events:none}
 #journey-map .hex-cell .map-floor-depth{fill:#161b21;stroke:#252a30;pointer-events:none}
 #journey-map .hex-cell .map-floor-base{fill:#232831;stroke:none}
 #journey-map .hex-cell .map-floor-rim{fill:none;stroke:#555b63;stroke-width:1;pointer-events:none}

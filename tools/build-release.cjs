@@ -4,9 +4,13 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const Backup=require('../js/editor-backup.js'),Journey=require('../js/journey.js'),Statuses=require('../js/statuses.js');
 const root=path.resolve(__dirname,'..');
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
-function poolVersionFor(data,rulesVersion=2){
- const balance={rulesVersion,...Object.fromEntries(['config','characters','skills','statuses','laws','echo'].map(key=>[key,data[key]]))};
- return hash(JSON.stringify(balance,(key,value)=>['imageFile','detailImageFile','imagePath','description','name','battleVolume'].includes(key)?undefined:value)).slice(0,32);
+function poolVersionFor(data){
+ const version=data?.config?.teamPoolVersion??1;
+ if(!Number.isSafeInteger(version)||version<1||version>1000000)throw Error('歷史隊伍池版本需為1～1000000的整數。');
+ // Version 1 deliberately retains the production pool active at migration.
+ // Never recompute this alias from editable balance data or engine sources.
+ if(version===1)return '6bd22d1e2a92917eb49f59db69a955c0';
+ return hash('minimajo-team-pool:'+version).slice(0,32);
 }
 function sourceFile(name){
  const parts=name.split('/');
@@ -58,12 +62,16 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
  for(const library of [file.data.statuses.statuses,file.data.laws.laws,file.data.skills.skills])for(const entry of library)if(entry.imagePath)deferred.add(entry.imagePath);
  const criticalImages=images.filter(name=>!deferred.has(name)),backgroundImages=images.filter(name=>deferred.has(name));
  const poolVersion=poolVersionFor(file.data);
+ const releaseInfo={format:'minimajo-public',poolVersion,teamPoolVersion:file.data.config.teamPoolVersion};
  const digest=crypto.createHash('sha256').update(JSON.stringify(file));
+ // Generated metadata is part of the public payload, so changes to it must
+ // also produce a fresh data filename even when runtime sources are unchanged.
+ digest.update(JSON.stringify(releaseInfo));
  digest.update(JSON.stringify({criticalImages,backgroundImages}));
  for(const [name,bytes] of [...files].sort(([a],[b])=>a.localeCompare(b)))digest.update(name).update(bytes);
  const version=digest.digest('hex').slice(0,20),dataName='data/game-'+version+'.js';
- files.set(dataName,Buffer.from('globalThis.MiniMajoRelease='+JSON.stringify({format:'minimajo-public',version,rulesVersion:2,poolVersion,images,criticalImages,backgroundImages,file}).replace(/</g,'\\u003c')+';\n'));
- files.set('data/record-policy.json',Buffer.from(JSON.stringify({format:'minimajo-record-policy',version:1,poolVersion,rulesVersion:2,statuses:file.data.statuses})));
+ files.set(dataName,Buffer.from('globalThis.MiniMajoRelease='+JSON.stringify({...releaseInfo,version,images,criticalImages,backgroundImages,file}).replace(/</g,'\\u003c')+';\n'));
+ files.set('data/record-policy.json',Buffer.from(JSON.stringify({format:'minimajo-record-policy',version:1,poolVersion,teamPoolVersion:file.data.config.teamPoolVersion,statuses:file.data.statuses})));
  files.set('index.html',Buffer.from(files.get('index.html').toString().replace('</head>','<script src="js/record-client.js" defer></script></head>')));
  for(const name of ['play.html','battle.html']){
   let html=files.get(name).toString().replace('<html ','<html data-public-release ');
@@ -79,7 +87,7 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
   }
   files.set(name,Buffer.from(html));
  }
- files.set('release.json',Buffer.from(JSON.stringify({format:'minimajo-public',version,rulesVersion:2,poolVersion,data:dataName},null,2)+'\n'));
+ files.set('release.json',Buffer.from(JSON.stringify({...releaseInfo,version,data:dataName},null,2)+'\n'));
  files.set('_routes.json',Buffer.from(JSON.stringify({version:1,include:['/api/*'],exclude:[]},null,2)+'\n'));
  // Revalidate every request so updates cannot mix cached scripts/data from older releases.
  files.set('_headers',Buffer.from('/*\n  Cache-Control: no-cache, max-age=0, must-revalidate\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n'));

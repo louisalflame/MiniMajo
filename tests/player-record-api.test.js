@@ -9,6 +9,23 @@ function setup(){
 }
 function sample(runId='source',matchLevel=5){const s=J.create();return R.validate({format:'minimajo-team-record',version:1,poolVersion:pool,runId,matchLevel,category:'normal',board:s.roster.active,skill:s.roster.skills.find(x=>x.id===s.roster.skillId)??null});}
 const query=(level,runId='viewer',category='elite',poolVersion=pool)=>'/api/player-teams?'+new URLSearchParams({level,runId,category,poolVersion});
+
+test('removing rulesVersion from policy preserves existing production-pool rows and matching',async()=>{
+ const {db,env,call}=setup(),{poolVersionFor}=require('../tools/build-release.cjs');
+ const legacyPool='6bd22d1e2a92917eb49f59db69a955c0';
+ try{
+  const legacy={...sample('legacy-winner',5),poolVersion:legacyPool},snapshot=JSON.stringify(legacy);
+  db.prepare('INSERT INTO player_teams(record_id,pool_version,run_id,match_level,category,snapshot_json) VALUES(?,?,?,?,?,?)').run(R.key(legacy),legacyPool,legacy.runId,5,'normal',snapshot);
+  env.ASSETS.fetch=async()=>Response.json({poolVersion:legacyPool,rulesVersion:2,statuses:T.snapshot()});
+  assert.equal((await(await call('GET',query(5,'viewer','boss',legacyPool))).json()).record.runId,'legacy-winner');
+  const activePool=poolVersionFor({config:{teamPoolVersion:1}});assert.equal(activePool,legacyPool);
+  env.ASSETS.fetch=async()=>Response.json({poolVersion:activePool,teamPoolVersion:1,statuses:T.snapshot()});
+  assert.equal((await(await call('GET',query(5,'viewer','elite',activePool))).json()).record.runId,'legacy-winner');
+  assert.equal((await call('POST',undefined,{...sample('new-winner',5),poolVersion:activePool})).status,200);
+  assert.equal(db.prepare('SELECT snapshot_json FROM player_teams WHERE run_id=?').get('legacy-winner').snapshot_json,snapshot);
+  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM player_teams').get().n,2);
+ }finally{db.close();}
+});
 test('D1 writes are idempotent, shared victory pools match exact then nearest within two, lower ties, self-exclusion and disabled entries',async()=>{
  const {db,call}=setup();try{
   assert.equal((await call('GET','/api/health')).status,200);

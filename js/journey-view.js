@@ -11,13 +11,30 @@
   const center=depth(c)>=-1.6?project(c,camera):{x:-1000,y:-1000,scale:0};return {...center,points:clipped.map(p=>{const v=project(p,camera);return v.x+','+v.y;}).join(' ')};
  }
  function symbol(cell,camera){const c=world(cell),p=project(c,camera),a=project({x:c.x,y:c.y+.01},camera),b=project({x:c.x-.01,y:c.y},camera);if(tile(cell,camera).scale===0)return 'translate(-1000 -1000) scale(0)';return `matrix(${a.x-p.x} ${a.y-p.y} ${b.x-p.x} ${b.y-p.y} ${p.x} ${p.y})`;}
- // Project a textured ground plane with the same perspective as the SVG tile.
- // The image's local origin is the top left of the hex's world-space bounds.
- function groundTransform(cell,camera){
+ // SVG has affine image transforms, so tessellate the ground into small
+ // triangles. Both texture and hex clipping then stay in SVG coordinates,
+ // without a foreignObject/CSS 3D compositing boundary under phone rotation.
+ function groundMesh(cell,camera){
   const center=world(cell),origin={x:center.x-.53*Math.sqrt(3)/2,y:center.y-.53};
-  const p=project(origin,camera),{x:fx,y:fy}=camera.forward;
-  const dx=fx*p.scale/300,dy=fy*p.scale/300;
-  return `matrix3d(${400*dx-2.05*fy*p.scale},${90*dx},0,${dx},${400*dy+2.05*fx*p.scale},${90*dy},0,${dy},0,0,1,0,${p.x},${p.y},0,1)`;
+  const width=53*Math.sqrt(3),height=106,result=[],steps=4;
+  const projected=p=>project({x:origin.x+p.x/100,y:origin.y+p.y/100},camera);
+  for(let row=0;row<steps;row++)for(let col=0;col<steps;col++){
+   const x=col*width/steps,y=row*height/steps,w=width/steps,h=height/steps;
+   for(const local of [[{x,y},{x:x+w,y},{x:x+w,y:y+h}],[{x,y},{x:x+w,y:y+h},{x,y:y+h}]]){
+    const [a,b,c]=local,[pa,pb,pc]=local.map(projected),det=(b.x-a.x)*(c.y-a.y)-(c.x-a.x)*(b.y-a.y);
+    const ax=((pb.x-pa.x)*(c.y-a.y)-(pc.x-pa.x)*(b.y-a.y))/det;
+    const ay=((pb.y-pa.y)*(c.y-a.y)-(pc.y-pa.y)*(b.y-a.y))/det;
+    const bx=((pc.x-pa.x)*(b.x-a.x)-(pb.x-pa.x)*(c.x-a.x))/det;
+    const by=((pc.y-pa.y)*(b.x-a.x)-(pb.y-pa.y)*(c.x-a.x))/det;
+    const matrix=[ax,ay,bx,by,pa.x-ax*a.x-bx*a.y,pa.y-ay*a.x-by*a.y];
+    // A tiny internal overlap hides raster sampling seams, while the parent
+    // hex clip keeps the original outer contour exact.
+    const mid={x:(a.x+b.x+c.x)/3,y:(a.y+b.y+c.y)/3};
+    const points=local.map(p=>{const distance=Math.hypot(p.x-mid.x,p.y-mid.y);return `${p.x+(p.x-mid.x)*.15/distance},${p.y+(p.y-mid.y)*.15/distance}`;}).join(' ');
+    result.push({local,matrix,points,transform:`matrix(${matrix.join(' ')})`});
+   }
+  }
+  return result;
  }
  // Only the first unknown ring supplies silhouettes; never copy event metadata.
  function frontier(map,revealed,camera){
@@ -38,6 +55,6 @@
   }
   return result;
  }
- const api={world,camera,blend,project,tile,symbol,groundTransform,frontier};if(typeof module!=='undefined')module.exports=api;else root.JourneyView=api;
+ const api={world,camera,blend,project,tile,symbol,groundMesh,frontier};if(typeof module!=='undefined')module.exports=api;else root.JourneyView=api;
 })(globalThis);
 
