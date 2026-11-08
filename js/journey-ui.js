@@ -23,12 +23,10 @@
   const kind=cell.collapsed?'fragile-collapsed':cell.type==='fragile'?'fragile-walkable':cell.current||cell.reachable?'normal-walkable':'normal-blocked';
   const [iw,ih,left,top,right,bottom]=floors[kind];
   const sx=53*Math.sqrt(3)/(right-left),sy=106/(bottom-top);
-  const art=svg('foreignObject',{width:1,height:1,class:'map-floor-art','aria-hidden':'true','data-floor':kind});
-  const surface=document.createElement('div');
-  surface.setAttribute('style',`width:${53*Math.sqrt(3)}px;height:106px;transform:${JourneyView.groundTransform(cell,camera)};background:url("${artRoot}tiles/${kind}.png") ${-left*sx}px ${-top*sy}px / ${iw*sx}px ${ih*sy}px no-repeat`);
-  art.append(surface);
-  const layer=svg('g',{'clip-path':`url(#${clip})`,'pointer-events':'none'});
-  layer.append(art);
+  const layer=svg('g',{class:'map-floor-art','aria-hidden':'true','data-floor':kind,'clip-path':`url(#${clip})`,'pointer-events':'none'});
+  for(const [index,triangle] of JourneyView.groundMesh(cell,camera).entries()){
+   layer.append(svg('image',{href:`${artRoot}tiles/${kind}.png`,x:-left*sx,y:-top*sy,width:iw*sx,height:ih*sy,preserveAspectRatio:'none',transform:triangle.transform,'clip-path':`url(#map-ground-triangle-${index})`}));
+  }
   return layer;
  }
  function eventArt(type,x,y,scale,reward){
@@ -75,6 +73,10 @@
   const canvas=$('hex-map-svg'),viewWidth=Math.max(800,680*(canvas.clientWidth||800)/(canvas.clientHeight||680)),viewLeft=(800-viewWidth)/2;
   canvas.replaceChildren();canvas.setAttribute('viewBox',`${viewLeft} 0 ${viewWidth} 680`);
   const defs=svg('defs');canvas.append(defs);
+  for(const [index,triangle] of JourneyView.groundMesh(state.map.cells[state.current],camera).entries()){
+   const clip=svg('clipPath',{id:`map-ground-triangle-${index}`,clipPathUnits:'userSpaceOnUse'});
+   clip.append(svg('polygon',{points:triangle.points}));defs.append(clip);
+  }
   const tiles=[];
   let focusNode;
   for(const v of views){

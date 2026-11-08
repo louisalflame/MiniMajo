@@ -17,9 +17,10 @@ test('Config editor saves, reloads and rejects invalid drafts without replacing 
  function element(){return {children:[],append(...n){this.children.push(...n);},replaceChildren(...n){this.children=n;},setAttribute(){},addEventListener(k,fn){this[k]=fn;}};}
  const fs=require('node:fs'),vm=require('node:vm'),store=new Map(),nodes=new Map([...C.fields.map(f=>f[1]),'config-starting-active','config-overtime-example','config-message','config-form'].map(id=>[id,element()]));let changes=0;
  const boot=()=>vm.runInNewContext(fs.readFileSync('js/config-editor.js','utf8'),{GameConfig:C,CharacterLibrary:{getItems:()=>D.defaults},document:{getElementById:id=>nodes.get(id),createElement:element},localStorage:{getItem:k=>store.get(k),setItem:(k,v)=>store.set(k,v)},window:{addEventListener(){},dispatchEvent(){changes++;}},Event:class{}});
- boot();nodes.get('config-time').value=45;
+ boot();nodes.get('config-time').value=45;nodes.get('config-team-pool-version').value=4;
  for(const [rarity,value] of [['sr',0],['ssr',25],['ur',50]])nodes.get('config-'+rarity+'-extra-star-sell-price').value=value;
  nodes.get('config-form').submit({preventDefault(){}});assert.equal(changes,1);assert.equal(JSON.parse(store.get(C.key)).battleSeconds,45);boot();assert.equal(nodes.get('config-time').value,45);
+ assert.equal(nodes.get('config-team-pool-version').value,4);
  for(const [rarity,value] of [['sr',0],['ssr',25],['ur',50]])assert.equal(nodes.get('config-'+rarity+'-extra-star-sell-price').value,value);
  const beforeInvalid=store.get(C.key);nodes.get('config-ur-extra-star-sell-price').value='';nodes.get('config-form').submit({preventDefault(){}});assert.equal(store.get(C.key),beforeInvalid);nodes.get('config-ur-extra-star-sell-price').value=50;
  nodes.get('config-damage').value=0;nodes.get('config-form').submit({preventDefault(){}});assert.equal(changes,1);assert.equal(JSON.parse(store.get(C.key)).overtimeDamage,10);
@@ -28,6 +29,10 @@ test('Config editor saves, reloads and rejects invalid drafts without replacing 
  const saved=store.get(C.key);select=nodes.get('config-starting-active').children[0].children[0];select.value='missing';select.onchange();nodes.get('config-form').submit({preventDefault(){}});assert.equal(store.get(C.key),saved);assert.match(nodes.get('config-message').textContent,/不存在/);
 });
 
+test('manual team pool version validates positive integer versions',()=>{
+ assert.equal(C.defaults.teamPoolVersion,1);
+ for(const version of [1,2,1000000])assert.equal(C.validate({...C.defaults,teamPoolVersion:version}).teamPoolVersion,version);
+});
 test('all tuning fields validate ranges and initial roster constraints',()=>{
  for(const [key,id,label,value,min,max,step] of C.fields){for(const invalid of [min-step,max+step,NaN,Infinity,'1',null,undefined])assert.throws(()=>C.validate({...C.defaults,[key]:invalid}),key);}
  assert.throws(()=>C.validate({...C.defaults,startingActive:3}));

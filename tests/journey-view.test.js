@@ -27,3 +27,23 @@ check('revealed cells behind any camera heading are clipped without inverted or 
 });
 
 check('floor symbol follows camera rotation and distance compression',()=>{const map=H.generate(),c=V.camera(map,'0,0');const a=V.symbol({q:0,r:0},c),b=V.symbol({q:0,r:0},V.camera(map,'0,0',.7));assert.notEqual(a,b);assert.match(a,/^matrix\(/);assert.ok(!a.includes('NaN'));const numbers=t=>t.slice(7,-1).split(' ').map(Number);assert.ok(Math.abs(numbers(V.symbol({q:2,r:0},c))[0])<Math.abs(numbers(a)[0]));});
+
+check('SVG texture triangles use the same projection as the hex ground through movement and rotation',()=>{
+ const map=H.generate();
+ for(const current of ['0,0',map.entrance,map.goal])for(const angle of [0,.3,1,2,3,4,5]){
+  const camera=V.camera(map,current,angle);
+  for(const cell of Object.values(map.cells)){
+   if(!V.tile(cell,camera).points)continue;
+   const center=V.world(cell),mesh=V.groundMesh(cell,camera);assert.equal(mesh.length,32);
+   for(const {local,matrix,points} of mesh){
+    assert(matrix.every(Number.isFinite));assert.doesNotMatch(points,/NaN|Infinity/);
+    const [a,b,c,d,e,f]=matrix;
+    for(const p of local){
+     const expected=V.project({x:center.x-.53*Math.sqrt(3)/2+p.x/100,y:center.y-.53+p.y/100},camera);
+     assert(Math.abs(a*p.x+c*p.y+e-expected.x)<1e-7);
+     assert(Math.abs(b*p.x+d*p.y+f-expected.y)<1e-7);
+    }
+   }
+  }
+ }
+});

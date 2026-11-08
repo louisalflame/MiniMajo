@@ -7,6 +7,10 @@ test('release is independent, preserves source settings, and failed builds prese
  for(const name of ['editor.html','editor-server.cjs','minimajo-editor.json','docs','tests','tools','.git','js/app.js','js/backup-ui.js'])assert.ok(!fs.existsSync(path.join(dir,name)),name);
  assert.doesNotMatch(fs.readFileSync(path.join(dir,'index.html'),'utf8'),/editor\.html/);
  const manifest=JSON.parse(fs.readFileSync(path.join(dir,'release.json')));
+ assert.equal(manifest.teamPoolVersion,JSON.parse(before).data.config.teamPoolVersion);
+ assert.equal(Object.hasOwn(manifest,'rulesVersion'),false);
+ const policy=JSON.parse(fs.readFileSync(path.join(dir,'data/record-policy.json')));
+ assert.equal(Object.hasOwn(policy,'rulesVersion'),false);assert.equal(policy.poolVersion,manifest.poolVersion);
  const html=fs.readFileSync(path.join(dir,'play.html'),'utf8');
  assert.match(html,/data-assets-loading/);assert.match(html,/iframe[^>]+data-src=/);assert.match(html,/js\/asset-preloader.js/);
  assert.ok(html.includes(manifest.data));assert.ok(html.indexOf(manifest.data)<html.indexOf('js/storage.js'));assert.ok(html.indexOf('js/public-data.js')<html.indexOf('js/status-loader.js'));
@@ -16,6 +20,7 @@ test('release is independent, preserves source settings, and failed builds prese
  function imageFiles(folder){return fs.readdirSync(path.join(dir,folder),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?imageFiles(folder+'/'+entry.name):/\.(png|jpe?g|webp|svg|gif|avif)$/i.test(entry.name)?[folder+'/'+entry.name]:[]);}
  assert.deepEqual([...context.MiniMajoRelease.images],imageFiles('assets').sort());
  const release=context.MiniMajoRelease;
+ assert.equal(Object.hasOwn(release,'rulesVersion'),false);assert.equal(release.poolVersion,manifest.poolVersion);
  assert.deepEqual([...release.criticalImages,...release.backgroundImages].sort(),[...release.images]);
  assert.equal(new Set([...release.criticalImages,...release.backgroundImages]).size,release.images.length);
  assert.ok(release.backgroundImages.some(name=>name.startsWith('assets/characters/')));
@@ -35,10 +40,18 @@ test('missing or incomplete public settings fail explicitly instead of using loc
   assert.match(context.publicDataError,/公開遊戲設定/);assert.equal(context.MiniMajoPublicData,undefined);
  }
 });
-test('historical team pools survive art and UI changes, but isolate balance and battle rule changes',()=>{
- const data=JSON.parse(fs.readFileSync('minimajo-editor.json')).data,version=poolVersionFor(data),changed=structuredClone(data);
+test('historical team pools change only with manual Config and retain the existing version-one pool',()=>{
+ const data=JSON.parse(fs.readFileSync('minimajo-editor.json')).data;data.config.teamPoolVersion=1;
+ const version=poolVersionFor(data),changed=structuredClone(data);
+ assert.equal(version,'6bd22d1e2a92917eb49f59db69a955c0');
  changed.characters.items[0].name='新名稱';changed.characters.items[0].imageFile='different.png';changed.characters.items[0].description='新介紹';changed.config.battleVolume=0;
  assert.equal(poolVersionFor(changed),version);changed.characters.items[0].attack++;
- assert.notEqual(poolVersionFor(changed),version);assert.notEqual(poolVersionFor(data,3),version);
+ changed.characters.items[0].shopPrice++;changed.config.sellPercent++;changed.skills.skills[0].cooldown=3;changed.statuses.statuses[0].effects=[{behavior:'poison',value:50}];
+ assert.equal(poolVersionFor(changed),version);
+ changed.config.teamPoolVersion=2;assert.notEqual(poolVersionFor(changed),version);
+ assert.equal(poolVersionFor(changed),poolVersionFor({...data,config:{...data.config,teamPoolVersion:2}}));
+ changed.config.teamPoolVersion=3;assert.notEqual(poolVersionFor(changed),poolVersionFor({...data,config:{...data.config,teamPoolVersion:2}}));
+ delete changed.config.teamPoolVersion;assert.equal(poolVersionFor(changed),version);
+ for(const invalid of [0,-1,1.5,1000001,'2'])assert.throws(()=>poolVersionFor({...data,config:{...data.config,teamPoolVersion:invalid}}));
 });
 

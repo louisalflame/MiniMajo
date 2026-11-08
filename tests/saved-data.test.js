@@ -1,5 +1,13 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const R=require('../js/saved-data.js'),D=require('../js/database.js'),C=require('../js/config.js'),H=require('../js/hex-map.js'),B=require('../js/editor-backup.js');
+
+test('manual team pool version repairs older files per field and survives complete backup',()=>{
+ const old={...C.defaults};delete old.teamPoolVersion;
+ const warnings=[],loaded=R.config(old,warnings);assert.equal(loaded.teamPoolVersion,1);assert.equal(old.teamPoolVersion,undefined);assert(warnings.some(w=>w.includes('teamPoolVersion')));
+ for(const value of [0,-1,1.5,1000001,'2',false])assert.equal(R.config({...C.defaults,teamPoolVersion:value,startingGold:0},[]).teamPoolVersion,1);
+ const file=B.collect({getItem:()=>null});file.data.config={...C.defaults,teamPoolVersion:12,startingGold:0};
+ const prepared=B.prepare(file);assert.equal(prepared.file.data.config.teamPoolVersion,12);assert.equal(prepared.file.data.config.startingGold,0);
+});
 test('partial config preserves zero values and repairs only invalid fields',()=>{
  const warnings=[],result=R.config({battleSeconds:60,startingGold:0,overtimeGrowth:0,weakDuration:'bad',startingActive:Array(10).fill(null)},warnings);
  assert.equal(result.battleSeconds,60);assert.equal(result.startingGold,0);assert.equal(result.overtimeGrowth,0);assert.equal(result.weakDuration,C.defaults.weakDuration);assert.deepEqual(result.startingActive,Array(10).fill(null));assert.ok(warnings.some(x=>x.includes('weakDuration')));

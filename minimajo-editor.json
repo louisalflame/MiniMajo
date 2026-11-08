@@ -5,6 +5,7 @@
   "data": {
     "config": {
       "version": 1,
+      "teamPoolVersion": 1,
       "battleVolume": 80,
       "downSlowPercent": 50,
       "shopRerollBase": 5,
@@ -19,8 +20,8 @@
       "shopCount": 10,
       "sellPercent": 50,
       "srExtraStarSellPrice": 5,
-      "ssrExtraStarSellPrice": 15,
-      "urExtraStarSellPrice": 30,
+      "ssrExtraStarSellPrice": 8,
+      "urExtraStarSellPrice": 10,
       "postureLimit": 100,
       "posturePercent": 50,
       "downMultiplier": 2,
@@ -8135,7 +8136,7 @@
         {
           "id": "poison",
           "name": "中毒",
-          "description": "",
+          "description": "每秒扣除血量",
           "imagePath": "assets/ui/status-icons/v1/poison.png",
           "classification": "negative",
           "enhanced": false,
@@ -8149,7 +8150,7 @@
         {
           "id": "regen",
           "name": "再生",
-          "description": "",
+          "description": "每秒恢復血量",
           "imagePath": "assets/ui/status-icons/v1/regen.png",
           "classification": "positive",
           "enhanced": false,
@@ -8163,7 +8164,7 @@
         {
           "id": "confusion",
           "name": "混亂",
-          "description": "",
+          "description": "每秒增加失衡值",
           "imagePath": "assets/ui/status-icons/v1/confusion.png",
           "classification": "negative",
           "enhanced": false,
@@ -8177,7 +8178,7 @@
         {
           "id": "calm",
           "name": "鎮靜",
-          "description": "",
+          "description": "每秒減少失衡值",
           "imagePath": "assets/ui/status-icons/v1/calm.png",
           "classification": "positive",
           "enhanced": false,
@@ -8191,7 +8192,7 @@
         {
           "id": "counter",
           "name": "反擊",
-          "description": "",
+          "description": "受到普通攻擊後，發動反擊",
           "imagePath": "assets/ui/status-icons/v1/counter.png",
           "classification": "positive",
           "enhanced": false,
@@ -8205,7 +8206,7 @@
         {
           "id": "stun",
           "name": "僵直",
-          "description": "",
+          "description": "停止行動與技能",
           "imagePath": "assets/ui/status-icons/v1/stun.png",
           "classification": "negative",
           "enhanced": false,
@@ -8219,7 +8220,7 @@
         {
           "id": "power",
           "name": "強化",
-          "description": "",
+          "description": "增加造成的傷害",
           "imagePath": "assets/ui/status-icons/v1/power.png",
           "classification": "positive",
           "enhanced": false,
@@ -8233,7 +8234,7 @@
         {
           "id": "weakness",
           "name": "虛弱",
-          "description": "",
+          "description": "減少造成的傷害",
           "imagePath": "assets/ui/status-icons/v1/weakness.png",
           "classification": "negative",
           "enhanced": false,
@@ -8247,7 +8248,7 @@
         {
           "id": "hard",
           "name": "堅硬",
-          "description": "",
+          "description": "增加施加的護盾",
           "imagePath": "assets/ui/status-icons/v1/hard.png",
           "classification": "positive",
           "enhanced": false,
@@ -8261,7 +8262,7 @@
         {
           "id": "fragile",
           "name": "脆弱",
-          "description": "",
+          "description": "減少施加的護盾",
           "imagePath": "assets/ui/status-icons/v1/fragile.png",
           "classification": "negative",
           "enhanced": false,
@@ -8275,7 +8276,7 @@
         {
           "id": "haste",
           "name": "急速",
-          "description": "",
+          "description": "增加行動速度",
           "imagePath": "assets/ui/status-icons/v1/haste.png",
           "classification": "positive",
           "enhanced": false,
@@ -8289,7 +8290,7 @@
         {
           "id": "fatigue",
           "name": "倦怠",
-          "description": "",
+          "description": "減少行動速度",
           "imagePath": "assets/ui/status-icons/v1/fatigue.png",
           "classification": "negative",
           "enhanced": false,
@@ -8303,7 +8304,7 @@
         {
           "id": "rage",
           "name": "激怒",
-          "description": "",
+          "description": "受到普通攻擊後，行動前進",
           "imagePath": "assets/ui/status-icons/v1/rage.png",
           "classification": "positive",
           "enhanced": false,
@@ -8317,7 +8318,7 @@
         {
           "id": "dodge",
           "name": "閃避",
-          "description": "",
+          "description": "完全迴避一次普通攻擊",
           "imagePath": "assets/ui/status-icons/v1/dodge.png",
           "classification": "positive",
           "enhanced": false,
@@ -8331,7 +8332,7 @@
         {
           "id": "enhancedPoison",
           "name": "永續中毒",
-          "description": "",
+          "description": "每秒扣除血量",
           "imagePath": "assets/ui/status-icons/v1/enhancedPoison.png",
           "classification": "negative",
           "enhanced": true,
@@ -8345,7 +8346,7 @@
         {
           "id": "enhancedRegen",
           "name": "永續再生",
-          "description": "",
+          "description": "每秒恢復血量",
           "imagePath": "assets/ui/status-icons/v1/enhancedRegen.png",
           "classification": "positive",
           "enhanced": true,
@@ -8359,7 +8360,7 @@
         {
           "id": "enhancedPower",
           "name": "永續強化",
-          "description": "",
+          "description": "增加造成的傷害",
           "imagePath": "assets/ui/status-icons/v1/enhancedPower.png",
           "classification": "positive",
           "enhanced": true,
@@ -8373,7 +8374,7 @@
         {
           "id": "enhancedWeakness",
           "name": "永續虛弱",
-          "description": "",
+          "description": "減少造成的傷害",
           "imagePath": "assets/ui/status-icons/v1/enhancedWeakness.png",
           "classification": "negative",
           "enhanced": true,
@@ -8387,7 +8388,7 @@
         {
           "id": "enhancedHard",
           "name": "永續堅硬",
-          "description": "",
+          "description": "增加施加的護盾",
           "imagePath": "assets/ui/status-icons/v1/enhancedHard.png",
           "classification": "positive",
           "enhanced": true,
@@ -8401,7 +8402,7 @@
         {
           "id": "enhancedFragile",
           "name": "永續脆弱",
-          "description": "",
+          "description": "減少施加的護盾",
           "imagePath": "assets/ui/status-icons/v1/enhancedFragile.png",
           "classification": "negative",
           "enhanced": true,
@@ -8415,7 +8416,7 @@
         {
           "id": "taunt",
           "name": "嘲諷",
-          "description": "",
+          "description": "成為敵方射程內優先對象",
           "imagePath": "assets/ui/status-icons/v1/taunt.png",
           "classification": "positive",
           "enhanced": false,
@@ -8429,7 +8430,7 @@
         {
           "id": "status-1793837750192",
           "name": "永續反擊",
-          "description": "",
+          "description": "受到普通攻擊後，發動反擊",
           "imagePath": "assets/ui/status-icons/v1/enhancedCounter.png",
           "classification": "positive",
           "enhanced": true,
