@@ -40,3 +40,8 @@ body.immersive-game .map-wallet-skin>i:nth-child(1){left:0;width:26.4px;backgrou
 body.immersive-game .map-wallet-skin>i:nth-child(2){left:26.4px;right:26.4px;background:url("../assets/ui/shop/v1/button-navy.png") 49.66696269982238% 49.51830443159923% / 129.38796815868457% 289.4160583941606% no-repeat}
 body.immersive-game .map-wallet-skin>i:nth-child(3){right:0;width:26.4px;background:url("../assets/ui/shop/v1/button-navy.png") 95.85220760792447% 49.51830443159923% / 1315.8593231585928% 289.4160583941606% no-repeat}
 @media(max-width:360px){body.immersive-game #journey-gear.map-paper-button{width:96px}body.immersive-game #journey-map .map-heading{gap:5px;right:8px}}
+
+body.immersive-game #map-characters-open{display:grid;place-items:center;flex:none;width:44px;height:44px;padding:6px;margin:0;border:0;background:transparent;color:#e7d6b5;box-shadow:none}
+body.immersive-game #map-characters-open svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+body.immersive-game #map-characters-open:hover{filter:brightness(1.2)}
+body.immersive-game #map-characters-open:focus-visible{outline:2px solid #d6b98e;outline-offset:3px}

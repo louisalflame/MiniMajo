@@ -68,10 +68,19 @@
   };
   function battleMembers(){return loadouts.map((a,i)=>a.map((id,j)=>{const c=getItem(id);return c?Laws.attach(ItemDB.atStars(c,Math.max(c.stars,runStars[i][j]??c.stars),GameConfig.read(localStorage)),runLaws[i][j],GameConfig.read(localStorage)):null;}));}
   function previewEnemySkill(){return SkillEditor.getSkills().find(s=>s.id===$('preview-enemy-skill').value)??null;}
-  function renderPreviewSkills(){const select=$('preview-enemy-skill'),id=select.value;select.replaceChildren();const none=make('option','無極式');none.value='';select.append(none);for(const skill of SkillEditor.getSkills()){const option=make('option',skill.name);option.value=skill.id;select.append(option);}select.value=SkillEditor.getSkills().some(s=>s.id===id)?id:'';}
+  function previewAllySkills(){const id=$('preview-ally-skill').value,skills=SkillEditor.getSkills();return id===':auto'?skills:skills.filter(s=>s.id===id);}
+  function renderPreviewSkills(){
+    const skills=SkillEditor.getSkills();
+    for(const [control,defaults,fallback] of [['preview-ally-skill',[[':auto','自動選擇第一個符合的極式'],[':none','不裝備極式']],':auto'],['preview-enemy-skill',[['','無極式']],'']]){
+      const select=$(control),id=select.value;select.replaceChildren();
+      for(const [value,text] of defaults){const option=make('option',text);option.value=value;select.append(option);}
+      for(const skill of skills){const option=make('option',skill.name);option.value=skill.id;select.append(option);}
+      select.value=defaults.some(([value])=>value===id)||skills.some(s=>s.id===id)?id:fallback;
+    }
+  }
   function resetBattle(){
-    renderPreviewSkills();$('preview-enemy-skill').disabled=false;
-    running=false;bank=0;loadouts=loadouts.map(a=>a.map(id=>getItem(id)?id:''));const members=battleMembers();state=Battle.create(members,SkillEditor.getSkills(),[Number($('capacity-self').value),Number($('capacity-enemy').value)],{config:GameConfig.read(localStorage),footprints:true,activeSkillsEnabled:true,allySkillsEnabled:$('active-skills-enabled').checked,enemySkill:previewEnemySkill()});SkillEditor.setTeams(members,db.items);
+    renderPreviewSkills();$('preview-ally-skill').disabled=false;$('preview-enemy-skill').disabled=false;
+    running=false;bank=0;loadouts=loadouts.map(a=>a.map(id=>getItem(id)?id:''));const members=battleMembers();state=Battle.create(members,previewAllySkills(),[Number($('capacity-self').value),Number($('capacity-enemy').value)],{config:GameConfig.read(localStorage),footprints:true,activeSkillsEnabled:true,allySkillsEnabled:$('active-skills-enabled').checked,enemySkill:previewEnemySkill()});SkillEditor.setTeams(members,db.items);
     $('teams').replaceChildren();
     state.teams.forEach((team,i)=>{
       const section=make('div',undefined,`team ${i?'enemy':''}`),heading=make('div',undefined,'team-heading');heading.append(make('strong',i?'🔥 敵方':'🌿 我方'),make('span','','vitals'));section.append(heading);
@@ -113,9 +122,10 @@
   window.addEventListener('workspace-tab-change',e=>{if(e.detail!=='battle')$('battle-preview').contentWindow?.postMessage({type:'minimajo-pause'},'*');if(e.detail!=='battle'&&running){running=false;$('play').textContent='繼續';$('battle-result').textContent='已暫停（切換編輯頁）';draw();}});
   window.addEventListener('laws-changed',resetBattle);window.addEventListener('skills-changed',resetBattle);window.addEventListener('statuses-changed',resetBattle);
   function sendPreview(){
-    $('battle-preview').contentWindow?.postMessage({type:'minimajo-preview',config:GameConfig.read(localStorage),statusLibrary:Statuses.snapshot(),loadouts:battleMembers(),skills:SkillEditor.getSkills(),activeSkillsEnabled:true,allySkillsEnabled:$('active-skills-enabled').checked,enemySkill:previewEnemySkill(),repositionTeams:[0,1],limits:[Number($('capacity-self').value),Number($('capacity-enemy').value)]},'*');
+    $('battle-preview').contentWindow?.postMessage({type:'minimajo-preview',config:GameConfig.read(localStorage),statusLibrary:Statuses.snapshot(),loadouts:battleMembers(),skills:previewAllySkills(),activeSkillsEnabled:true,allySkillsEnabled:$('active-skills-enabled').checked,enemySkill:previewEnemySkill(),repositionTeams:[0,1],limits:[Number($('capacity-self').value),Number($('capacity-enemy').value)]},'*');
   }
   $('active-skills-enabled').addEventListener('change',resetBattle);
+  $('preview-ally-skill').addEventListener('change',()=>{if(!state.started)resetBattle();});
   $('preview-enemy-skill').addEventListener('change',()=>{if(!state.started)resetBattle();});
   $('battle-preview').addEventListener('load',sendPreview);
   window.addEventListener('message',event=>{
@@ -135,7 +145,7 @@
     if(event.data?.type==='minimajo-preview-ready')sendPreview();
     if(event.data?.type==='minimajo-battle-state'){
       state.started=!!event.data.started;draw();
-      ['capacity-self','capacity-enemy','active-skills-enabled','preview-enemy-skill'].forEach(id=>$(id).disabled=state.started);
+      ['capacity-self','capacity-enemy','active-skills-enabled','preview-ally-skill','preview-enemy-skill'].forEach(id=>$(id).disabled=state.started);
     }
   });
   window.CharacterLibrary={getItems:()=>clone(db.items)};

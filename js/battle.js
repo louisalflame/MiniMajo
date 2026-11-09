@@ -125,7 +125,7 @@
   if(!moving&&!ignoreRange&&!['jump','swap'].includes(type)&&Effects.usesRange(t))candidates=candidates.filter(u=>distance(s,actor,u)<=(actor.attackRange??e.range??1));
   if(t.mode==='opposite')candidates=candidates.filter(u=>t.side==='enemy'&&distance(s,actor,u)===1);
   if(t.mode==='self')candidates=candidates.filter(u=>u===actor);
-  if(['allLeft','allRight','leftmost','rightmost'].includes(t.mode))candidates=candidates.filter(u=>u!==actor);
+  if(['allLeft','allRight'].includes(t.mode))candidates=candidates.filter(u=>u!==actor);
   if(t.mode==='allLeft')candidates=candidates.filter(u=>u.slot+width(s,u)<=actor.slot);
   if(t.mode==='allRight')candidates=candidates.filter(u=>u.slot>=actor.slot+width(s,actor));
   if(t.mode==='adjacent')candidates=candidates.filter(u=>u===actor||u.slot+width(s,u)===actor.slot||actor.slot+width(s,actor)===u.slot);

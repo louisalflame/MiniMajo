@@ -9576,7 +9576,7 @@
         {
           "id": "law-1793977676737-43n6q",
           "name": "左換法則",
-          "description": "傷害 + 3；被攻擊後；獲得正面狀態後，與我方最左側同伴互換位置",
+          "description": "傷害 + 3；被攻擊後；與我方最左側同伴互換位置",
           "imagePath": "assets/ui/law-icons/v1/28-law.png",
           "shopPrice": 30,
           "shopWeight": 100,

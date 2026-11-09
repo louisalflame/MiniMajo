@@ -49,6 +49,29 @@
  let settings=null,enemies=null,run;
  try{if(globalThis.publicDataError||globalThis.statusLibraryError)throw Error(globalThis.publicDataError||globalThis.statusLibraryError);settings=HexMap.read(dataStorage);enemies=EnemyTeams.read(dataStorage);run=Journey.create(characters,skills,undefined,settings,enemies,GameConfig.read(dataStorage),Laws.read(dataStorage).laws,EchoLevels.read(dataStorage));}
  catch(error){$('journey-message').textContent='無法開始旅程：'+error.message+(publicRelease?' 請重新整理；若仍無法遊玩，請稍後再試。':' 請回編輯器修正並儲存設定。');$('journey-gear').disabled=true;$('map-resolve').hidden=true;return;}
+ // Browse the original library at each character's starting stars.
+ const characterTrigger=$('map-characters-open'),characterDetail=$('character-detail'),characterBrowser=$('character-browser');
+ let characterIndex=0;
+ function browseCharacter(index){
+  if(!characters.length)return;
+  characterIndex=(index%characters.length+characters.length)%characters.length;
+  const character=characters[characterIndex];
+  CharacterDetails.render(document,ItemDB.atStars(character,character.stars,run.config));
+
+ }
+ characterTrigger.disabled=!characters.length;
+ characterTrigger.addEventListener('click',()=>{
+  browseCharacter(0);characterBrowser.hidden=false;
+  characterDetail.hidden=false;characterDetail.showModal();characterTrigger.setAttribute('aria-expanded','true');
+ });
+ $('character-browser-prev').addEventListener('click',()=>browseCharacter(characterIndex-1));
+ $('character-browser-next').addEventListener('click',()=>browseCharacter(characterIndex+1));
+ characterDetail.addEventListener('keydown',event=>{if(!characterBrowser.hidden&&['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();browseCharacter(characterIndex+(event.key==='ArrowLeft'?-1:1));}});
+ characterDetail.addEventListener('close',()=>{
+  if(characterBrowser.hidden)return;
+  characterBrowser.hidden=true;
+  characterTrigger.setAttribute('aria-expanded','false');characterTrigger.focus({preventScroll:true});
+ });
  const makeHistoryClient=()=>publicRelease&&globalThis.PlayerRecordClient&&globalThis.MiniMajoRelease?.poolVersion?PlayerRecordClient.create({poolVersion:MiniMajoRelease.poolVersion,statuses:run.statusLibrary}):null;
  let historyClient=makeHistoryClient(),fetchingEnemy=false;
  let state=run.map,selected=state.current,payload=null,frameReady=false,battleOpen=false,preparing=false,completedBattleToken=null;

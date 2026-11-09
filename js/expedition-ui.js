@@ -352,7 +352,7 @@
   $('character-detail').close();$('character-detail').hidden=true;
   const key=selection?selection.area+'-'+selection.slot:null;
   const card=[...$('roster-top').children,...$('roster-bottom').children].find(n=>n.getAttribute('data-roster-key')===key);
-  (card||$('expedition-dialog')).focus({preventScroll:true});
+  if($('expedition-dialog').open)(card||$('expedition-dialog')).focus({preventScroll:true});
  }
  if(immersive){DialogDismiss.bind($('character-detail'),closeInspection);$('character-detail').addEventListener('cancel',e=>{e.preventDefault();closeInspection();});}
  $('expedition-close')?.addEventListener('click',close);DialogDismiss.bind($('expedition-dialog'),close);

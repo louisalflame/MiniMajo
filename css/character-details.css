@@ -52,3 +52,17 @@ dialog.character-detail::before{content:"";position:absolute;inset:-8px;border:3
 .detail-content:has(#detail-state-section[hidden]) #detail-law-section{grid-column:1/-1}
 @media(max-width:900px){.detail-layout{gap:20px}.detail-content{grid-template-columns:1fr;gap:18px}.detail-nameplate{gap:6px;padding-inline:19px}#detail-name{font-size:19px}#detail-stars{font-size:12px}.character-detail .detail-content h3{font-size:17px}}
 @media(max-width:560px){dialog.character-detail,body.preview-mode dialog.character-detail{width:94vw;padding:40px 20px 20px;max-height:90dvh}dialog.character-detail::before{border-width:28px;border-image-width:28px;inset:-3px}.character-detail h2.detail-dialog-title{width:270px;height:54px;top:-26px;font-size:22px}.detail-layout{display:flex;flex-direction:column;align-items:stretch;gap:15px;max-height:calc(90dvh - 60px)}.detail-card{flex:none;width:min(200px,45vw,calc((90dvh - 260px)*.8));margin:0 auto}.detail-nameplate{min-height:39px;padding:7px 20px;gap:5px}.detail-nameplate::before{border-image-width:11px 27px}.detail-portrait::after{border-image-width:15px}#detail-name{font-size:18px}#detail-stars{font-size:11px}.detail-content{flex:1;min-height:80px;max-height:none;padding-left:8px}.character-detail .detail-content h3{font-size:17px}.character-detail .detail-stats{font-size:13px}}
+
+/* Faceted crystal arrows sit on the centre of each side frame. */
+.character-detail .character-browser{position:absolute;inset:0;pointer-events:none}
+body .character-detail .character-browser>button{position:absolute;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:52px;height:68px;min-width:0;margin:0;padding:4px;border:0;border-radius:4px;background:none;box-shadow:none;pointer-events:auto;filter:drop-shadow(0 2px 3px #07121ba0)}
+.character-detail #character-browser-prev{left:-28px}
+.character-detail #character-browser-next{right:-28px}
+.character-detail .character-browser img{display:block;width:36px;height:49px;object-fit:contain;pointer-events:none;animation:character-arrow-drift 2.8s ease-in-out infinite}
+.character-detail #character-browser-prev img{--arrow-rotation:90deg;--arrow-drift:-4px;transform:rotate(90deg)}
+.character-detail #character-browser-next img{--arrow-rotation:-90deg;--arrow-drift:4px;transform:rotate(-90deg)}
+body .character-detail .character-browser>button:is(:hover,:focus,:active){background:none;box-shadow:none;filter:brightness(1.2) drop-shadow(0 2px 5px #07121ba0)}
+body .character-detail .character-browser>button:focus-visible{outline:2px solid #d7c18f;outline-offset:2px}
+
+@keyframes character-arrow-drift{0%,100%{transform:translateX(0) rotate(var(--arrow-rotation))}50%{transform:translateX(var(--arrow-drift)) rotate(var(--arrow-rotation))}}
+@media(prefers-reduced-motion:reduce){.character-detail .character-browser img{animation:none}}

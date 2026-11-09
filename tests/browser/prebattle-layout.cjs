@@ -18,6 +18,16 @@ const server=require('../../editor-server.cjs').createEditorServer({root,dataFil
   const emptyFrame=page.frameLocator('#battle-preview');await emptyFrame.locator('#enemy-cast').waitFor({state:'visible'});assert.match(await emptyFrame.locator('#enemy-skill-state').textContent(),/沒有存活的出戰角色/);await emptyFrame.locator('#enemy-skill-art').waitFor({state:'visible'});
   for(const [team,i,id] of [['我方',1,single.id],['我方',3,wide.id],['敵方',1,single.id],['敵方',3,single.id]])await page.getByLabel(`${team}第 ${i} 個角色`,{exact:true}).selectOption(id);
   await page.locator('#teams .team').nth(0).locator('.slot').nth(2).getByLabel('本局星等').selectOption('6');await page.getByLabel('我方第 3 格法則',{exact:true}).selectOption(law.id);
+  const allyFrame=page.frames().find(f=>f.url().includes('battle.html'));
+  assert.equal(await page.locator('#preview-ally-skill').inputValue(),':auto');
+  await page.locator('#preview-ally-skill').selectOption('unmatched-preview');
+  await allyFrame.waitForFunction(()=>!battleState.teams[0].skill.enabled);
+  assert.equal(await page.evaluate(()=>battleState.teams[0].skill.enabled),false);
+  await page.locator('#preview-ally-skill').selectOption(':none');
+  await allyFrame.waitForFunction(()=>battleState.skillDefinitions.length===0);
+  await page.locator('#preview-ally-skill').selectOption(skill.id);
+  await allyFrame.waitForFunction(()=>battleState.teams[0].skill.id==='preview-test');
+  assert.equal(await page.evaluate(()=>battleState.teams[0].skill.id),skill.id);
   await page.locator('#preview-enemy-skill').selectOption('unmatched-preview');await emptyFrame.locator('#enemy-cast').waitFor({state:'visible'});assert.match(await emptyFrame.locator('#enemy-skill-state').textContent(),/不符合目前敵方編隊條件/);await emptyFrame.locator('#enemy-cast').hover();await emptyFrame.locator('#enemy-skill-tooltip').waitFor({state:'visible'});await emptyFrame.locator('#enemy-skill-art').waitFor({state:'visible'});await page.screenshot({path:path.join(out,'unmatched-enemy-skill.png')});
   await page.locator('#preview-enemy-skill').selectOption(skill.id);await page.locator('#active-skills-enabled').uncheck();
   const frame=page.frameLocator('#battle-preview'),iframe=page.frames().find(f=>f.url().includes('battle.html'));
@@ -34,6 +44,7 @@ const server=require('../../editor-server.cjs').createEditorServer({root,dataFil
    await page.mouse.up();assert.equal(await ghost.count(),0);
   }
   await mouseMove(0,2,4);await iframe.waitForFunction(()=>battleState.teams[0].items[4]?.stars===6);assert.equal(await page.getByLabel('我方第 5 個角色',{exact:true}).inputValue(),wide.id);assert.equal(await iframe.evaluate(()=>battleState.teams[0].items[4].laws[0].id),law.id);assert.ok(await frame.locator('#character-detail').isHidden());
+  assert.equal(await page.locator('#preview-ally-skill').inputValue(),skill.id);assert.equal(await iframe.evaluate(()=>battleState.teams[0].skill.id),skill.id);
   await mouseMove(1,0,6);await iframe.waitForFunction(()=>!!battleState.teams[1].items[6]);assert.equal(await page.getByLabel('敵方第 7 個角色',{exact:true}).inputValue(),single.id);
   for(const mode of ['escape','outside']){
    const board=await frame.locator('#ally-units').boundingBox(),card=await frame.locator('[data-battle-id="0:4"]').boundingBox(),x=card.x+board.width/10*.35,y=card.y+card.height*.45;
@@ -43,9 +54,12 @@ const server=require('../../editor-server.cjs').createEditorServer({root,dataFil
    assert.equal(await frame.locator('.battle-drag-ghost').count(),0);assert.equal(await page.getByLabel('我方第 5 個角色',{exact:true}).inputValue(),wide.id);assert.ok(await frame.locator('#character-detail').isHidden());
   }
   await page.screenshot({path:path.join(out,'editor-drag.png')});
-  await frame.locator('#play').click();await iframe.waitForFunction(()=>battleState.teams[1].units.some(u=>u.shield>=7));assert.equal(await iframe.evaluate(()=>Battle.canCast(battleState,0)),false);await page.waitForFunction(()=>document.getElementById('preview-enemy-skill').disabled);
+  await frame.locator('#play').click();await iframe.waitForFunction(()=>battleState.teams[1].units.some(u=>u.shield>=7));assert.equal(await iframe.evaluate(()=>Battle.canCast(battleState,0)),false);await page.waitForFunction(()=>document.getElementById('preview-enemy-skill').disabled&&document.getElementById('preview-ally-skill').disabled);
+  await frame.locator('#reset').click();await page.waitForFunction(()=>!document.getElementById('preview-ally-skill').disabled);assert.equal(await page.locator('#preview-ally-skill').inputValue(),skill.id);
+  await page.locator('#active-skills-enabled').check();await frame.locator('#play').click();await iframe.waitForFunction(()=>Battle.canCast(battleState,0));await frame.locator('#cast').click();await iframe.waitForFunction(()=>battleState.teams[0].units.some(u=>u.shield>=7));
   const locked=await iframe.evaluate(()=>battleState.teams[0].items.map(u=>u?.id??null));await mouseMove(0,4,6);assert.deepEqual(await iframe.evaluate(()=>battleState.teams[0].items.map(u=>u?.id??null)),locked);
   assert.deepEqual(fs.readFileSync(dataFile),before);
+  if(process.env.MINIMAJO_WORKSHOP_ONLY==='1'){assert.deepEqual(errors,[]);console.log('PASS: workshop ally skill selection, none, conditions, retention, manual cast, enemy auto cast, drag, locking and no source writes.');return;}
   // Actual journey parent and touch drag; no editor or reward overlay is opened.
   await page.goto(url+'/play.html');await page.waitForFunction(()=>!!globalThis.journeyRun);
   const target=await page.locator('.hex-cell.reachable').first().getAttribute('aria-label');await page.evaluate(label=>{const [,q,r]=label.match(/座標 (-?\d+), (-?\d+)/);Object.values(journeyRun.map.map.cells).find(c=>c.q===+q&&c.r===+r).type='battle';},target);
@@ -57,6 +71,6 @@ const server=require('../../editor-server.cjs').createEditorServer({root,dataFil
   await page.waitForFunction(id=>journeyRun.roster.active[1]?.instanceId===id,identity);assert.notEqual(await page.evaluate(()=>journeyRun.encounter.token),token);assert.equal(await inner.evaluate(()=>battleState.teams[0].items[1].id),await page.evaluate(()=>journeyRun.roster.active[1].id));assert.ok(await page.locator('#expedition-dialog').isHidden());
   await page.screenshot({path:path.join(out,'journey-touch.png')});await battle.locator('#play').click();await page.waitForFunction(()=>journeyRun.encounter.started);const boardBefore=await page.evaluate(()=>journeyRun.roster.active.map(u=>u?.instanceId??null));
   await inner.evaluate(token=>parent.postMessage({type:'minimajo-reposition',team:0,from:1,to:0,token,requestId:999},'*'),await page.evaluate(()=>journeyRun.encounter.token));await page.waitForTimeout(100);assert.deepEqual(await page.evaluate(()=>journeyRun.roster.active.map(u=>u?.instanceId??null)),boardBefore);
-  assert.deepEqual(errors,[]);console.log('PASS: preview enemy skill independent of player toggle, native desktop drag for both teams, wide stars/laws preserved, no source writes, post-start locked, mobile journey touch drag and roster/iframe identity sync.');
+  assert.deepEqual(errors,[]);console.log('PASS: ally skill selection/none/conditions/retention/manual cast/locking, preview enemy skill independent of player toggle, native desktop drag for both teams, wide stars/laws preserved, no source writes, post-start locked, mobile journey touch drag and roster/iframe identity sync.');
  }finally{await browser?.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e);process.exitCode=1;});
