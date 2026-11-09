@@ -20,7 +20,7 @@ const server=http.createServer((req,res)=>{try{const name=decodeURIComponent(new
   const releaseContext={};require('node:vm').runInNewContext(fs.readFileSync(path.join(root,JSON.parse(fs.readFileSync(path.join(root,'release.json'))).data),'utf8'),releaseContext);
   const release=releaseContext.MiniMajoRelease,criticalTarget=release.criticalImages[0];
   let releaseBackground;const backgroundGate=new Promise(resolve=>releaseBackground=resolve);
-  await page.route('**/assets/characters/yun-detail.png',async route=>{await backgroundGate;await route.continue();});
+  await page.route('**/assets/characters/yun-detail.webp',async route=>{await backgroundGate;await route.continue();});
   await page.goto(url);assert.equal(await page.locator('a[href="editor.html"]').count(),0);
   let failImage=true;
   await page.route('**/'+criticalTarget,route=>{if(failImage){failImage=false;return route.abort();}return route.continue();});
@@ -42,17 +42,34 @@ const server=http.createServer((req,res)=>{try{const name=decodeURIComponent(new
   assert.equal(await page.locator('#asset-loading').isVisible(),false);
   assert.equal(await page.evaluate(async()=>{let done=false;MiniMajoBackgroundAssetsReady.then(()=>done=true);await new Promise(resolve=>setTimeout(resolve,500));return done;}),false);
   releaseBackground();
+  await page.evaluate(()=>MiniMajoBackgroundAssetsReady);
+  const imageManifest=JSON.parse(fs.readFileSync(path.resolve(root,'../release-images/manifest.json'),'utf8'));
+  const dimensions=await page.evaluate(async entries=>{
+   const failures=[];let next=0;
+   async function worker(){while(next<entries.length){const e=entries[next++],img=new Image();img.src=e.output;try{await img.decode();if(img.naturalWidth!==e.size[0]||img.naturalHeight!==e.size[1])failures.push(e.output);}catch{failures.push(e.output);}}}
+   await Promise.all([worker(),worker()]);return failures;
+  },imageManifest.files);
+  assert.deepEqual(dimensions,[],'all WebP assets decode at half dimensions');
   assert.ok(await page.evaluate(()=>releaseRun.roster.active.some(Boolean)));
   assert.equal(await page.evaluate(()=>localStorage.getItem('minimajo.characters.v2')),'old local data must remain');
   assert.equal(await page.evaluate(()=>localStorage.getItem('minimajo.schema')),null);
   await page.screenshot({path:path.join(out,'map-desktop.png')});
   await page.locator('#journey-gear').click();await page.locator('#expedition-dialog[open]').waitFor();
   assert.ok(await page.locator('#roster-bottom .occupied').count()>0||await page.locator('#roster-top .occupied').count()>0);
-  await page.screenshot({path:path.join(out,'preparation-desktop.png')});await page.keyboard.press('Escape');await page.locator('#expedition-dialog').waitFor({state:'hidden'});
+  await page.screenshot({path:path.join(out,'preparation-desktop.png')});
+  await page.locator('#roster-bottom .occupied,#roster-top .occupied').first().click();await page.locator('#character-detail[open]').waitFor();
+  await page.screenshot({path:path.join(out,'details-webp.png')});await page.keyboard.press('Escape');await page.locator('#character-detail').waitFor({state:'hidden'});
+  await page.keyboard.press('Escape');await page.locator('#expedition-dialog').waitFor({state:'hidden'});
+  const shopTarget=await page.locator('.hex-cell.reachable').first().getAttribute('aria-label');
+  await page.evaluate(label=>{const [,q,r]=label.match(/座標 (-?\d+), (-?\d+)/);Object.values(releaseRun.map.map.cells).find(c=>c.q===+q&&c.r===+r).type='shop';},shopTarget);
+  await page.getByRole('button',{name:new RegExp('^'+shopTarget.split('，')[0]+'，')}).dispatchEvent('click');await page.locator('#expedition-dialog[open]').waitFor();
+  await page.screenshot({path:path.join(out,'shop-webp.png')});
+  await page.locator('#shop-tab-laws').click();await page.screenshot({path:path.join(out,'laws-webp.png')});
+  await page.keyboard.press('Escape');await page.locator('#expedition-dialog').waitFor({state:'hidden'});
   const target=await page.locator('.hex-cell.reachable').first().getAttribute('aria-label');
   await page.evaluate(label=>{const [,q,r]=label.match(/座標 (-?\d+), (-?\d+)/);const cell=Object.values(releaseRun.map.map.cells).find(c=>c.q===+q&&c.r===+r);cell.type='battle';},target);
   // Dispatch to the chosen cell directly: map resize redraws can replace focused SVG nodes.
-  await page.getByRole('button',{name:target,exact:true}).dispatchEvent('click');await page.locator('#journey-battle').waitFor({state:'visible',timeout:10000});
+  await page.getByRole('button',{name:new RegExp('^'+target.split('，')[0]+'，')}).dispatchEvent('click');await page.locator('#journey-battle').waitFor({state:'visible',timeout:10000});
   const frame=page.frameLocator('#journey-frame');await frame.locator('#play').waitFor({state:'visible'});await frame.locator('#play').click();await page.waitForFunction(()=>releaseRun.encounter?.started===true);
   await page.screenshot({path:path.join(out,'battle-desktop.png')});
   await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(out,'battle-mobile.png')});

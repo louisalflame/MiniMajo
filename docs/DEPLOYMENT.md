@@ -28,19 +28,27 @@
 
 `_headers` 讓靜態檔案每次重新驗證快取，第一版優先確保更新正確；尚未引入永久快取或 service worker。後續可再將素材改成內容雜湊檔名提升快取效率。已開啟的旅程仍維持本頁快照，發布更新後請重新整理開始新旅程。
 
+## 網站圖片最佳化
+
+公開包使用 `release-images/` 已產生的 WebP：寬高各50%（奇數四捨五入），品質85、透明通道品質100，window遮罩使用無損編碼。原始 `assets/` PNG、工坊與固定JSON維持原樣。建置自動改寫圖片欄位、CSS與JS動態路徑；border-image像素切邊換算為原圖百分比，元件尺寸與固定1600×900場景不變。HTTP包不攜帶僅供file://使用的原PNG內嵌遮罩。
+
+更新PNG後，準備sharp並執行 `node tools/optimize-release-images.cjs`，將衍生WebP與manifest一併提交；可使用 `MINIMAJO_SHARP_MODULE` 指定sharp模組。隨後照常 `node tools/build-release.cjs`。雲端建置不需sharp，會核對來源與輸出SHA256；缺少、過期或校驗不符即中止，保留舊dist。詳見 [衍生素材說明](../release-images/README.md)。
+
 ## 驗證
 
 `node tests/browser/fixed-viewport.cjs` 驗證桌面、手機橫向與直向的完整遊戲畫布、實際觸控、疊層彈窗、戰鬥／領獎返回。`tests/browser/game-page.cjs` 讓瀏覽器回歸測試在內部場景操作DOM，實際輸入、截圖與網路監看仍使用外層Page。實體手機及瀏海／動態網址列仍需裝置驗收，不以舊390px元件測試取代。
 
 本機可執行 `node tools/preview-release.cjs`，開啟 `http://127.0.0.1:4174/` 預覽 dist。加入 `--slow` 會讓每張圖片回應延遲250毫秒，方便觀察 Loading；這個延遲只存在本機預覽服務，不會發布到 Cloudflare。預覽服務只提供靜態讀取，不提供工坊 API。
 
-公開版首頁按「START」後，先以約2.7秒完成文字左移淡出、符陣置中放大、月蝕與全畫面淡黑；首頁黑底Loading銜接play.html的同色Loading與無數字進度條。減少動態效果時略過轉場位移與月蝕。發布資料保留完整 images，並分為 criticalImages（背景、框線、按鈕等介面圖）與 backgroundImages（角色、狀態、法則、極式圖案，包含對應資料欄位的自訂路徑）。目前完整218張約267.0 MiB，先等待86張約50.9 MiB介面圖，以最多4張並行下載／解碼，全部成功才建立旅程與載入戰鬥 iframe；不以 localStorage 旗標跳過。本機原始 play.html 與工坊不加此關卡。
+公開版首頁按「START」後，先以約2.7秒完成文字左移淡出、符陣置中放大、月蝕與全畫面淡黑；首頁黑底Loading銜接play.html的同色Loading與無數字進度條。減少動態效果時略過轉場位移與月蝕。發布資料保留完整 images，並分為 criticalImages（背景、框線、按鈕等介面圖）與 backgroundImages（角色、狀態、法則、極式圖案，包含對應資料欄位的自訂路徑）。目前公開包完整218張半尺寸WebP約10.05 MiB，先等待86張約1.65 MiB介面圖，以最多4張並行下載／解碼，全部成功才建立旅程與載入戰鬥 iframe；不以 localStorage 旗標跳過。本機原始 play.html 與工坊不加此關卡。
 
 Loading 使用純黑底，文字以1.8秒循環明暗變化，進度條反映已成功的介面圖比例，不顯示張數、百分比或返回首頁；減少動態效果時停用循環與進度過渡。介面圖失敗或單張45秒逾時才顯示「載入失敗」與重試按鈕，重試只補失敗圖片。
 
-開局後延後300毫秒啟動剩餘132張約216.1 MiB圖片的背景預載，最多2張並行、低請求優先級，不阻擋地圖與戰鬥，不因背景圖片失敗重開Loading。角色與法則沿用既有預留圖；狀態圖片也改為載入前顯示通用符號、載完替換，壞圖維持通用符號。瀏覽器仍自行管理快取與記憶體，後續重繪可能再解碼；此流程不保證離線遊玩。等待時間仍依介面素材大小及網速而定。
+開局後延後300毫秒啟動剩餘132張約8.40 MiB圖片的背景預載，最多2張並行、低請求優先級，不阻擋地圖與戰鬥，不因背景圖片失敗重開Loading。角色與法則沿用既有預留圖；狀態圖片也改為載入前顯示通用符號、載完替換，壞圖維持通用符號。瀏覽器仍自行管理快取與記憶體，後續重繪可能再解碼；此流程不保證離線遊玩。等待時間仍依介面素材大小及網速而定。
 
-`tests/browser/home-transition.cjs` 在建置dist後驗證正式首頁轉場階段、本機／公開版、桌面／390px、連點、返回首頁及減少動態效果，截圖輸出tmp/。`tests/release.test.js` 驗證獨立發布、未修改來源 JSON、舊快取隔離、缺設定錯誤、大小寫、完整圖片清單及建置失敗保留舊產物；`tests/asset-preloader.test.js` 驗證並行上限、去重、等待全部圖片、失敗收集與重試。
+`tests/browser/home-transition.cjs` 在建置dist後驗證正式首頁轉場階段、本機／公開版、桌面／390px、連點、返回首頁及減少動態效果，截圖輸出tmp/。`tests/release-images.test.js` 驗證半尺寸、雜湊、來源清單完整、切邊比例與過期衍生圖中止；`tests/browser/release.cjs` 額外實際解碼全部218張WebP並檢查尺寸、整備詳情與商店／法則截圖。
+
+`tests/release.test.js` 驗證獨立發布、未修改來源 JSON、舊快取隔離、缺設定錯誤、大小寫、完整圖片清單及建置失敗保留舊產物；`tests/asset-preloader.test.js` 驗證並行上限、去重、等待全部圖片、失敗收集與重試。
 
 實際瀏覽器腳本：先產生 dist，準備 Playwright 與 Edge，執行 `node tests/browser/release.cjs`；可用 `MINIMAJO_PLAYWRIGHT_MODULE` 指定 Playwright 模組位置。測試自建隨機埠靜態服務，不依賴工坊 API，截圖在 `tmp/browser/release/`。測試在記憶體把相鄰格改成戰鬥驗證 iframe，不代表完整自然旅程通關驗收。
 

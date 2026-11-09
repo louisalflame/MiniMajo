@@ -20,6 +20,11 @@ test('release is independent, preserves source settings, and failed builds prese
  function imageFiles(folder){return fs.readdirSync(path.join(dir,folder),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?imageFiles(folder+'/'+entry.name):/\.(png|jpe?g|webp|svg|gif|avif)$/i.test(entry.name)?[folder+'/'+entry.name]:[]);}
  assert.deepEqual([...context.MiniMajoRelease.images],imageFiles('assets').sort());
  const release=context.MiniMajoRelease;
+ assert.ok(release.images.every(name=>name.endsWith('.webp')),'public assets use only optimized WebP images');
+ assert.doesNotMatch(fs.readFileSync(path.join(dir,'js/character-card-skin.js'),'utf8'),/\.png\b/,'dynamic card paths use WebP');
+ assert.doesNotMatch(fs.readFileSync(path.join(dir,'js/journey-ui.js'),'utf8'),/\.png\b/,'dynamic SVG paths use WebP');
+ assert.doesNotMatch(fs.readFileSync(path.join(dir,'js/reward-mask-data.js'),'utf8'),/data:image\/png/,'HTTP build omits original embedded PNGs');
+ for(const entry of release.file.data.characters.items)for(const key of ['imageFile','detailImageFile'])if(entry[key])assert.ok(fs.existsSync(path.join(dir,'assets/characters',entry[key])));
  assert.equal(Object.hasOwn(release,'rulesVersion'),false);assert.equal(release.poolVersion,manifest.poolVersion);
  assert.deepEqual([...release.criticalImages,...release.backgroundImages].sort(),[...release.images]);
  assert.equal(new Set([...release.criticalImages,...release.backgroundImages]).size,release.images.length);

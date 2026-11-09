@@ -56,6 +56,9 @@ function build({dataFile=path.join(root,'minimajo-editor.json')}={}){
  }
  function configuredImages(value){if(!value||typeof value!=='object')return;for(const [key,item] of Object.entries(value)){if(['imageFile','detailImageFile','imagePath'].includes(key)&&typeof item==='string'&&item.trim())reference('index.html',key==='imagePath'?item:'assets/characters/'+item);if(item&&typeof item==='object')configuredImages(item);}}
  configuredImages(file.data);
+ // Use verified half-size WebP derivatives in public builds only. Source PNGs
+ // and the editor JSON remain intact; deployment needs no image codec package.
+ require('./release-images.cjs').optimizeFiles(files,file,{root,sourceFile});
  const images=[...files.keys()].filter(name=>/\.(png|jpe?g|webp|svg|gif|avif)$/i.test(name)).sort();
  const deferred=new Set(images.filter(name=>/^assets\/(?:characters\/|ui\/(?:status-icons|law-icons|ultimate-icons)\/)/.test(name)));
  // Editable artwork follows its data field, even if it lives outside the usual folders.
